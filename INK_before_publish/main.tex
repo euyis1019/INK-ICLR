@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\usepackage{iclr2023_conference,times}
+\input{iclr2023/math_commands.tex}
+
+\usepackage[UTF8,fontset=fandol,scheme=plain]{ctex}
+% ICLR uses small caps for section headings; Fandol has no separate CJK small-caps face.
+\DeclareFontShape{TU}{FandolSong-Regular(0)}{m}{sc}
+  {<->ssub * FandolSong-Regular(0)/m/n}{}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  citecolor=blue!55!black,
+  urlcolor=blue!55!black
+}
+
+\renewcommand{\tablename}{表}
+\renewcommand{\algorithmcfname}{算法}
+\newcommand{\method}{INK-Merge}
+
+\title{\normalfont\bfseries \method{}：基于动态功能修正几何的迭代模型合并}
+\author{Anonymous Authors}
+
+% Keep \iclrfinalcopy commented out for anonymous submission.
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+模型合并旨在将多个任务专家整合为单一模型，而无需联合训练或增加推理成本。现有几何感知方法通常为每个专家估计固定的重要性几何，难以反映合并模型更新后仍需修正的功能方向。本文提出 \method{}，一种基于教师--学生 KL 残差的迭代模型合并方法。对于每个专家，我们计算 KL 关于中间表示的归一化负梯度，将其作为当前模型匹配该专家所需的局部功能修正，并利用其二阶矩构造输出侧几何。该几何与输入激活二阶矩共同形成 Kronecker 因子化的层级合并目标。由于修正方向依赖当前合并模型，\method{} 在每轮更新后重新估计几何，并通过无标签留出数据选择保守步长。在 CLIP ViT-B/32 八任务基准上，\method{} 在两个独立校准种子下分别取得 $86.95\%$ 和 $87.05\%$ 的平均准确率。
+\end{abstract}
+
+\input{iclr2023/chaps/1-intro}
+\input{iclr2023/chaps/2-problem}
+\input{iclr2023/chaps/3-method}
+\input{iclr2023/chaps/4-exps}
+\input{iclr2023/chaps/5-results}
+\input{iclr2023/chaps/6-related}
+\input{iclr2023/chaps/7-conclusion}
+
+\bibliography{references}
+\bibliographystyle{iclr2023_conference}
+
+\appendix
+\input{iclr2023/chaps/9-appendix}
+
+\end{document}
