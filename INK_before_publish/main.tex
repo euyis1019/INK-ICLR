@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\usepackage{iclr2023_conference,times}
+\usepackage{iclr2027_conference,times}
 \input{iclr2023/math_commands.tex}
 
 \usepackage[UTF8,fontset=fandol,scheme=plain]{ctex}
@@ -11,6 +11,9 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{graphicx}
+\providecommand{\inkfigureroot}{}
+\graphicspath{{\inkfigureroot}}
+\providecommand{\inkbibliography}{references}
 \usepackage{placeins}
 \usepackage{multirow}
 \usepackage{enumitem}
@@ -64,8 +67,10 @@
 \FloatBarrier
 \input{iclr2023/chaps/7-conclusion}
 
-\bibliography{references}
-\bibliographystyle{iclr2023_conference}
+\input{iclr2023/chaps/8-statements}
+
+\bibliography{\inkbibliography}
+\bibliographystyle{iclr2027_conference}
 
 \appendix
 \input{iclr2023/chaps/9-appendix}
