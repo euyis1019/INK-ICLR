@@ -1,0 +1,25 @@
+\section{实验结果}
+\label{sec:ink-results}
+
+\subsection{跨骨干与任务规模汇总}
+
+\input{iclr2023/maintabs/vision_summary}
+
+表~\ref{tab:ink-vision-summary} 将三个视觉骨干及三种任务规模合并为一张主表。ViT-B/32 的 8 tasks 一列保留已有复现记录，其他单元格为待补位置，不据此作规模扩展结论。
+
+当前种子 0 的 \method{} 平均绝对准确率为 $86.95\%$，相对独立专家的归一化准确率为 $96.54\%$。其绝对准确率比 ESM、CoM 和 RegMean 分别高 $2.76$、$3.57$ 和 $5.67$ 个百分点，与 Individual FT 专家参考的差距为 $2.99$ 个百分点。
+
+\FloatBarrier
+\subsection{Flan-T5-base 持续模型合并}
+
+\input{iclr2023/maintabs/t5_results}
+
+表~\ref{tab:ink-t5-results} 按参考表预留 Flan-T5-base 在八个任务上持续合并后的结果，并补齐视觉表中的方法列表。独立微调参考行置于顶部，Zero-shot 与各合并基线居中，\method{} 行以灰底突出。方法名称统一不表示其 T5 适配或持续合并版本已实现，也不沿用视觉实验的数值。所有数字及 $\pm$ 项均为排版占位，不代表已完成的运行、随机种子均值或标准差。正式实验记录补齐后，再按确认的任务顺序与指标协议填写 ACC 和逐任务表现。
+
+\FloatBarrier
+\subsection{种子复核}
+
+逐任务明细见附录~\ref{apdx:ink-vitb32-details} 的表~\ref{tab:ink-vitb32-results}。
+
+留出集轨迹与选择协议一致：种子 0 从轮次 0 的平均教师 KL $0.33332061$ 降至所选轮次 3 的 $0.15524809$，第 4 轮所有块步长均为零并停止。独立校准种子 1 在相同冻结配置下选择轮次 4，平均准确率为 $87.0496\%$，对应留出教师 KL 为 $0.13468810$。两个种子的平均准确率为 $86.9974\%$，总体标准差为 $0.0522$ 个百分点。该复核只衡量两次独立校准抽样下的稳定性，不替代更大规模的多种子评估。
+\FloatBarrier

@@ -1,0 +1,29 @@
+\section{问题设定}
+\label{sec:ink-problem}
+
+给定由同一预训练模型独立微调得到的 $T$ 个任务专家 $\{\theta_t\}_{t=1}^T$，记任务 $t$ 的无标签校准分布为 $\mathcal D_t$。对于输入 $x\sim\mathcal D_t$，专家 $t$ 给出有限类别分布
+\begin{equation}
+  p_t(c\mid x),
+\end{equation}
+而第 $r$ 轮合并模型 $\theta^{(r)}$ 给出
+\begin{equation}
+  q^{(r)}(c\mid x).
+\end{equation}
+不同任务可以使用不同的类别集合和任务头；待合并的是共享视觉编码器。我们仅要求在各自任务的数据上查询对应专家的软预测，不使用样本标签。
+
+目标是使一个合并模型在每个任务上复现相应专家的预测行为：
+\begin{equation}
+  \mathcal L_t(\theta)
+  =
+  \mathbb E_{x\sim\mathcal D_t}
+  \left[
+    D_{\mathrm{KL}}
+    \left(
+      p_t(\cdot\mid x)
+      \,\middle\|\,
+      q_\theta(\cdot\mid x)
+    \right)
+  \right].
+  \label{eq:ink-teacher-objective}
+\end{equation}
+校准样本用于估计合并几何，互不重叠的无标签留出样本用于选择更新步长和最终轮次。因而，问题不是直接决定一组固定的参数平均系数，而是估计：给定当前 $\theta^{(r)}$，每个专家还要求模型在哪些内部功能方向上发生改变。

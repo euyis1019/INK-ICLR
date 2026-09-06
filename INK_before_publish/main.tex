@@ -11,9 +11,11 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{graphicx}
+\usepackage{placeins}
 \usepackage{multirow}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{colortbl}
 \usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
 \usepackage{microtype}
 \usepackage{url}
@@ -27,10 +29,12 @@
 }
 
 \renewcommand{\tablename}{表}
+\renewcommand{\figurename}{图}
 \renewcommand{\algorithmcfname}{算法}
 \newcommand{\method}{INK-Merge}
+\newcommand{\placeholdervalue}[1]{\textcolor{black!55}{#1}}
 
-\title{\normalfont\bfseries \method{}：基于动态功能修正几何的迭代模型合并}
+\title{\normalfont\bfseries \method{}：基于动态功能修正几何\\的迭代模型合并}
 \author{Anonymous Authors}
 
 % Keep \iclrfinalcopy commented out for anonymous submission.
@@ -40,15 +44,23 @@
 \maketitle
 
 \begin{abstract}
-模型合并旨在将多个任务专家整合为单一模型，而无需联合训练或增加推理成本。现有几何感知方法通常为每个专家估计固定的重要性几何，难以反映合并模型更新后仍需修正的功能方向。本文提出 \method{}，一种基于教师--学生 KL 残差的迭代模型合并方法。对于每个专家，我们计算 KL 关于中间表示的归一化负梯度，将其作为当前模型匹配该专家所需的局部功能修正，并利用其二阶矩构造输出侧几何。该几何与输入激活二阶矩共同形成 Kronecker 因子化的层级合并目标。由于修正方向依赖当前合并模型，\method{} 在每轮更新后重新估计几何，并通过无标签留出数据选择保守步长。在 CLIP ViT-B/32 八任务基准上，\method{} 在两个独立校准种子下分别取得 $86.95\%$ 和 $87.05\%$ 的平均准确率。
+模型合并旨在将独立微调的多个任务专家整合为单一模型，而无需联合训练或增加推理成本。现有几何感知方法通常依据专家的固定重要性统计合并参数，难以反映合并模型更新后尚未消除的功能差异。本文提出 \method{}，根据专家与当前模型之间的预测残差，动态识别每一层仍需修正的功能方向。我们以教师--学生 KL 关于层表示的归一化负梯度作为局部功能修正，并将其二阶矩与输入激活二阶矩组合为 Kronecker 因子化合并目标。该目标通过共轭梯度求解，几何在每轮更新后重新估计，更新步长由无标签留出数据选择。在 CLIP ViT-B/32 八任务基准上，\method{} 在两个独立校准种子下分别取得 $86.95\%$ 和 $87.05\%$ 的平均准确率。
 \end{abstract}
 
 \input{iclr2023/chaps/1-intro}
+\clearpage
+% Avoid stretching related-work paragraphs below the motivation float.
+\raggedbottom
+\input{iclr2023/mainfigs/motivation}
+\input{iclr2023/chaps/6-related}
 \input{iclr2023/chaps/2-problem}
+\FloatBarrier
+\flushbottom
+\suppressfloats[t]
 \input{iclr2023/chaps/3-method}
 \input{iclr2023/chaps/4-exps}
 \input{iclr2023/chaps/5-results}
-\input{iclr2023/chaps/6-related}
+\FloatBarrier
 \input{iclr2023/chaps/7-conclusion}
 
 \bibliography{references}
