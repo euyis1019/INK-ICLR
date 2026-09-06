@@ -1,0 +1,27 @@
+\section{实验设置}
+\label{sec:ink-experiments}
+
+\subsection{评估设置}
+
+\paragraph{基准与指标。}
+我们在 CLIP ViT-B/32~\citep{radford2021learning} 八任务基准上评估共享视觉编码器的合并，任务依次为 Cars、DTD、EuroSAT、GTSRB、MNIST、RESISC45、SVHN 和 SUN397。主指标是八个任务绝对测试准确率的无权算术平均。所有可调配置均只使用非测试划分选择；选定或冻结的模型在测试集上仅评估一次。
+
+\paragraph{扩展骨干与语言模型。}
+表~\ref{tab:ink-vision-summary} 按 ViT-B/32、ViT-B/16 和 ViT-L/14 分组，每组列出 8、14、20 tasks。当前只有 ViT-B/32 的 8 tasks 单元格有本地可核验记录，其余组合以 -- 预留。单元格主值为平均绝对准确率，括号内为逐任务相对独立专家准确率的平均值，即 $\frac{1}{T}\sum_t100\,\mathrm{Acc}_t/\mathrm{Acc}_{t,\mathrm{FT}}$。附录~\ref{apdx:ink-vitb32-details} 的表~\ref{tab:ink-vitb32-results} 给出已有八任务明细。
+
+语言模型按所给参考表采用 Flan-T5-base，任务列为 CoLA、MNLI、MRPC、QNLI、QQP、RTE、SST2 和 STSB，并预留 ACC 汇总指标（表~\ref{tab:ink-t5-results}）。当前数字均为排版占位；持续合并顺序、指标计算、重复次数、合并模块和校准协议尚未从本地结果核验。以下实现细节与性能结论仅适用于已有的 ViT-B/32 冻结实验。
+
+\subsection{实现细节}
+
+\paragraph{数据划分与随机种子。}
+每个任务从训练划分中缓存 512 个无标签样本，其中前 256 个用于统计估计，后 256 个作为互不重叠的留出集。附录表~\ref{tab:ink-vitb32-results} 报告随机种子 0 的主结果。我们还在不改变任何配置与候选步长的情况下使用种子 1 独立抽取验证/校准子集，并在相同冻结测试集上进行一次复核。
+
+\paragraph{\method{} 配置。}
+专家软预测在迭代前一次缓存；有限类别被精确枚举。合并模型以尺度 $1.3$ 的 Iso-C 初始化，最多执行 4 轮。每轮在当前模型上重估输入与输出统计，输入协方差不收缩，输出协方差使用自动 Ledoit--Wolf 收缩。式~(\ref{eq:ink-normal-equation}) 使用最多 100 步的对角预条件共轭梯度求解。全局和逐块线搜索都从
+\begin{equation}
+  \Omega=\{0,\,0.125,\,0.25,\,0.5,\,1\}
+\end{equation}
+中依据平均留出教师 KL 选择步长；精确平局偏向更小步长。实现取 $\varepsilon=10^{-8}$，相对更新停止阈值为 $10^{-8}$，并纳入 patch embedding 与输出投影等边界线性映射；非矩阵参数保持初始化值。轮次 0 也参与最终模型选择。
+
+\subsection{比较方法}
+参数空间和谱方法包括 Weight Avg.、Task Arithmetic~\citep{ilharco2023editing}、TIES~\citep{yadav2023ties}、Consensus TA~\citep{wang2024localizing}、Iso-C/CTS~\citep{marczak2025no}、TSV-M~\citep{gargiulo2024task}、WUDI~\citep{xiong2024adaptive}、LiNeS~\citep{wang2024lines}、ESM~\citep{li2026essential} 与 SVC~\citep{li2026spectral}；激活几何方法包括 RegMean~\citep{jin2023regmean} 和 Chain of Merges~\citep{buzzega2025chain}。

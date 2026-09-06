@@ -1,0 +1,36 @@
+\begin{table}[!htbp]
+  \centering
+  \caption{CLIP ViT-L/14 八任务结果预留（\%）。全部灰色数字为随机占位，非实验结果；行列布局与 ViT-B/32 主表一致。}
+  \label{tab:ink-vitl14-results}
+  \setlength{\tabcolsep}{2.4pt}
+  \renewcommand{\arraystretch}{1.04}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lrrrrrrrrr@{}}
+    \toprule
+    \multicolumn{10}{c}{\textbf{随机占位 / 非实验结果}} \\
+    \midrule
+    方法 & Cars & DTD & EuroSAT & GTSRB & MNIST & RESISC45 & SVHN & SUN397 & 平均 \\
+    \midrule
+    Zero-shot & \placeholdervalue{74.16} & \placeholdervalue{54.34} & \placeholdervalue{69.30} & \placeholdervalue{66.84} & \placeholdervalue{67.79} & \placeholdervalue{85.98} & \placeholdervalue{86.60} & \placeholdervalue{90.47} & \placeholdervalue{74.44} \\
+    Weight Avg. & \placeholdervalue{93.41} & \placeholdervalue{73.45} & \placeholdervalue{81.18} & \placeholdervalue{82.88} & \placeholdervalue{55.87} & \placeholdervalue{72.96} & \placeholdervalue{72.70} & \placeholdervalue{64.75} & \placeholdervalue{74.65} \\
+    Task Arith. & \placeholdervalue{56.85} & \placeholdervalue{80.96} & \placeholdervalue{87.93} & \placeholdervalue{89.59} & \placeholdervalue{67.39} & \placeholdervalue{55.51} & \placeholdervalue{89.37} & \placeholdervalue{72.58} & \placeholdervalue{75.02} \\
+    TIES & \placeholdervalue{85.85} & \placeholdervalue{62.42} & \placeholdervalue{61.94} & \placeholdervalue{79.05} & \placeholdervalue{84.77} & \placeholdervalue{82.67} & \placeholdervalue{84.39} & \placeholdervalue{74.99} & \placeholdervalue{77.01} \\
+    Consensus TA & \placeholdervalue{50.81} & \placeholdervalue{64.04} & \placeholdervalue{87.75} & \placeholdervalue{88.03} & \placeholdervalue{73.68} & \placeholdervalue{91.06} & \placeholdervalue{94.87} & \placeholdervalue{73.68} & \placeholdervalue{77.99} \\
+    Iso-C & \placeholdervalue{90.90} & \placeholdervalue{63.74} & \placeholdervalue{80.90} & \placeholdervalue{52.86} & \placeholdervalue{76.62} & \placeholdervalue{86.67} & \placeholdervalue{91.27} & \placeholdervalue{62.96} & \placeholdervalue{75.74} \\
+    Iso-CTS & \placeholdervalue{79.03} & \placeholdervalue{81.31} & \placeholdervalue{94.55} & \placeholdervalue{60.92} & \placeholdervalue{61.86} & \placeholdervalue{70.82} & \placeholdervalue{94.18} & \placeholdervalue{63.23} & \placeholdervalue{75.74} \\
+    TSV-M & \placeholdervalue{57.21} & \placeholdervalue{77.56} & \placeholdervalue{88.98} & \placeholdervalue{53.64} & \placeholdervalue{67.64} & \placeholdervalue{70.12} & \placeholdervalue{68.97} & \placeholdervalue{56.06} & \placeholdervalue{67.52} \\
+    RegMean & \placeholdervalue{67.15} & \placeholdervalue{92.60} & \placeholdervalue{63.85} & \placeholdervalue{61.06} & \placeholdervalue{56.73} & \placeholdervalue{90.47} & \placeholdervalue{93.19} & \placeholdervalue{90.74} & \placeholdervalue{76.97} \\
+    WUDI & \placeholdervalue{51.25} & \placeholdervalue{83.15} & \placeholdervalue{58.26} & \placeholdervalue{68.01} & \placeholdervalue{66.28} & \placeholdervalue{85.21} & \placeholdervalue{76.84} & \placeholdervalue{67.51} & \placeholdervalue{69.56} \\
+    LiNeS (Iso-C) & \placeholdervalue{93.82} & \placeholdervalue{88.90} & \placeholdervalue{63.70} & \placeholdervalue{51.78} & \placeholdervalue{68.01} & \placeholdervalue{72.23} & \placeholdervalue{70.41} & \placeholdervalue{52.27} & \placeholdervalue{70.14} \\
+    CoM & \placeholdervalue{57.64} & \placeholdervalue{52.97} & \placeholdervalue{74.73} & \placeholdervalue{56.43} & \placeholdervalue{78.63} & \placeholdervalue{85.21} & \placeholdervalue{80.76} & \placeholdervalue{87.89} & \placeholdervalue{71.78} \\
+    ESM & \placeholdervalue{55.92} & \placeholdervalue{61.40} & \placeholdervalue{52.52} & \placeholdervalue{78.57} & \placeholdervalue{70.68} & \placeholdervalue{93.92} & \placeholdervalue{69.79} & \placeholdervalue{87.06} & \placeholdervalue{71.23} \\
+    SVC (Iso-CTS) & \placeholdervalue{94.42} & \placeholdervalue{56.73} & \placeholdervalue{71.18} & \placeholdervalue{79.78} & \placeholdervalue{88.62} & \placeholdervalue{73.54} & \placeholdervalue{90.95} & \placeholdervalue{76.72} & \placeholdervalue{78.99} \\
+    SVC (ESM) & \placeholdervalue{53.98} & \placeholdervalue{60.59} & \placeholdervalue{61.91} & \placeholdervalue{80.59} & \placeholdervalue{75.25} & \placeholdervalue{88.06} & \placeholdervalue{68.52} & \placeholdervalue{74.05} & \placeholdervalue{70.37} \\
+    \midrule
+    \method{} & \placeholdervalue{58.38} & \placeholdervalue{50.45} & \placeholdervalue{54.96} & \placeholdervalue{65.94} & \placeholdervalue{83.42} & \placeholdervalue{72.79} & \placeholdervalue{74.77} & \placeholdervalue{89.00} & \placeholdervalue{68.71} \\
+    \midrule
+    Individual FT & \placeholdervalue{57.42} & \placeholdervalue{75.31} & \placeholdervalue{64.43} & \placeholdervalue{62.30} & \placeholdervalue{63.11} & \placeholdervalue{80.87} & \placeholdervalue{69.85} & \placeholdervalue{73.44} & \placeholdervalue{68.34} \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}

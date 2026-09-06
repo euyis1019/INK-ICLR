@@ -1,0 +1,21 @@
+\begin{table}[!htbp]
+  \centering
+  \caption{核心设计消融表位。\textbf{全部待运行}；-- 表示缺少同协议实验结果，完整方法也需在相同的新种子协议下运行，不将现有两种子结果拼入本表。}
+  \label{tab:ink-core-ablation}
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.35}
+  \begin{tabularx}{\linewidth}{@{}X X cc@{}}
+    \toprule
+    对照 & 验证问题 & 平均准确率 $\uparrow$ & 诊断 KL $\downarrow$ \\
+    \midrule
+    \rowcolor{black!8}
+    完整 \method{} & 同协议参考 & -- & -- \\
+    当前 Fisher 替换修正 $G$ & 残差条件化 & -- & -- \\
+    仅固定 $G^{(0)}$，更新 $A$ & 动态输出几何 & -- & -- \\
+    去掉 Pearson 归一化 & 样本尺度控制 & -- & -- \\
+    仅做全局线搜索 & 逐块步长选择 & -- & -- \\
+    每轮完整采用候选更新 & 保守更新 & -- & -- \\
+    \bottomrule
+  \end{tabularx}
+\end{table}

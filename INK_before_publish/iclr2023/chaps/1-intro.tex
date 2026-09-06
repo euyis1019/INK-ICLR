@@ -1,0 +1,22 @@
+\section{引言}
+\label{sec:ink-introduction}
+
+从同一预训练检查点独立微调得到的专家模型通常各自擅长一个任务。模型合并希望直接整合这些专家的参数，在不联合训练、也不增加推理时模型数量的前提下得到单一多任务模型。简单权重平均和任务向量算术说明，同一初始化附近的参数更新可以被直接组合~\citep{wortsman2022model,ilharco2023editing}；然而，任务数增加后，冗余更新、符号冲突和子空间重叠会造成明显干扰~\citep{yadav2023ties,gargiulo2024task}。
+
+几何感知方法通过输入激活或局部敏感度区分不同参数方向的重要性~\citep{matena2022fisher,jin2023regmean,tam2024mats}。然而，合并模型的预测会随参数更新而改变，它与不同专家之间尚未消除的差异也随之变化。因而，预先估计的专家重要性不能直接回答一个关键问题：当前模型在每一层还需要修正哪些功能方向，才能更好地匹配各任务专家？
+
+图~\ref{fig:ink-motivation} 左侧给出一个概念对照：即使当前模型已匹配专家预测，Fisher 型几何仍可能非零，而教师--学生 KL 的修正向量已为零。因此，局部预测敏感性与当前修正需求并不等同。右侧预留独立样本上的子空间诊断，尚不构成实验结论。
+
+本文提出 \method{}，将专家与当前模型的预测残差映射为归一化 KL 修正向量，以其二阶矩 $G_t^{(r)}$ 加权层输出方向，并与输入几何 $A_t^{(r)}$ 共同构成参数合并目标。方法总览见图~\ref{fig:ink-overview}。合并几何因而同时依赖专家与当前合并状态：
+\begin{equation}
+  C_t^{(r)}=C_t(\theta_t,\theta^{(r)},\mathcal D_t).
+  \label{eq:ink-dynamic-geometry}
+\end{equation}
+
+本文的主要贡献如下：
+\begin{itemize}[leftmargin=1.6em,itemsep=2pt,topsep=3pt]
+  \item 用当前模型与专家之间的 KL 预测残差定义尚待修正的层级功能方向，并通过 Pearson 归一化控制不同样本的尺度；
+  \item 将固定的专家重要性几何改为随 $\theta^{(r)}$ 变化的动态双侧几何 $A_t^{(r)}$ 与 $G_t^{(r)}$；
+  \item 以共轭梯度求解 Kronecker 系统，并用留出教师 KL 选择保守步长、在更新后重估几何。
+\end{itemize}
+在冻结的 CLIP ViT-B/32 八任务协议上，\method{} 在两个独立校准种子下分别取得 $86.95\%$ 和 $87.05\%$ 的平均准确率。

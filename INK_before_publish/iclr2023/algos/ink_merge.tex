@@ -1,0 +1,22 @@
+\begin{algorithm}[t]
+  \DontPrintSemicolon
+  \SetKwInput{KwIn}{输入}
+  \SetKwInput{KwOut}{输出}
+  \SetKw{KwTo}{至}
+  \SetKwFor{For}{对于}{执行}{结束}
+  \SetKwIF{If}{ElseIf}{Else}{如果}{则}{否则如果}{否则}{结束}
+  \KwIn{专家 $\{\theta_t\}_{t=1}^T$；各任务无标签集合 $\{\mathcal C_t,\mathcal H_t\}$；轮数 $R$；步长 $\Omega$}
+  \KwOut{合并模型 $\widehat\theta$}
+  缓存每个专家在 $\mathcal C_t\cup\mathcal H_t$ 上的软预测 $p_t$\;
+  以公共子空间合并初始化 $\theta^{(0)}$，并将其加入候选集 $\mathcal Q$\;
+  \For{$r\leftarrow0$ \KwTo $R-1$}{
+    在 $\theta^{(r)}$ 上计算 $q^{(r)}$、$A_t^{\ell,(r)}$ 和 $G_{t,\mathrm{ink}}^{\ell,(r)}$\;
+    对每个线性层，以预条件共轭梯度求解式~(\ref{eq:ink-normal-equation})，得到 $W^{\ell,\star}$\;
+    在 $\mathcal H_t$ 上以平均教师 KL 选择全局步长，并逐块细化 $\omega_b^{(r)}\in\Omega$\;
+    按式~(\ref{eq:ink-conservative-step}) 得到 $\theta^{(r+1)}$，并加入 $\mathcal Q$\;
+    \If{所有块的步长均为 $0$ 或相对更新量低于阈值}{停止}
+  }
+  $\widehat\theta\leftarrow\arg\min_{\theta\in\mathcal Q}\sum_t D_{\mathrm{KL}}(p_t\|q_\theta)$，其中 KL 在 $\mathcal H_t$ 上计算\;
+  \caption{\method{} 的动态修正几何合并流程。}
+  \label{alg:ink-merge}
+\end{algorithm}

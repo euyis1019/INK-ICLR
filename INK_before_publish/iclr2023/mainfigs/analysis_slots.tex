@@ -1,0 +1,14 @@
+% Sized frames reserve plot area without suggesting measured curves.
+\newcommand{\analysisplotslot}[4]{%
+  \fcolorbox{black!25}{black!2}{%
+    \begin{minipage}[c][#1][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+      \centering\footnotesize
+      \textbf{#2}\par
+      \vfill
+      \textcolor{black!55}{图位预留 / 实验待运行}\par
+      \vfill
+      横轴：#3\par
+      纵轴：#4
+    \end{minipage}%
+  }%
+}
