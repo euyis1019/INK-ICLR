@@ -1,88 +1,88 @@
-\section{\method{}：测量、求解与重新适配}
+\section{\method{}：测量、求解与重新测量}
 \label{sec:method}
 
-上一节的观察对应三个步骤：在当前模型上测量任务修正需求，以这些统计求解合并提案，再在接受更新后重新测量。下面给出各步骤的具体形式。
+给定预训练基座 $\theta_0$、任务专家 $\theta_1,\ldots,\theta_T$，以及各任务不重叠的无标签统计集 $\mathcal C_t$ 与留出集 $\mathcal H_t$，输出一个共享骨干。数据只提供任务归属，不提供类别标签或答案。以兼容合并结果初始化 $\theta^{(0)}$，默认使用 Iso-C 1.3~\citep{marczak2025no}。分类头、嵌入等不合并部分按各设定保留。
 
-\subsection{在当前模型上估计输入与纠正统计}
-给定 $T$ 个固定专家 $\{\theta_t\}_{t=1}^T$，以兼容的合并结果初始化共享编码器 $\theta^{(0)}$，任务头固定。记专家与当前学生的任务分布为 $p_t(c\mid x)$、$q_{t,\theta}(c\mid x)$。每任务使用不重叠的无标签统计集 $\mathcal C_t$ 和留出集 $\mathcal H_t$；前者收集统计，后者通过任务等权的行为目标
+\subsection{在当前学生上估计两侧统计}
+对线性层 $\ell$，令输入为 $h^\ell\in\mathbb R^{d_{\rm in}}$、输出为 $y^\ell\in\mathbb R^{d_{\rm out}}$。采用样本按行的权重约定 $W^\ell\in\mathbb R^{d_{\rm in}\times d_{\rm out}}$；省略固定偏置、用列向量表示激活时，$y^\ell=(W^\ell)^\top h^\ell$。下文省略轮次下标，每轮均在当前 $\theta^{(r)}$ 上测量。任务 $t$ 的输入侧为
 \begin{equation}
- \mathcal L_{\mathcal H}(\theta)=\frac1T\sum_{t=1}^{T}\frac1{|\mathcal H_t|}
- \sum_{x\in\mathcal H_t}\KL\!\left(p_t(\cdot\mid x)\Vert q_{t,\theta}(\cdot\mid x)\right)
- \label{eq:behavior}
+ A_t^\ell=\E_{x\sim\mathcal C_t}\big[h^\ell(x)h^\ell(x)^\top\big].
+ \label{eq:input}
 \end{equation}
-选择步长与输出轮次。标签不参与选择；默认使用 Iso-C~\citep{marczak2025no} 初始化，其他起点沿用相同修正规则。
+它是按 token 或 patch 展平的未中心化二阶矩。
 
-对一个样本省略任务与轮次下标。令 $a_{\ell k},h_{\ell k}$ 为线性层 $\ell$ 在 token $k$ 的输入与输出，$z$ 为学生 logits，$J_{\ell k}=\partial z/\partial h_{\ell k}$。教师固定时，
+输出侧由专家提供教师分布 $p$，当前学生提供 $q$。对一个预测位置，定义逐类修正及卡方归一化
 \begin{equation}
- g_{\ell k}=-\nabla_{h_{\ell k}}\KL(p\Vert q)=J_{\ell k}^\top(p-q),\qquad
- \delta\ell_{\mathrm{KL}}\approx-\sum_k g_{\ell k}^\top\delta W_\ell a_{\ell k}.
- \label{eq:correction}
-\end{equation}
-右式是仅扰动该层权重时的一阶关系：当前输入、下游传播和师生残差共同决定局部功能影响。它具体说明了上一节中统计随状态变化的原因；当师生预测匹配时，纠正信号为零。下文省略 token 下标，并以
-\begin{equation}
- D=\chi^2(p\Vert q)=\sum_c\frac{(p_c-q_c)^2}{q_c},\qquad
- u_\ell=\frac{g_\ell}{\sqrt{D+\varepsilon}},\qquad
- \widetilde\ell=\frac{\KL(p\Vert q)}{\sg\!\left(\sqrt{D+\varepsilon}\right)}
+ a_c=\frac{p_c}{q_c}-1,\qquad
+ D=\chi^2(p\Vert q)=\sum_c q_c a_c^2,\qquad
+ \hat a_c=\frac{a_c}{\sqrt{D+\varepsilon}}.
  \label{eq:normalization}
 \end{equation}
-收集归一化纠正。反传 $\widetilde\ell$ 并停止分母梯度得到 $-u_\ell$，符号不影响外积。分歧幅度不必等于一个纠正轴应获得的合并权重。卡方归一化移除额外的分歧幅度加权，同时保留纠正轴及层敏感度差异。在正概率和精确算术下，$u_\ell u_\ell^\top\preceq J_\ell^\top F(q)J_\ell$，其中 $F(q)=\mathrm{diag}(q)-qq^\top$。相对未归一化的配对消融提高 $0.3799$ 个准确率百分点；几何证明、优势条件与反例见附录~\ref{app:normalization}。
-
-对任务 $t$ 的当前模型 $\theta^{(r)}$，在 $\mathcal C_t$ 上估计
+令 $s_c^\ell=\nabla_{y^\ell}\log q_c$、$\bar s^\ell=\E_q[s_c^\ell]$，则该层聚合的纠正方向为
 \begin{equation}
- A_t^{\ell,(r)}=\E[a_\ell a_\ell^\top],\qquad
- G_t^{\ell,(r)}=\E[u_\ell u_\ell^\top].
+ u_t^\ell(x)=\E_q\big[\hat a_c(s_c^\ell-\bar s^\ell)\big]
+ =-\frac{\nabla_{y^\ell}\KL(p\Vert q)}{\sqrt{D+\varepsilon}},\qquad
+ G_t^\ell=\E_x\big[u_t^\ell(x)u_t^\ell(x)^\top\big].
  \label{eq:moments}
 \end{equation}
-期望覆盖图像和所收集的 token。$A$ 是当前输入的未中心化二阶矩，$G$ 是当前 KL 纠正的未中心化二阶矩。$G$ 并非普通 Fisher 或真实 KL Hessian；它保留纠正轴的相对权重，不保留纠正方向的正负号。
+这里梯度作用于\emph{层输出}，与式~\eqref{eq:input} 的层输入分开。实现时将每个样本的 KL 除以停止梯度的 $\sqrt{D+\varepsilon}$，再对样本求和反传，backward hook 即可收集 $-u$；符号不影响外积。CLIP 的 KL-G 收集每个 batch 只需一次反传，不需要逐类反传。序列模型按其预测位置与教师近似实现相应统计。
 
-\subsection{以专家为锚点构造加权回归}
-设 $W_t^\ell$ 为专家权重、$U$ 为候选权重。我们在\emph{当前学生输入}上比较二者的线性响应，再沿当前纠正轴投影，得到平方差 $\E[(u^\top(U-W_t^\ell)a)^2]$。借鉴 K-FAC 的因子化形式~\citep{martens2015kfac}，以 $A\otimes G$ 近似联合二阶矩 $\E[(aa^\top)\otimes(uu^\top)]$，便可用两个小矩阵衡量输入与输出方向。
+$u$ 同时依赖当前残差与当前下游网络，并在师生预测一致时为零。$G$ 因而是\emph{纠正二阶矩}，不是普通 Fisher 或真实 KL Hessian。卡方归一化移除额外的样本分歧幅度加权，保留纠正轴和层敏感度的差异。令 $J_\ell=\partial z/\partial y^\ell$、$F(q)=\mathrm{diag}(q)-qq^\top$，理想精确算术下有 $uu^\top\preceq J_\ell^\top F(q)J_\ell$。附录~\ref{app:normalization} 给出该界、条件性优势和反例；它不保证所有任务的准确率都提高。
 
-为统一矩阵尺度并稳定求解，对非零 $d\times d$ 矩阵 $M$ 使用
+\subsection{以专家参数为锚点逐层求解}
+先统一两侧统计的平均对角元，并仅对输出侧做由样本估计强度的 Ledoit--Wolf 收缩。对非零 $d\times d$ 矩阵 $M$，处理为
 \begin{equation}
  \mathcal S_\lambda(M)=(1-\lambda)\frac{M}{\tr(M)/d}+\lambda I,
- \qquad\mathcal S_\lambda(0)=0,
+ \qquad\mathcal S_\lambda(0)=0.
  \label{eq:shrink}
 \end{equation}
-得到实际使用的 $\bar A,\bar G$。本文诊断中输入收缩为 0，输出收缩由样本统计自动估计。随后近似求解
+输入取 $\lambda=0$，输出强度逐任务、逐层估计。为简洁起见，\emph{以下求解式中的 $A_t^\ell,G_t^\ell$ 均指处理后的矩阵}。
+
+当前输入与纠正轴给出候选 $X$ 相对专家 $W_t^\ell$ 的平方响应差
+$\E[(h^{\ell\top}(X-W_t^\ell)u_t^\ell)^2]$。采用 K-FAC 形式的因子化~\citep{martens2015kfac}，以 $G_t^\ell\otimes A_t^\ell$ 表示双侧权重，构造逐层回归代理
 \begin{equation}
- U^{\ell,\star}\approx\arg\min_U\frac12\sum_t
- \left\|\bigl(\bar G_t^{\ell,(r)}\bigr)^{1/2}(U-W_t^\ell)
- \bigl(\bar A_t^{\ell,(r)}\bigr)^{1/2}\right\|_F^2.
+ \min_X\ \frac12\sum_{t=1}^T
+ \left\|(A_t^\ell)^{1/2}(X-W_t^\ell)(G_t^\ell)^{1/2}\right\|_F^2.
  \label{eq:regression}
 \end{equation}
-专家锚点确定参数目标，学生统计决定不同偏离方向的权重。\emph{这一回归是我们构造的局部代理}：式~\eqref{eq:correction} 解释统计的来源，却不能严格推出式~\eqref{eq:regression} 是网络 KL 的二阶展开。外积、因子化以及专家到学生的有限位移都引入了近似，因此候选仍需通过真实留出 KL 检验。
-
-正规方程为
+其正规方程沿用相同权重约定：
 \begin{equation}
- \sum_t\bar G_t^{\ell,(r)}U^{\ell,\star}\bar A_t^{\ell,(r)}
- =\sum_t\bar G_t^{\ell,(r)}W_t^\ell\bar A_t^{\ell,(r)}.
+ \sum_{t=1}^T A_t^\ell X G_t^\ell
+ =\sum_{t=1}^T A_t^\ell W_t^\ell G_t^\ell.
  \label{eq:normal-equation}
 \end{equation}
-沿用 MaTS 的线性系统求解方式~\citep{tam2024mats}，我们以当前权重为初值，使用对角预条件 CG，无需显式构造完整 Kronecker 矩阵。没有有效纠正信号的层保留当前权重。合并问题的系数来自\emph{当前师生纠正统计}，并在接受更新后重新估计。
+我们以当前 $W^{\ell,(r)}$ 为初值，用对角预条件 CG 至多求解 100 步，无需显式构造完整 Kronecker 矩阵。某任务的 $G$ 为零时不参与该层拟合；整层没有有效信号时保留当前权重。
 
-\subsection{接受更新后重新估计}
-将各层候选组合为 $\theta^\star$，记 block 增量 $D_b^{(r)}=W_b^\star-W_b^{(r)}$。先选择全局步长，再依次细化各 block 步长：
+这一线性求解形式与 MaTS 相承~\citep{tam2024mats}，设计重点是用\emph{当前学生的纠正统计}建立系数，并在接受更新后重估。令 $G=I$ 可得到仅含输入权重的 RegMean 类回归形式，但不能据此等同两者的完整实现。式~\eqref{eq:regression} 是结合专家锚点、因子化和统计处理构造的代理，不是网络 KL 的精确二阶展开，因此还需检验提案在完整网络上的实际效果。
+
+\subsection{用留出 KL 接受更新并迭代}
+将各层候选组成完整模型，按
 \begin{equation}
- W_b^{(r+1)}=W_b^{(r)}+\omega_b^{(r)}D_b^{(r)},\qquad
- \omega_b^{(r)}\in\Omega=\{0,0.125,0.25,0.5,1\}.
+ W^{\ell,(r+1)}=(1-\omega_\ell)W^{\ell,(r)}+\omega_\ell X^\ell,
+ \qquad\omega_\ell\in\{0,\tfrac18,\tfrac14,\tfrac12,1\}
  \label{eq:update}
 \end{equation}
-每次用完整模型的 $\mathcal L_{\mathcal H}$ 评价，$0$ 允许拒绝更新。接受后，$a,q,J$ 均可能改变，故下一轮在 $\theta^{(r+1)}$ 上重算 A/G；专家与统计图像保持固定。外层迭代更新测量参照，内层 CG 求解本轮固定的代理问题。所有 block 拒绝、相对更新低于阈值或达到预算时停止，返回留出 KL 最低的状态。
+选择接受幅度。CLIP 先选全局尺度，再按 13 组块细化，各组内共享尺度；T5 与 LLM 仅选全局尺度。每次均评价完整模型，目标为
+\begin{equation}
+ \mathcal L_{\mathcal H}(\theta)=\frac1T\sum_{t=1}^T\frac1{|\mathcal H_t|}
+ \sum_{x\in\mathcal H_t}\KL\!\left(p_t(\cdot\mid x)\Vert q_{t,\theta}(\cdot\mid x)\right).
+ \label{eq:behavior}
+\end{equation}
+序列任务先按其有效预测位置聚合每条输入的 KL。零步长允许拒绝更新。接受后，在新的 $\theta^{(r+1)}$ 上重算 A/G，固定专家与统计输入。至多四轮，所有尺度为零、相对更新低于阈值或预算耗尽时停止；包括初始化在内，返回留出 KL 最低的轮次，同分取更早者。测试分数不参与这些选择。
 
 \begin{algorithm}[t]
 \DontPrintSemicolon
 \SetKwInput{KwIn}{输入}\SetKwInput{KwOut}{输出}
-\KwIn{专家 $\{\theta_t\}$；固定无标签集合 $\{\mathcal C_t,\mathcal H_t\}$；初始化 $\theta^{(0)}$；轮数 $R$}
-\KwOut{合并模型 $\widehat\theta$}
-缓存专家在 $\mathcal C_t\cup\mathcal H_t$ 上的预测；$\mathcal Q\leftarrow\{\theta^{(0)}\}$\;
+\KwIn{专家 $\{\theta_t\}$；无标签集合 $\{\mathcal C_t,\mathcal H_t\}$；起点 $\theta^{(0)}$；上限 $R\le4$}
+\KwOut{共享模型 $\widehat\theta$}
+$\widehat\theta\leftarrow\theta^{(0)}$；准备固定教师预测\;
 \For{$r=0,\ldots,R-1$}{
- 在当前 $\theta^{(r)}$ 上收集 A/G，并按式~\eqref{eq:shrink} 处理尺度与收缩\;
- 从当前权重出发，以 CG 求解式~\eqref{eq:normal-equation}，得到候选 $\theta^\star$\;
- 固定本轮候选，以留出 KL 选择全局及各 block 步长\;
- 按式~\eqref{eq:update} 接受 $\theta^{(r+1)}$，加入 $\mathcal Q$；满足停止条件则退出\;
+ 在当前模型上收集各任务、各层的 $A_t^\ell,G_t^\ell$，按式~\eqref{eq:shrink} 处理\;
+ 从当前权重出发，以 CG100 求解式~\eqref{eq:normal-equation}，得到各层候选 $X^\ell$\;
+ 固定候选，用 $\mathcal L_{\mathcal H}$ 选全局尺度；CLIP 再细化各组尺度\;
+ 按式~\eqref{eq:update} 得到 $\theta^{(r+1)}$；若留出 KL 严格更低则更新 $\widehat\theta$\;
+ 满足停止条件则退出；否则在新状态上进入下一轮\;
 }
-$\widehat\theta\leftarrow\arg\min_{\theta\in\mathcal Q}\mathcal L_{\mathcal H}(\theta)$\;
-\caption{\method{}：在当前模型上测量、求解，并在接受后重新适配。}
+\caption{外层重新测量与内层 CG 求解。}
 \label{alg:ink}
 \end{algorithm}

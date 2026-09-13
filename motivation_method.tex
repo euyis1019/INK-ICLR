@@ -8,9 +8,9 @@
 \usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
 \usepackage{microtype,hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,
-pdftitle={INK-Merge：基于当前修正几何的迭代模型合并}}
+pdftitle={Coexist-Merge：以当前模型为参照的迭代模型合并}}
 \graphicspath{{motivation_method/figures/}}
-\newcommand{\method}{INK-Merge}
+\newcommand{\method}{Coexist-Merge}
 \newcommand{\KL}{D_{\mathrm{KL}}}
 \newcommand{\E}{\mathbb E}
 \newcommand{\tr}{\mathrm{tr}}
@@ -23,17 +23,18 @@ pdftitle={INK-Merge：基于当前修正几何的迭代模型合并}}
 \renewcommand{\algorithmcfname}{算法}
 \renewcommand{\proofname}{证明}
 \setlength{\emergencystretch}{1em}
-\title{\normalfont\bfseries \method{}：基于当前修正几何\\的迭代模型合并}
+\title{\normalfont\bfseries \method{}：以当前模型为参照\\的迭代模型合并}
 \author{Anonymous Authors}
 % Retain the repository's unmodified anonymous ICLR 2027 template.
 \begin{document}
 \maketitle
 \begin{abstract}
-不同合并起点的功能差距，可以在相同的后续修正流程中显著缩小。这促使我们关注当前合并模型仍然缺失的任务功能。我们进一步观察到，一次更新后仍有继续修正的空间，而更新本身会改变下一步依赖的输入与纠正统计。基于这一状态依赖，\method{} 在当前模型上收集输入激活和归一化教师--学生 KL 纠正信号，以专家参数为锚点求解逐层加权回归，并在接受更新后重新测量。ViT-B/32 八任务的配对诊断支持这一迭代适配过程；卡方归一化的几何依据与优势条件在附录中给出。
+模型合并所用的度量，应该描述各任务专家，还是实际接受更新的共享模型？我们从测量参照出发：参数在共享网络中的作用取决于当前输入、下游传播和师生分歧，而这些量还会随合并更新而变化。基于这一状态依赖，\method{} 在当前学生上收集输入二阶矩与归一化 KL 纠正二阶矩，以专家参数为锚点逐层求解，并在留出 KL 接受更新后重新测量。ViT-B/32 的配对诊断分别检验测量位置与统计重测；CLIP、T5 和 LLM 的已有结果进一步检验这一迭代框架的适用范围。
 \end{abstract}
 
 \input{motivation_method/sections/motivation}
 \input{motivation_method/sections/method}
+\input{motivation_method/sections/experiments}
 
 \clearpage
 \bibliography{motivation_method/references}

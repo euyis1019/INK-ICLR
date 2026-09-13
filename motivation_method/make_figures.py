@@ -70,44 +70,35 @@ def save(fig: plt.Figure, name: str) -> None:
 
 
 def motivation(data: dict) -> None:
-    fig, axes = plt.subplots(1, 3, figsize=(7.5, 2.65))
-    fig.subplots_adjust(left=.07, right=.992, bottom=.215, top=.83, wspace=.56)
-
+    pair = json.loads((ROOT / "data/fisher_first_round.json").read_text())
+    assert pair["student"]["initial_checkpoint_sha256"] == pair["expert"]["initial_checkpoint_sha256"]
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.55))
+    fig.subplots_adjust(left=.085, right=.99, bottom=.22, top=.86, wspace=.38)
     ax = axes[0]
-    for name in ORDER:
-        values = data["multistart"]["accuracy"][START_KEYS[name]]["diagnostic"]
-        ax.plot(range(5), values, "o-", color=COLORS[name], ms=3.6, lw=1.5, label=name)
-    ax.set(title="(a) 起点适配", xlabel="外层轮次", ylabel="诊断准确率 (%)",
-           xlim=(-.15, 4.15), ylim=(58, 96), xticks=range(5), yticks=[60, 70, 80, 90])
-    ax.legend(loc="lower right", frameon=False, handlelength=1.4,
-              borderpad=.05, labelspacing=.25, handletextpad=.4)
-
+    for name, label, color, marker in [
+        ("student", "学生 A/G", COLORS["RegMean"], "o"),
+        ("expert", "专家 A/G", COLORS["Average"], "s"),
+    ]:
+        trials = pair[name]["trials"]
+        steps = [t["scaling"] for t in trials]
+        assert steps == [0, .125, .25, .5, 1]
+        ax.plot(steps, [t["mean_teacher_kl"] for t in trials], marker + "-",
+                color=color, lw=1.6, ms=4, label=label)
+    ax.set(title="(a) 测量位置", xlabel="首轮提案插值系数 ω", ylabel="留出教师 KL（越低越好）",
+           xlim=(-.03, 1.03), ylim=(.13, .36), xticks=[0, .125, .25, .5, 1])
+    ax.set_xticklabels(["0", ".125", ".25", ".5", "1"])
+    ax.legend(loc="upper right", frameon=False)
     ax = axes[1]
     tr = data["refresh"]["Average"]["trajectory"]
     fresh = [tr[f"refreshed_{i}"]["test_accuracy"] for i in range(1, 5)]
     frozen = [fresh[0]] + [tr[f"frozen_{i}"]["test_accuracy"] for i in range(2, 5)]
-    ax.plot(range(1, 5), fresh, "o-", color=COLORS["RegMean"], ms=3.6, lw=1.6, label="刷新 A/G")
-    ax.plot(range(1, 5), frozen, "s-", color=COLORS["Average"], ms=3.4, lw=1.4, label="冻结 A/G")
+    ax.plot(range(1, 5), fresh, "o-", color=COLORS["RegMean"], ms=4, lw=1.6, label="刷新 A/G")
+    ax.plot(range(1, 5), frozen, "s-", color=COLORS["Average"], ms=4, lw=1.4, label="冻结 A/G")
     ax.axhline(tr["one_shot_cg400"]["test_accuracy"], ls="--", lw=1.1,
                color="#6B7280", label="单轮 CG400")
-    ax.set(title="(b) 继续更新", xlabel="外层轮次", ylabel="测试准确率 (%)",
+    ax.set(title="(b) 继续更新与重新测量", xlabel="外层轮次", ylabel="测试准确率 (%)",
            xlim=(.9, 4.15), ylim=(83.5, 85.55), xticks=range(1, 5), yticks=[83.5, 84.5, 85.5])
-    ax.legend(loc="lower right", frameon=False, handlelength=1.4,
-              borderpad=.05, labelspacing=.25, handletextpad=.4)
-
-    ax = axes[2]
-    for name in ORDER:
-        moments = data["refresh"][name]["moment_hook_summary"]
-        values = [1 - moments[str(i)]["vs_previous"]["H_used_cosine"] for i in range(1, 5)]
-        if not all(0 < v <= 2 for v in values):
-            raise ValueError(f"Invalid cosine distance for {name}: {values}")
-        ax.plot(range(1, 5), values, "o-", color=COLORS[name], ms=3.6, lw=1.5)
-    ax.set_yscale("log")
-    ax.set(title="(c) 度量变化", xlabel="相邻学生状态", ylabel="1 - 余弦相似度",
-           xlim=(.9, 4.15), ylim=(1e-4, 1), xticks=range(1, 5))
-    ax.set_xticklabels(["0-1", "1-2", "2-3", "3-4"])
-    ax.set_yticks([1, 1e-2, 1e-4])
-    ax.minorticks_off()
+    ax.legend(loc="lower right", frameon=False, labelspacing=.25)
     for ax in axes:
         ax.grid(axis="y", color="#E6E6E6", linewidth=.6, zorder=0)
         ax.set_axisbelow(True)
@@ -161,6 +152,36 @@ def tables(data: dict) -> None:
     (ROOT / "tables" / "refresh.tex").write_text("\n".join(refresh) + "\n", encoding="utf-8")
 
 
+def main_tables() -> None:
+    data = json.loads((ROOT / "data/main_results.json").read_text())
+    get = lambda rows, name: next(row for row in rows[1:] if row[0] == name)
+    clip_ref = get(data["clip_main"], "ESM")
+    clip_ours = get(data["clip_main"], "Coexist-Merge（4 seed）")
+    t5_ref = get(data["t5_main"], "TA + FeatCal（我们移植）")
+    t5_ours = next(r for r in data["t5_main"][1:] if r[0].startswith("Coexist-Merge"))
+    def score(value: str) -> str:
+        clean = value.split("（", 1)[0].strip()
+        return "$" + clean.replace("±", r"\pm") + "$"
+    rows = [r"\begin{tabular}{llcc}", r"\toprule",
+            r"设定 & 参照方法 & 参照分数 & \method{} \\", r"\midrule",
+            "CLIP ViT-B/32 & ESM & " + score(clip_ref[2]) + " & " + score(clip_ours[2]) + r" \\",
+            "T5-base & TA + FeatCal（移植） & " + score(t5_ref[1]) + " & " + score(t5_ours[1]) + r" \\",
+            "T5-large & TA + FeatCal（移植） & " + score(t5_ref[2]) + " & " + score(t5_ours[2]) + r" \\",
+            r"\bottomrule", r"\end{tabular}"]
+    (ROOT / "tables/main_summary.tex").write_text("\n".join(rows) + "\n")
+    rows = [r"\begin{tabular}{llrrrr}", r"\toprule",
+            r"模型 & 起点 & \multicolumn{2}{c}{GSM8K} & \multicolumn{2}{c}{IFEval} \\",
+            r"\cmidrule(lr){3-4}\cmidrule(lr){5-6}",
+            r" & & 起点 & 接受后 & 起点 & 接受后 \\", r"\midrule"]
+    for model, name in data["paper_selection"]["llm_rows"]:
+        record = get(data["llama"] if model.startswith("Llama") else data["gemma"], name)
+        label = "Llama-3.2-3B" if model.startswith("Llama") else "Gemma-2-2B"
+        short = name.replace("（自身默认）", "")
+        rows.append(" & ".join([label, short, record[1], record[2], record[4], record[5]]) + r" \\")
+    rows.extend([r"\bottomrule", r"\end{tabular}"])
+    (ROOT / "tables/llm_summary.tex").write_text("\n".join(rows) + "\n")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--font", type=Path, help="Optional Chinese TrueType font (.ttf/.ttc)")
@@ -172,7 +193,8 @@ def main() -> None:
     motivation(data)
     context(data)
     tables(data)
-    print("Generated two figures and two tables from evidence.json.")
+    main_tables()
+    print("Generated two figures and four tables from archived and supplied data.")
 
 
 if __name__ == "__main__":

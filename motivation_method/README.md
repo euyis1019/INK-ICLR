@@ -6,17 +6,17 @@
 
 | 内容 | 文件 | 写作作用 |
 |---|---|---|
-| Motivation | [sections/motivation.tex](sections/motivation.tex) | 从起点差距可修复出发，用迭代、冻结与同状态干预，逐步引出在当前模型上测量和刷新 |
-| Method | [sections/method.tex](sections/method.tex) | 接续动机给出 A/G 的估计、K-FAC 形式的回归代理、CG 求解、选步与重新测量 |
-| 附录 A | [sections/appendix.tex](sections/appendix.tex) | 划分/预算、完整起点与冻结对照、同状态和跨 block 干预、直接归一化消融 |
+| Motivation | [sections/motivation.tex](sections/motivation.tex) | 先检验专家/学生测量位置，再解释继续迭代与接受后的重测 |
+| Method | [sections/method.tex](sections/method.tex) | 沿用本次提供的逐类修正、归一化方向、A/G 与 AXG 正规方程，补齐估计和伪代码 |
+| 效果与适用范围 | [sections/experiments.tex](sections/experiments.tex) | 用精简主表和跨设定结果验证效果；初始化作为附加性质 |
+| 附录 A | [sections/appendix.tex](sections/appendix.tex) | 位置对照的协议、完整起点与冻结对照、同状态和跨 block 干预、直接归一化消融 |
 | 附录 B | 同上 | Fisher 几何界、方向重加权恒等式、二次合并的条件性风险边界及反例 |
-| 文献 | [references.bib](references.bib) | 使用真实论文来源，未使用旧稿的占位结果 |
 
-主文只保留一张三联图：(a) 初始化轨迹、(b) Average 的刷新/冻结轨迹、(c) 相邻状态的度量变化。顺序对应“起点差距可以被修复 → 继续修正需要合适的统计 → 更新会改变测量条件”。关键实验嵌入 motivation，详细对照留在附录。附录保留一张跨 block 干预图，并显示 block 0 的负结果；其余关键结果用数值和两张小表呈现。
+主文保留一张双联图：(a) 同一起点上 ordinary-Fisher 的学生/专家首轮提案，(b) KL-G 的 Average 刷新/冻结轨迹。两面板对应两个动机，统计定义和指标各自明确。附录保留跨 block 图及负结果。跨设定结果用两张小表呈现，不增加趋势图。
 
-核心问题是“如何识别当前模型仍然缺失的任务功能，并据此继续修正”。动机围绕后续修正的状态依赖展开：起点适配提供研究线索，继续更新与刷新对照区分两者作用，hook 和同状态干预进一步联系统计变化与更新效果。方法据此在当前学生上测量输入与纠正统计，以专家参数为锚点求解。正文明确区分 KL 的一阶功能关系与所构造的二次回归代理，未把纠正外积当作 KL Hessian，也未声称由 Taylor 展开严格导出了整个求解器。
+主线是“度量在哪个模型上测 → 接受更新后为何重测 → 如何估计、求解和接受”。采用本次说明中的方法名 Coexist-Merge，保留原稿入口文件名。任务适用性、初始化适配均是需验证的性质，不预设所有任务都提升或任意起点同解收敛。
 
-“对初始化不敏感”限定为常用合并起点的功能差距可显著缩小，不宣称任意起点同解收敛。刷新收益依赖初始化与阶段。归一化命题针对明确的几何预算或二次代理目标，不是实际网络准确率的无条件优势定理。
+位置对照的首轮数据支持 ordinary-Fisher 构造中的测量位置选择，并不单独证明最终 KL-G 的全部设计。最终方法用归一化 KL 纠正二阶矩；它与普通 Fisher、真实 KL Hessian 有明确区别。
 
 ## 编译与图表复现
 
@@ -28,7 +28,7 @@ bash motivation_method/build.sh
 
 脚本从仓库根目录编译，将辅助文件写入 `build-motivation/`，成功后更新根目录 `motivation_method.pdf`。Overleaf 直接选择新主入口即可，不必运行脚本。
 
-重画图表需要 Python 3.10+、NumPy、Matplotlib。所有数值读自 [evidence.json](evidence.json)，不会访问服务器或运行模型：
+重画图表需要 Python 3.10+、NumPy、Matplotlib。图表从 [evidence.json](evidence.json)、[data/fisher_first_round.json](data/fisher_first_round.json) 和 [data/main_results.json](data/main_results.json) 读取；不会访问服务器或运行模型：
 
 ```bash
 python3 motivation_method/make_figures.py
@@ -37,10 +37,20 @@ bash motivation_method/build.sh
 
 默认图中文字使用 TeX 自带 Fandol。也可通过 `--font /path/to/chinese-font.ttf` 指定中文 TrueType 字体；提交版本使用 macOS 自带的 Arial Unicode 字体生成，字体文件未打包。不同字体可能改变外观，不改变数据与坐标。矢量 PDF 用于正文，同名 PNG 便于预览。
 
-## 与实现和证据的关系
+## 与现成公式及证据的关系
 
-参见 [SOURCE_MAP.md](SOURCE_MAP.md)，其中链接固定版本的实验报告、LaTeX 和数据，避免仓库更新后来源漂移。`evidence.json` 保留原始数据文件的 SHA-256 及所用字段；图表数值没有手工平滑或插值。
+[本次提供的方法与主结果说明](sources/coexist_method_results_20260912.md) 按原文归档。正文沿用其公式链，不采用原说明中比数值表更强的概括。T5-base 明确含目标插值扩展；LLM 保留部分指标下降，不写所有基线均被超越。该说明的主实验表是本节来源，本次没有重跑模型，也未逐项核查其全部实验日志。
 
-本文的 `G` 是归一化教师到学生 KL 纠正的未中心化二阶矩。历史 ordinary-Fisher 的 87.2704% 属于另一种统计模式，未与本文 KL-G 轨迹混用。`A/G` 都在当前学生测量，教师提供固定分布与参数锚点。这里的状态依赖来自内部激活、预测及 Jacobian 的改变，校准图像固定；文中未把它定义为强化学习的 on-policy 采样。
+只作必要的记号澄清：
 
-正文按输出乘输入形状写权重 `W`，正规方程为 `sum G W A = sum G W_t A`；实现以转置权重求解 `sum A W^T G`，两者等价。外积代理不是精确 KL Hessian，真实留出 KL 用于接受提案。
+- 层输入为 `h`，层输出为 `y`；A 使用输入，score 与 KL 梯度对输出求导。
+- 权重采用输入维度 × 输出维度，正规方程为 `sum A X G = sum A W_t G`，与实现转置权重一致。
+- `bar s = E_q[s]` 明确定义；u 的分母停止梯度，反传得到的负号不影响外积。
+- 求解式中的 A/G 指尺度统一和收缩后的矩阵；归一化证明作用于处理前的纠正外积。
+- 用有限 CG 求解 Kronecker 和，不把“未显式求逆”写成数学上不存在形式解。
+
+T5 目标插值扩展在本稿中仅标明其结果归属，未把原说明中输入/输出混用的交叉矩公式直接移入主方法。主方法给出原版专家锚点 AXG 方程。
+
+[来源索引](SOURCE_MAP.md) 区分三种证据：固定版本的报告与原始数据、这次核对的同环境 Fisher 配对记录，以及用户提供的跨设定主实验汇总。历史学生 ordinary-Fisher 87.2704%、同环境复跑 87.2941%、最终 KL-G 正式四 seed 87.06% 不拼接成同一轨迹。
+
+校准图像固定，状态依赖来自内部输入、预测与下游传播的改变；本文没有把这一流程定义为强化学习的 on-policy 采样。
