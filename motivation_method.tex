@@ -8,7 +8,7 @@
 \usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
 \usepackage{microtype,hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,
-pdftitle={INK-Merge：适配当前网络状态的迭代模型合并}}
+pdftitle={INK-Merge：基于当前修正几何的迭代模型合并}}
 \graphicspath{{motivation_method/figures/}}
 \newcommand{\method}{INK-Merge}
 \newcommand{\KL}{D_{\mathrm{KL}}}
@@ -23,18 +23,17 @@ pdftitle={INK-Merge：适配当前网络状态的迭代模型合并}}
 \renewcommand{\algorithmcfname}{算法}
 \renewcommand{\proofname}{证明}
 \setlength{\emergencystretch}{1em}
-\title{\normalfont\bfseries \method{}：适配当前网络状态\\的迭代模型合并}
+\title{\normalfont\bfseries \method{}：基于当前修正几何\\的迭代模型合并}
 \author{Anonymous Authors}
 % Retain the repository's unmodified anonymous ICLR 2027 template.
 \begin{document}
 \maketitle
 \begin{abstract}
-模型合并需要在多个专家的参数约束之间进行折中，但这些约束的功能作用依赖于所在的网络状态。合并改变了层输入、下游传播及尚未解决的预测分歧，在专家或初始状态下建立的统计因而未必适合后续修正。我们提出 \method{}：以专家权重为参数锚点，以当前学生的输入和归一化 KL 纠正统计构造双侧加权回归，并在接受更新后重新估计。ViT-B/32 八任务的配对诊断检验统计的状态依赖与重估收益，多起点实验进一步检验适配能力。卡方归一化的几何依据及条件性优势见附录。
+不同合并起点的功能差距，可以在相同的后续修正流程中显著缩小。这促使我们关注当前合并模型仍然缺失的任务功能。我们进一步观察到，一次更新后仍有继续修正的空间，而更新本身会改变下一步依赖的输入与纠正统计。基于这一状态依赖，\method{} 在当前模型上收集输入激活和归一化教师--学生 KL 纠正信号，以专家参数为锚点求解逐层加权回归，并在接受更新后重新测量。ViT-B/32 八任务的配对诊断支持这一迭代适配过程；卡方归一化的几何依据与优势条件在附录中给出。
 \end{abstract}
 
 \input{motivation_method/sections/motivation}
 \input{motivation_method/sections/method}
-\input{motivation_method/sections/evidence}
 
 \clearpage
 \bibliography{motivation_method/references}
