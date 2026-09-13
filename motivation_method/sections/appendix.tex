@@ -1,0 +1,127 @@
+\section{动机实验的协议与对照}
+\label{app:protocol}
+
+\paragraph{共同设置与数据用途。}
+所有动机实验使用 CLIP ViT-B/32~\citep{radford2021learning}、八个固定任务专家（Cars、DTD、EuroSAT、GTSRB、MNIST、RESISC45、SVHN、SUN397）及 seed 0。每任务统计集包含 256 张图像，另外 256 张不重叠图像用于式~\eqref{eq:behavior} 的选步与选轮；每轮 CG100，最多四轮，全部使用原版归一化 KL-G。完整测试只用于报告，不参与更新选择。
+多起点研究在 validation 的前 256 张图像上诊断，并在其中 64 张记录 block 表征；刷新研究另用固定随机选取的 256 张 validation 图像诊断。因此，两组诊断指标仅在各自配对协议内比较。
+
+\paragraph{多起点适配及其边界。}
+表~\ref{tab:starts} 保留全部四种起点。未拉平对照保持聚合任务增量的奇异值比例，逐原始二维矩阵匹配 Iso-C 的增量 Frobenius 范数；控制覆盖 49 个矩阵，包括拼接 Q/K/V，其余参数沿用 Iso-C。两者终态仍有 $8.25$ 个百分点的测试差距，说明总增量能量不能独自解释可修复性。Average/RegMean 的参数距离采用逐层差异除以预训练层权重范数，再取中位数；其 $2.53\%$ 不能解释为全模型欧氏距离。
+
+\begin{table}[htbp]
+\centering\small
+\caption{完整四起点对照（\%）。诊断与完整测试属于不同分割；四组均由留出 KL 选中第四轮。}
+\label{tab:starts}
+\input{motivation_method/tables/starts}
+\end{table}
+
+\paragraph{继续更新与重测统计分别起什么作用？}
+对每种初始化先共享第一轮模型 $\theta^{(1)}$，再分为刷新和冻结两支。冻结分支固定初始 A/G 及收缩配置，仍然继续求解和选择步长；刷新分支在各自当前模型上重测。两支复用同一批图像。单轮 CG400 从原初始化出发，仅求解一次初始统计问题。表~\ref{tab:refresh} 显示，Average 第一轮之后的 $1.6004$ 个百分点收益中，冻结流程也取得 $0.8069$ 个百分点，刷新流程的额外收益为 $0.7935$ 个百分点。
+
+\begin{table}[htbp]
+\centering\small
+\caption{完整测试准确率（\%）。最后一列为百分点差；单轮 CG400 不是等耗时或已收敛对照。}
+\label{tab:refresh}
+\input{motivation_method/tables/refresh}
+\end{table}
+
+\paragraph{统计、方向与接受规则的作用需要区分。}
+正文同状态干预保持待更新 checkpoint 一致，但其终态收益包含重测、收缩、有限 CG 和选步的共同作用。将 Average 的\emph{原始}新旧提案匹配中心化 logit RMS 后，$\theta^{(1)}$ 上旧/新方向分别降低独立诊断 KL $0.003379/0.002503$，$\theta^{(2)}$ 上则为 $0.000481/0.002089$。因此，当前统计的接受终态更好，不自动意味着原始方向在每个等幅比较中都更好。现有冻结对照也没有单独检验第二轮之后每一轮刷新的必要性。
+
+\paragraph{周围网络改变，本块也可能需要适配。}
+固定目标 block 的全部权重为初始值，其余网络换成第一轮状态。所有比较从同一个混合模型出发，仅允许目标 block 的线性层更新；分别使用初始统计和在混合模型上重测的统计。Average 的 block 11 自身权重未变，输入与纠正梯度余弦却降至 $0.8449$、$0.4915$，使用当前统计也获得更大的独立诊断 KL 降低量。图~\ref{fig:context} 同时保留 block 0 的负结果，支持有条件的网络状态适配。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{context.pdf}
+\caption{\textbf{固定本块权重的跨 block 干预。}Average，seed 0。每个 block 的两根柱共享同一混合起点，纵轴为接受更新后的独立诊断 KL 降低量，越大越好；不同 block 的起点各不相同。三个 block 为预先选定的 0、5、11。}
+\label{fig:context}
+\end{figure}
+
+\paragraph{归一化的直接消融。}
+另一组同机 RTX 4090、seed 0 的配对记录中，归一化与未归一化版本的资产指纹、配置摘要及初始化相同，均刷新四轮并选中第 4 轮；平均测试准确率分别为 $87.0451\%$、$86.6652\%$，最终留出 KL 为 $0.155523$、$0.169934$。该消融支持组件有效，但不单独识别卡方相对其他归一化的优势。它与多起点研究的 $87.0558\%$ 属于不同运行记录，不拼接为同一轨迹。上述结果均未提供跨 seed 显著性结论。
+
+\newpage
+\section{卡方归一化的依据与优势边界}
+\label{app:normalization}
+
+以下固定一个样本，设教师 $p$ 为概率分布、学生 $q_c>0$，$e=p-q$，$\mathbf1^\top e=0$，$D=\sum_c e_c^2/q_c$。$F=\mathrm{diag}(q)-qq^\top$，$J$ 为当前学生的 logit Jacobian。所有界均作用于矩阵尺度统一和收缩\emph{之前}的纠正外积。
+
+\subsection{学生 Fisher 几何下的精确尺度}
+\begin{proposition}[锐利的 Fisher 相对预算]
+\label{prop:fisher}
+对 $e\ne0$，
+\begin{equation}
+ D=\sup_{\mathrm{Var}_q(f)>0}
+ \frac{(\E_p f-\E_q f)^2}{\mathrm{Var}_q(f)}
+ =e^\top F^\dagger e,\qquad
+ ee^\top\preceq dF\ \Longleftrightarrow\ d\ge D.
+ \label{eq:sharp}
+\end{equation}
+因此，对 $u=J^\top e/\sqrt{D+\varepsilon}$、$\varepsilon\ge0$，有
+\begin{equation}
+ uu^\top\preceq\frac{D}{D+\varepsilon}J^\top FJ\preceq J^\top FJ.
+\end{equation}
+\end{proposition}
+\begin{proof}
+令 $a_c=p_c/q_c-1$，则 $\E_q a=0$，$\E_q a^2=D$。对任意 $f$，
+$\E_p f-\E_q f=\E_q[a(f-\E_q f)]$。
+Cauchy--Schwarz 给出平方差至多为 $D\,\mathrm{Var}_q(f)$，取 $f=a$ 达到等号。
+又有 $F\,\mathrm{diag}(q)^{-1}e=e$，且 $\ker F=\mathrm{span}(\mathbf1)$。任一解与 $F^\dagger e$ 仅差常数向量，左乘 $e^\top$ 即得 $e^\top F^\dagger e=D$。
+矩阵不等式等价于对所有 $f$ 都有 $(f^\top e)^2\le d f^\top Ff$，其最小 $d$ 由刚才的上确界确定。最后除以 $D+\varepsilon$ 并作 $J^\top(\cdot)J$ 合同变换即可。
+\end{proof}
+
+这一结论是经典散度变分框架~\citep{nguyen2010divergence} 在当前纠正信号上的具体化。它说明根号卡方是保留 logit 残差方向并满足单位学生 Fisher 预算的\emph{最小}分母；原始外积满足同一预算当且仅当 $D\le1$，这里的 1 是预算尺度，非精度阈值。若换成其他分母 $\sqrt{s}$，同一个全方向保证要求 $s\ge D$。例如 $p=(1,0),q=(\delta,1-\delta)$ 时，$D/(2\KL(p\Vert q))\to\infty$，故根号 KL 没有同一全局保证。这不排除它在其他目标上更有效。
+
+\subsection{整体尺度统一后，改变的是方向权重}
+将一个图像全部 token 的归一化外积相加，记为 $Z_i$。令 $s_i=D_i+\varepsilon$、$a_i=\tr Z_i$、$P_i=Z_i/a_i$，忽略 $a_i=0$ 的项，且假设总迹非零。归一化与未归一化矩阵的单位迹形式分别为
+\begin{equation}
+ N=\sum_i b_iP_i,\qquad R=\sum_i\frac{b_i s_i}{\bar s}P_i,
+ \quad b_i=\frac{a_i}{\sum_j a_j},\quad\bar s=\sum_i b_i s_i.
+\end{equation}
+直接展开可得
+\begin{equation}
+ R-N=\frac{\sum_i b_i(s_i-\bar s)(P_i-N)}{\bar s}
+ =\frac{\mathrm{Cov}_b(s,P)}{\bar s}.
+ \label{eq:covariance}
+\end{equation}
+实际的平均对角线统一尺度仅再乘输出维度。因此，归一化的作用不止于改变整体梯度大小，而是移除额外的分歧幅度加权；归一化后的层能量 $a_i$ 仍有差异。若所有 $s_i$ 或所有 $P_i$ 相同，两种形状一致。自动收缩也会随统计变化，故式~\eqref{eq:covariance} 只刻画收缩前的直接作用。
+
+\subsection{何时能得到更好的合并解？}
+几何预算本身不保证更高准确率。下面给出一个保留式~\eqref{eq:regression} 结构的可解析条件：固定两个专家 $w_1=e_1=(1,0)^\top,w_2=0$、输入度量均为 1，第二任务输出度量为 $I/2$。第一任务的参考需求为保留 $e_1$ 方向；其估计度量中，非目标方向 $e_2$ 在归一化后占比为 $0<\rho<1$。设两类方向的分歧平方幅度比为
+\begin{equation}
+ k=\frac{s_{\mathrm{nuisance}}}{s_{\mathrm{useful}}}>0,
+ \qquad \tau=\frac{\rho k}{1-\rho+\rho k}.
+\end{equation}
+则第一任务单位迹度量分别为 $\mathrm{diag}(1-\rho,\rho)$ 与 $\mathrm{diag}(1-\tau,\tau)$。
+
+\begin{proposition}[两专家二次合并的风险边界]
+\label{prop:advantage}
+定义
+\begin{equation}
+ L_t(w)=\tfrac12(w-e_1)^\top\mathrm{diag}(1-t,t)(w-e_1)
+ +\tfrac12 w^\top(I/2)w,
+ \qquad w(t)=\arg\min_w L_t(w).
+\end{equation}
+以\emph{预先指定}的无污染目标 $L_0$ 为参照，精确求解且不作输出收缩时，
+\begin{equation}
+ L_0(w(\rho))<L_0(w(\tau))\quad\Longleftrightarrow\quad k>1.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Hessian 为 $\mathrm{diag}(3/2-t,1/2+t)\succ0$，故
+$w(t)=((1-t)/(3/2-t),0)^\top$，$w(0)=(2/3,0)^\top$。
+代入同一参考目标，得到超额风险
+\begin{equation}
+ \mathcal E(t)=L_0(w(t))-L_0(w(0))
+ =\frac34\left(\frac{1-t}{3/2-t}-\frac23\right)^2
+ =\frac{t^2}{3(3-2t)^2}.
+\end{equation}
+它在 $(0,1)$ 上严格递增，而
+$\tau-\rho=\rho(1-\rho)(k-1)/(1-\rho+\rho k)$，因此结论成立。
+\end{proof}
+
+该构造说明，当非目标方向同时具有更大的分歧幅度时，原始外积会进一步提高其权重，而归一化可以降低合并风险。$k=1$ 持平，$k<1$ 时同一目标下未归一化严格更好。归一化也有非零污染误差 $\mathcal E(\rho)$，因此参照目标并未事后定义为归一化解。命题是二次代理中的条件性结果，实际网络中“高分歧是否意味着低价值”需要独立干预检验。
+
+\paragraph{实现与适用范围。}
+使用 $\varepsilon=10^{-8}$ 并 detach 分母；实际 $p\to q$ 时纠正趋零。数学证明要求正概率与精确算术，float32 下溢或 tiny clamp 触发时不直接沿用精确 Fisher 恒等式。学生自信但错误也可能使归一化压低重要纠正：当 $p=(1,0),q=(\delta,1-\delta)$，KL 发散而 $\|(p-q)/\sqrt{D+\varepsilon}\|_2\sim\sqrt{2\delta}\to0$。此外，自动收缩、有限 CG、非线性传播和选步都会影响最终结果；本附录不提供完整网络准确率的普遍支配保证。

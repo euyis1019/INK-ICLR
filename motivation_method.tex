@@ -1,0 +1,45 @@
+% !TeX program = xelatex
+% Focused manuscript entry; the original manuscript remains independently buildable.
+\documentclass{article}
+\usepackage{iclr2027_conference,times}
+\usepackage[UTF8,fontset=fandol,scheme=plain]{ctex}
+\DeclareFontShape{TU}{FandolSong-Regular(0)}{m}{sc}{<->ssub * FandolSong-Regular(0)/m/n}{}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,graphicx,xcolor}
+\usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
+\usepackage{microtype,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,
+pdftitle={INK-Merge：基于当前修正几何的迭代模型合并}}
+\graphicspath{{motivation_method/figures/}}
+\newcommand{\method}{INK-Merge}
+\newcommand{\KL}{D_{\mathrm{KL}}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\sg}{\mathrm{stopgrad}}
+\theoremstyle{definition}
+\newtheorem{proposition}{命题}[section]
+\numberwithin{equation}{section}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\algorithmcfname}{算法}
+\renewcommand{\proofname}{证明}
+\setlength{\emergencystretch}{1em}
+\title{\normalfont\bfseries \method{}：基于当前修正几何\\的迭代模型合并}
+\author{Anonymous Authors}
+% Retain the repository's unmodified anonymous ICLR 2027 template.
+\begin{document}
+\maketitle
+\begin{abstract}
+模型合并需要协调多个专家在共享参数上的功能需求。我们观察到，不同合并起点的功能差距可以经后续修正显著缩小，而每次修正又会改变下一步所依赖的内部统计。这促使我们提出 \method{}：在当前合并模型上，以输入激活和归一化教师--学生 KL 纠正信号构造双侧几何，求解逐层加权回归，并在接受更新后重新测量。ViT-B/32 八任务的配对诊断分别支持继续修正、条件性的统计刷新收益，以及对常用合并起点的适配。我们进一步给出卡方归一化的 Fisher 几何依据及其优势条件。
+\end{abstract}
+
+\input{motivation_method/sections/motivation}
+\input{motivation_method/sections/method}
+
+\clearpage
+\bibliography{motivation_method/references}
+\bibliographystyle{iclr2027_conference}
+
+\clearpage
+\appendix
+\input{motivation_method/sections/appendix}
+\end{document}

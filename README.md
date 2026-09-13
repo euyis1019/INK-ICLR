@@ -1,5 +1,18 @@
 # INK-Merge manuscript (ICLR 2027 template)
 
+## 新增：中文 motivation → method 精简稿
+
+本分支新增独立稿件，串联“常用起点适配 → 继续修正 → 更新后重测 A/G → 方法”，并在附录给出卡方归一化的证明与适用边界。
+
+- [编译后的 PDF](motivation_method.pdf)
+- [LaTeX 主入口](motivation_method.tex)；Overleaf 选择此文件及 **XeLaTeX**。
+- [章节、图表和复现说明](motivation_method/README.md)
+- [论点 → issue → 原报告/源码/数据](motivation_method/SOURCE_MAP.md)
+
+在仓库根目录运行 `bash motivation_method/build.sh`。图表 PDF 已随稿件提供，编译正文不需要 Python。
+此稿只使用已归档的 ViT-B/32 实测结果，不加载旧稿的占位表格或预期趋势图。
+按照此次写作要求，独立稿的整篇 PDF 随源码提交；原稿及模板文件保持原样。下文为原稿的编译与内容说明。
+
 ## 编译入口
 
 仓库根目录的 `iclr2027_conference.tex` 是主文档，加载
