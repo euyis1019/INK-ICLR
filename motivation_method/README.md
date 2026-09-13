@@ -6,13 +6,16 @@
 
 | 内容 | 文件 | 写作作用 |
 |---|---|---|
-| Motivation | [sections/motivation.tex](sections/motivation.tex) | 分别论证常用起点可适配、一次更新后仍有收益、模型变化使统计需要适配 |
-| Method | [sections/method.tex](sections/method.tex) | 当前学生纠正、卡方归一化、双侧二阶矩、逐层求解、选步与刷新 |
+| Motivation | [sections/motivation.tex](sections/motivation.tex) | 提出专家约束在当前网络中是否仍然合适的问题，解释当前输入、下游传播和师生分歧的作用 |
+| Method | [sections/method.tex](sections/method.tex) | 从局部功能影响解释学生 A/G 的测量，以专家为锚点构造回归代理，给出求解、选步和重估流程 |
+| 设计检验 | [sections/evidence.tex](sections/evidence.tex) | 方法之后依次检验统计状态依赖、重估价值和起点适配；将数据与设计假设对应 |
 | 附录 A | [sections/appendix.tex](sections/appendix.tex) | 划分/预算、完整起点与冻结对照、同状态和跨 block 干预、直接归一化消融 |
 | 附录 B | 同上 | Fisher 几何界、方向重加权恒等式、二次合并的条件性风险边界及反例 |
 | 文献 | [references.bib](references.bib) | 使用真实论文来源，未使用旧稿的占位结果 |
 
-主文只保留一张三联图：初始化轨迹、Average 的刷新/冻结轨迹、相邻状态的度量变化。附录保留一张跨 block 干预图，并显示 block 0 的负结果。其余关键结果以数值和两张小表呈现；图表均可独立移入完整论文。
+主文只保留一张三联图：(a) 相邻状态的度量变化、(b) Average 的刷新/冻结轨迹、(c) 初始化轨迹。顺序对应“变化存在 → 处理变化有价值 → 适配效果”。附录保留一张跨 block 干预图，并显示 block 0 的负结果。其余关键结果以数值和两张小表呈现；图表均可独立移入完整论文。
+
+核心设计原则是“专家提供参数目标，当前学生提供衡量这些目标的输入统计和纠正统计”。迭代与刷新由这一原则引出，起点适配是需要验证的效果。正文明确区分 KL 的一阶功能关系与所构造的二次回归代理，未把纠正外积当作 KL Hessian，也未声称由 Taylor 展开严格导出了整个求解器。
 
 “对初始化不敏感”限定为常用合并起点的功能差距可显著缩小，不宣称任意起点同解收敛。刷新收益依赖初始化与阶段。归一化命题针对明确的几何预算或二次代理目标，不是实际网络准确率的无条件优势定理。
 
