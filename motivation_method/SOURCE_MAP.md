@@ -6,7 +6,7 @@
 
 | 本稿位置 | 实验或定义如何支持论点 | 对应来源 |
 |---|---|---|
-| §1 当前模型上的测量参照 | G 由教师目标、学生预测与当前传播共同定义；直接用同一教师替换学生会使该残差归零 | [提供的方法说明](sources/coexist_method_results_20260912.md) §1；正文 §2 估计式；不据此声称专家统计的普遍劣势 |
+| §1 当前模型上的测量参照 | 简短设计直觉：以专家预测为目标，用当前学生的统计反映其调整需求 | [提供的方法说明](sources/coexist_method_results_20260912.md) §1；具体估计式见正文 §2；不作学生/专家测量位置的实验论证 |
 | 图 1a：起点适配 | 相同后续流程从三种常用起点出发；Average/RegMean 诊断差距 22.36→0.15 pp；附录保留未拉平对照 | [Issue #6](https://github.com/euyis1019/INK/issues/6#issuecomment-5648265351)；R1/R3 |
 | 图 1b：继续迭代与重测 | 刷新/冻结共享第一轮状态，都继续 CG 与选步；另列单轮 CG400 | [Issue #7](https://github.com/euyis1019/INK/issues/7#issuecomment-5648265839)；R2/R4 |
 | 图 1c：相邻轮度量变化 | 固定校准图像，比较按求解规则处理后的矩阵的方向；曲线只描述统计变化与趋稳 | R2 的 `moment_hook_summary`；[定义与数值](data/source_checks.json) |
