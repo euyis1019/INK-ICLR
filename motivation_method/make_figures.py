@@ -70,35 +70,44 @@ def save(fig: plt.Figure, name: str) -> None:
 
 
 def motivation(data: dict) -> None:
-    pair = json.loads((ROOT / "data/fisher_first_round.json").read_text())
-    assert pair["student"]["initial_checkpoint_sha256"] == pair["expert"]["initial_checkpoint_sha256"]
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.55))
-    fig.subplots_adjust(left=.085, right=.99, bottom=.22, top=.86, wspace=.38)
+    fig, axes = plt.subplots(1, 3, figsize=(7.5, 2.65))
+    fig.subplots_adjust(left=.07, right=.992, bottom=.215, top=.83, wspace=.56)
+
     ax = axes[0]
-    for name, label, color, marker in [
-        ("student", "学生 A/G", COLORS["RegMean"], "o"),
-        ("expert", "专家 A/G", COLORS["Average"], "s"),
-    ]:
-        trials = pair[name]["trials"]
-        steps = [t["scaling"] for t in trials]
-        assert steps == [0, .125, .25, .5, 1]
-        ax.plot(steps, [t["mean_teacher_kl"] for t in trials], marker + "-",
-                color=color, lw=1.6, ms=4, label=label)
-    ax.set(title="(a) 测量位置", xlabel="首轮提案插值系数 ω", ylabel="留出教师 KL（越低越好）",
-           xlim=(-.03, 1.03), ylim=(.13, .36), xticks=[0, .125, .25, .5, 1])
-    ax.set_xticklabels(["0", ".125", ".25", ".5", "1"])
-    ax.legend(loc="upper right", frameon=False)
+    for name in ORDER:
+        values = data["multistart"]["accuracy"][START_KEYS[name]]["diagnostic"]
+        ax.plot(range(5), values, "o-", color=COLORS[name], ms=3.6, lw=1.5, label=name)
+    ax.set(title="(a) 起点适配", xlabel="外层轮次", ylabel="诊断准确率 (%)",
+           xlim=(-.15, 4.15), ylim=(58, 96), xticks=range(5), yticks=[60, 70, 80, 90])
+    ax.legend(loc="lower right", frameon=False, handlelength=1.4,
+              borderpad=.05, labelspacing=.25, handletextpad=.4)
+
     ax = axes[1]
     tr = data["refresh"]["Average"]["trajectory"]
     fresh = [tr[f"refreshed_{i}"]["test_accuracy"] for i in range(1, 5)]
     frozen = [fresh[0]] + [tr[f"frozen_{i}"]["test_accuracy"] for i in range(2, 5)]
-    ax.plot(range(1, 5), fresh, "o-", color=COLORS["RegMean"], ms=4, lw=1.6, label="刷新 A/G")
-    ax.plot(range(1, 5), frozen, "s-", color=COLORS["Average"], ms=4, lw=1.4, label="冻结 A/G")
+    ax.plot(range(1, 5), fresh, "o-", color=COLORS["RegMean"], ms=3.6, lw=1.6, label="刷新 A/G")
+    ax.plot(range(1, 5), frozen, "s-", color=COLORS["Average"], ms=3.4, lw=1.4, label="冻结 A/G")
     ax.axhline(tr["one_shot_cg400"]["test_accuracy"], ls="--", lw=1.1,
                color="#6B7280", label="单轮 CG400")
-    ax.set(title="(b) 继续更新与重新测量", xlabel="外层轮次", ylabel="测试准确率 (%)",
+    ax.set(title="(b) 继续更新", xlabel="外层轮次", ylabel="测试准确率 (%)",
            xlim=(.9, 4.15), ylim=(83.5, 85.55), xticks=range(1, 5), yticks=[83.5, 84.5, 85.5])
-    ax.legend(loc="lower right", frameon=False, labelspacing=.25)
+    ax.legend(loc="lower right", frameon=False, handlelength=1.4,
+              borderpad=.05, labelspacing=.25, handletextpad=.4)
+
+    ax = axes[2]
+    for name in ORDER:
+        moments = data["refresh"][name]["moment_hook_summary"]
+        values = [1 - moments[str(i)]["vs_previous"]["H_used_cosine"] for i in range(1, 5)]
+        if not all(0 < v <= 2 for v in values):
+            raise ValueError(f"Invalid cosine distance for {name}: {values}")
+        ax.plot(range(1, 5), values, "o-", color=COLORS[name], ms=3.6, lw=1.5)
+    ax.set_yscale("log")
+    ax.set(title="(c) 相邻轮度量变化", xlabel="相邻学生状态", ylabel="1 - 余弦相似度",
+           xlim=(.9, 4.15), ylim=(1e-4, 1), xticks=range(1, 5))
+    ax.set_xticklabels(["0-1", "1-2", "2-3", "3-4"])
+    ax.set_yticks([1, 1e-2, 1e-4])
+    ax.minorticks_off()
     for ax in axes:
         ax.grid(axis="y", color="#E6E6E6", linewidth=.6, zorder=0)
         ax.set_axisbelow(True)

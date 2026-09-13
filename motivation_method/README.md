@@ -6,17 +6,19 @@
 
 | 内容 | 文件 | 写作作用 |
 |---|---|---|
-| Motivation | [sections/motivation.tex](sections/motivation.tex) | 先检验专家/学生测量位置，再解释继续迭代与接受后的重测 |
+| Motivation | [sections/motivation.tex](sections/motivation.tex) | 从当前师生分歧定义度量，再解释继续迭代与接受后的重测 |
 | Method | [sections/method.tex](sections/method.tex) | 沿用本次提供的逐类修正、归一化方向、A/G 与 AXG 正规方程，补齐估计和伪代码 |
 | 效果与适用范围 | [sections/experiments.tex](sections/experiments.tex) | 用精简主表和跨设定结果验证效果；初始化作为附加性质 |
-| 附录 A | [sections/appendix.tex](sections/appendix.tex) | 位置对照的协议、完整起点与冻结对照、同状态和跨 block 干预、直接归一化消融 |
+| 附录 A | [sections/appendix.tex](sections/appendix.tex) | 度量变化的定义、完整起点与冻结对照、同状态和跨 block 干预、直接归一化消融 |
 | 附录 B | 同上 | Fisher 几何界、方向重加权恒等式、二次合并的条件性风险边界及反例 |
 
-主文保留一张双联图：(a) 同一起点上 ordinary-Fisher 的学生/专家首轮提案，(b) KL-G 的 Average 刷新/冻结轨迹。两面板对应两个动机，统计定义和指标各自明确。附录保留跨 block 图及负结果。跨设定结果用两张小表呈现，不增加趋势图。
+主文恢复一张三联图：(a) Average、RegMean、Iso-C 的起点适配，(b) Average 的刷新/冻结轨迹和单轮 CG400，(c) 三种起点的相邻轮度量变化。全部来自本方法的归一化 KL 纠正统计。附录保留跨 block 图与负结果；跨设定结果用两张小表呈现。
 
-主线是“度量在哪个模型上测 → 接受更新后为何重测 → 如何估计、求解和接受”。采用本次说明中的方法名 Coexist-Merge，保留原稿入口文件名。任务适用性、初始化适配均是需验证的性质，不预设所有任务都提升或任意起点同解收敛。
+C 的纵轴是按求解规则处理后的度量在相邻两轮之间的 `1 - 余弦相似度`，再在有效层/任务上取中位数。度量指尺度处理与收缩后的 `M = G ⊗ A`，采用正文的转置权重约定。数值越小，度量方向越接近；不表示参数距离、KL 降低量或准确率。Average 从 0→1 轮约 0.447，降到 3→4 轮约 0.007。纵轴为对数尺度，颜色与 A 面板一致。
 
-位置对照的首轮数据支持 ordinary-Fisher 构造中的测量位置选择，并不单独证明最终 KL-G 的全部设计。最终方法用归一化 KL 纠正二阶矩；它与普通 Fisher、真实 KL Hessian 有明确区别。
+正文从 KL 纠正的定义解释为何以当前学生为参照，不使用 ordinary-Fisher 的学生/专家对照代替本方法的证据。两份 Fisher 实验数据副本及其论证已移出此稿；原始实验档案和历史提交保留。附录中的 Fisher 相对界是归一化的数学参照，不属于该测量实验。
+
+主线为“当前师生修正需求 → 逐层求解 → 接受后重测”。任务适用性和初始化适配作为性质验证，不预设所有任务都提升或任意起点同解收敛。
 
 ## 编译与图表复现
 
@@ -28,7 +30,7 @@ bash motivation_method/build.sh
 
 脚本从仓库根目录编译，将辅助文件写入 `build-motivation/`，成功后更新根目录 `motivation_method.pdf`。Overleaf 直接选择新主入口即可，不必运行脚本。
 
-重画图表需要 Python 3.10+、NumPy、Matplotlib。图表从 [evidence.json](evidence.json)、[data/fisher_first_round.json](data/fisher_first_round.json) 和 [data/main_results.json](data/main_results.json) 读取；不会访问服务器或运行模型：
+重画图表需要 Python 3.10+、NumPy、Matplotlib。图表从 [evidence.json](evidence.json) 和 [data/main_results.json](data/main_results.json) 读取；不会访问服务器或运行模型：
 
 ```bash
 python3 motivation_method/make_figures.py
@@ -51,6 +53,6 @@ bash motivation_method/build.sh
 
 T5 目标插值扩展在本稿中仅标明其结果归属，未把原说明中输入/输出混用的交叉矩公式直接移入主方法。主方法给出原版专家锚点 AXG 方程。
 
-[来源索引](SOURCE_MAP.md) 区分三种证据：固定版本的报告与原始数据、这次核对的同环境 Fisher 配对记录，以及用户提供的跨设定主实验汇总。历史学生 ordinary-Fisher 87.2704%、同环境复跑 87.2941%、最终 KL-G 正式四 seed 87.06% 不拼接成同一轨迹。
+[来源索引](SOURCE_MAP.md) 区分已归档的 KL-G 机制实验与本次提供的跨设定主实验汇总。图 1a 使用独立诊断集，图 1b 使用完整测试集，图 1c 使用固定校准图像；不同面板的数值各按其协议解释。
 
 校准图像固定，状态依赖来自内部输入、预测与下游传播的改变；本文没有把这一流程定义为强化学习的 on-policy 采样。

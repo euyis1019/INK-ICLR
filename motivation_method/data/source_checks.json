@@ -1,32 +1,7 @@
 {
-  "fisher_pair": {
-    "student": {
-      "line_search_sha256": "df2e14e7a9399e7bf041862253dd5641af66cfd0750ae13fc24c9a758f7a38fb",
-      "provenance_sha256": "9eea31f0eed5e79c8d24362362b3a7360c9df112fbedc21486403c2814df0fb6",
-      "mode": "ordinary-fisher",
-      "source_commit": "0aef813b57bff0f296a700e9f3df0dfe58c96c34",
-      "initial_state_sha256": "72e56af0814f7c83879f76fa0d893268a5b9e12a51015943222bbe79419ab26a",
-      "statistics_refresh": true,
-      "first_round_test": 87.19991995757485
-    },
-    "expert": {
-      "line_search_sha256": "1d94b81e6512873ee35d3193d40844bd395df4148ea16fda6fe7475c107ada85",
-      "provenance_sha256": "291cdd7cb4bea33eebdd413da8aecdbe0bd680e659d2039f8ed076c0aad4c0a9",
-      "mode": "ordinary-fisher",
-      "source_commit": "0aef813b57bff0f296a700e9f3df0dfe58c96c34",
-      "initial_state_sha256": "72e56af0814f7c83879f76fa0d893268a5b9e12a51015943222bbe79419ab26a",
-      "statistics_refresh": false,
-      "first_round_test": 85.16090759068693
-    }
-  },
-  "pair_metadata_matches": true,
-  "all_five_first_round_points_match_raw_line_search": true,
-  "four_nonzero_points_favor_student": true,
   "supplied_text_sha256": "871e4f3efd529f7b32204e2ccf8fab12e77b0f08d76eea44dbcd2085b497a500",
   "main_results_evidence_level": "Provided table summary, not an independent model rerun or complete log audit.",
   "files": {
-    "data/fisher_first_round.json": "0c9aa9d8b5aa75905ff5acf53e35e8468f194a8537e9be4e8ccdc41bf667f442",
-    "data/fisher_pair_summary.json": "1b02d29f27d6c6932e23db33ad3fb46409131829afc096f2849f24e039dcfdf2",
     "data/main_results.json": "6672a2e0ae4b3bffff3cd5440344e607b0bd0c3311acafc1d82ce1c0d2f6268f",
     "evidence.json": "62b0f15044012bf0a5659658aa254d682dbe7cfc600f5a5efd549570f0799af2"
   },
@@ -38,26 +13,30 @@
     "regression_directional_derivative_matches": true
   },
   "note": "Numerical algebra checks are not new empirical model experiments or a replacement for the appendix proof.",
-  "fisher_geometry": {
-    "source_sha256": "b87c04d32db5ed5b38289960d2ab9f80bfea717d7bef3965011ac81bf7399b80",
-    "definition": "Fixed 16-probe sketches of mean-diagonal-normalized A/G before output shrinkage; cosines and distances are approximate; summaries equally average task-by-layer matrices.",
-    "initial_comparison": {
-      "statistics_used_in_round": 1,
-      "student_measurement_checkpoint_round": 0,
-      "student_vs_expert": {
-        "input": {
-          "matrix_count": 592,
-          "mean_cosine": 0.7824966444817886,
-          "mean_symmetric_relative_distance": 0.630213083909465
-        },
-        "output": {
-          "matrix_count": 592,
-          "mean_cosine": 0.479232812251902,
-          "mean_symmetric_relative_distance": 1.0653075093773534
-        }
-      },
-      "student_vs_previous": null
+  "metric_change": {
+    "source": "evidence.json → refresh.*.moment_hook_summary.*.vs_previous.H_used_cosine",
+    "definition": "Median over valid layer/task records of one minus the Frobenius cosine of the processed KL-G Kronecker metric between consecutive model states.",
+    "display": "logarithmic y-axis; colors match initialization panel",
+    "values": {
+      "Average": [
+        0.4467734149812248,
+        0.1998736006524635,
+        0.11923617451200319,
+        0.0072854166873141946
+      ],
+      "RegMean": [
+        0.3838873508026175,
+        0.10628661321232236,
+        0.019292511836121795,
+        0.006513164802912974
+      ],
+      "Iso-C": [
+        0.35439498378867085,
+        0.02527026417276068,
+        0.0014428411453246692,
+        0.00017483128354289779
+      ]
     },
-    "sanity_check": "passed for all eight tasks"
+    "normalization_proof_role": "A theoretical comparison bound, not an ordinary-Fisher experiment."
   }
 }

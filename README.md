@@ -2,7 +2,7 @@
 
 ## 新增：中文 motivation → method 精简稿
 
-本分支的独立稿件围绕两个动机展开：A/G 应该在专家还是当前学生上测量，以及接受更新后为什么需要继续迭代并重测。方法按提供的 Coexist-Merge 说明，沿用逐类修正、归一化 KL 方向、A/G 和 AXG 正规方程；另用精简主表说明跨设定适用性。附录保留实验对照和归一化证明。
+本分支的独立稿件从当前师生分歧定义 A/G，解释继续迭代及接受后的重测。主图使用本方法的归一化 KL-G 实验，展示起点适配、刷新/冻结对照和相邻轮度量变化；普通 Fisher 的实验对照已移出稿件。方法继续沿用提供的 Coexist-Merge 公式和 AXG 正规方程，附录保留归一化的理论依据。
 
 - [编译后的 PDF](motivation_method.pdf)
 - [LaTeX 主入口](motivation_method.tex)；Overleaf 选择此文件及 **XeLaTeX**。

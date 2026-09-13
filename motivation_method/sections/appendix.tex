@@ -2,12 +2,19 @@
 \label{app:protocol}
 
 \paragraph{共同设置与数据用途。}
-所有动机实验使用 CLIP ViT-B/32~\citep{radford2021learning}、八个固定任务专家（Cars、DTD、EuroSAT、GTSRB、MNIST、RESISC45、SVHN、SUN397）及 seed 0。每任务统计集包含 256 张图像，另外 256 张不重叠图像用于式~\eqref{eq:behavior} 的选步与选轮；每轮 CG100，最多四轮。图~\ref{fig:motivation}a 使用 ordinary-Fisher，其余迭代与起点诊断使用原版归一化 KL-G。完整测试只用于报告，不参与更新选择。
+所有动机实验使用 CLIP ViT-B/32~\citep{radford2021learning}、八个固定任务专家（Cars、DTD、EuroSAT、GTSRB、MNIST、RESISC45、SVHN、SUN397）及 seed 0。每任务统计集包含 256 张图像，另外 256 张不重叠图像用于式~\eqref{eq:behavior} 的选步与选轮；每轮 CG100，最多四轮。所有动机面板均使用原版归一化 KL-G。完整测试只用于报告，不参与更新选择。
 多起点研究在 validation 的前 256 张图像上诊断，并在其中 64 张记录 block 表征；刷新研究另用固定随机选取的 256 张 validation 图像诊断。因此，两组诊断指标仅在各自配对协议内比较。
 
-\paragraph{专家与学生统计的位置对照。}
-图~\ref{fig:motivation}a 的两次运行使用相同 RTX 4080 SUPER、Iso-C 1.3 起点、资产指纹和配置摘要；初始 checkpoint 的 SHA-256 完全一致。两支均按其测量网络的预测分布逐类计算 ordinary-Fisher，仅切换前向输入和输出 Fisher 所属的网络。图中全局提案共享起点与预设步长，但提案范数不同；首轮尚不涉及后续统计刷新。原始 A/G 的固定随机投影显示初始学生/专家余弦均值约为 $0.7825/0.4792$，该差异本身不证明更新质量，故正文以真实 KL 为主证据。
-学生执行四轮、留出选择第四轮，测试为 $87.2941\%$；专家执行三轮、选择第二轮，测试为 $85.1807\%$，第三轮全部拒绝。逐轮测试是被动观测，没有改变选择规则。本次学生记录不同于历史 $87.2704\%$，也不与最终 KL-G 的 $87.06\%$ 混用。该位置对照未拆分 A 与 G 各自的贡献；若将 KL-G 的学生直接替换成同一教师，残差会归零，因此不能把这种替换当作同定义的专家侧非零对照。
+\paragraph{图 1c 的“度量变化”具体是什么？}
+对层 $\ell$、任务 $t$ 和当前状态 $r$，记按求解规则处理后的双侧度量为
+$M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~\eqref{eq:shrink} 的尺度处理与收缩。固定同一批统计图像，在相邻状态上重测，图中纵轴为
+\begin{equation}
+ d_r=\mathop{\mathrm{median}}_{t,\ell}
+ \left[1-\cos_F\!\left(M_t^{\ell,(r-1)},M_t^{\ell,(r)}\right)\right],
+ \qquad r=1,\ldots,4,
+ \label{eq:metric-change}
+\end{equation}
+其中 $\cos_F$ 是将矩阵向量化后的余弦相似度，中位数取有效层/任务记录。横轴 $0$--$1$ 表示初始与第一轮状态，其他位置类推。数值越小，度量方向越接近；它不衡量整体幅度、参数距离或预测误差。这里的 $M$ 来自 KL 纠正代理，不是普通 Fisher 矩阵。Kronecker 度量的余弦可由两侧因子的余弦相乘得到，无需构造大矩阵。曲线变小只支持统计趋稳，重测的价值仍由冻结和同状态干预判断。
 
 \paragraph{多起点适配及其边界。}
 表~\ref{tab:starts} 保留全部四种起点。未拉平对照保持聚合任务增量的奇异值比例，逐原始二维矩阵匹配 Iso-C 的增量 Frobenius 范数；控制覆盖 49 个矩阵，包括拼接 Q/K/V，其余参数沿用 Iso-C。两者终态仍有 $8.25$ 个百分点的测试差距，说明总增量能量不能独自解释可修复性。Average/RegMean 的参数距离采用逐层差异除以预训练层权重范数，再取中位数；其 $2.53\%$ 不能解释为全模型欧氏距离。
