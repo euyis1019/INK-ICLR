@@ -52,6 +52,70 @@ $M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~
 \paragraph{归一化的直接消融。}
 另一组同机 RTX 4090、seed 0 的配对记录中，归一化与未归一化版本的资产指纹、配置摘要及初始化相同，均刷新四轮并选中第 4 轮；平均测试准确率分别为 $87.0451\%$、$86.6652\%$，最终留出 KL 为 $0.155523$、$0.169934$。该消融支持组件有效，但不单独识别卡方相对其他归一化的优势。它与多起点研究的 $87.0558\%$ 属于不同运行记录，不拼接为同一轨迹。上述结果均未提供跨 seed 显著性结论。
 
+\paragraph{跨设定冻结配置。}
+表~\ref{tab:protocol} 汇总 CLIP、T5 与 LLM 的校准、教师近似、线搜索与不合并模块。共同流程相同，具体教师与搜索粒度按设定适配。
+
+\begin{table}[htbp]
+\centering\small
+\caption{跨设定冻结配置。各列是同一迭代框架在不同骨干上的适配，不是三次独立方法。}
+\label{tab:protocol}
+\setlength{\tabcolsep}{3.2pt}
+\renewcommand{\arraystretch}{1.12}
+\resizebox{\textwidth}{!}{\input{motivation_method/tables/protocol}}
+\end{table}
+
+\newpage
+\section{跨设定主实验补充}
+\label{app:cross-setting}
+
+正文表~\ref{tab:ink-vision-summary} 只保留 ViT-B/32 八任务的单次复现列。表~\ref{tab:clip-main} 是同一设定的正式 4-seed 均值；表~\ref{tab:clip-scaling} 是独立工作台九格，B/32 八任务为 $86.60$，三者不可混用。表~\ref{tab:t5-main} 是 FusionBench 口径的 T5 实测平均，不填入正文表~\ref{tab:ink-t5-results} 的灰色占位。
+
+\input{motivation_method/tables/clip_main}
+\input{motivation_method/tables/clip_scaling}
+\input{motivation_method/tables/t5_main}
+
+\begin{table}[htbp]
+\centering\small
+\caption{LLM 的起点与后处理结果（单 seed）。同一行比较同一模型及指标；这是起点前后对照，不是所有方法的排名表。}
+\label{tab:llm-summary}
+\input{motivation_method/tables/llm_summary}
+\end{table}
+
+表~\ref{tab:llm-summary} 摘录含收益与下降的行。表~\ref{tab:llama-full} 与表~\ref{tab:gemma-full} 给出 MergeBench 全部已跑格子。Llama 锚点为基座 GSM8K $27.98$、math 专家 $53.22$；三域宏平均是 GSM8K、IFEval 与 multilingual 的等权平均。Iso-C 起点换三个校准 seed 的 GSM8K 为 $55.65/53.98/56.25$，均值 $55.29\pm 1.18$。Gemma 锚点为基座 GSM8K $25.32$ / IFEval $13.68$，math 专家 $54.59$，instruction 专家 IFEval $36.97$。Gemma 上 data-free 的 Localize-and-Stitch 为 $51.33$，高于表中所有后处理结果；同一方法在 Llama 上为 $16.53$。
+
+\begin{table}[htbp]
+\centering\small
+\caption{Llama-3.2-3B：以官方配置的合并结果为起点，叠加四轮 \method{}（单 seed）。}
+\label{tab:llama-full}
+\setlength{\tabcolsep}{3.4pt}
+\resizebox{\textwidth}{!}{\input{motivation_method/tables/llama_full}}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Gemma-2-2B：以官方配置的合并结果为起点，叠加四轮 \method{}（单 seed）。四格 GSM8K 与 IFEval 均为正。}
+\label{tab:gemma-full}
+\input{motivation_method/tables/gemma_full}
+\end{table}
+
+表~\ref{tab:clip-starts} 与表~\ref{tab:t5-starts} 把 \method{} 叠在其它方法的输出上，与图~\ref{fig:motivation}a 的诊断多起点不是同一协议。CLIP 为工作台实现、报告 test 末轮，默认 Iso-C 终点 $86.65$ 不与规模格留出选轮的 $86.60$、正式实现的 $87.06$ 混用。T5-base 使用留出 KL 选中的 $\alpha=0.3$，large 使用 $\alpha=0$。T5 与 LLM 上终点对起点不敏感；CLIP 上 SVD 类起点（Iso-C、TSV-M）的终点仍高约 $1.1$--$1.5$ 个百分点。反方向只在 T5 上试过：FeatCal 叠在 \method{} 之上，base 为 $84.78$，large 为 $89.32$；后者用了两份校准数据，未进入主表。
+
+\begin{table}[htbp]
+\centering\small
+\caption{CLIP ViT-B/32 八任务换起点（工作台，test 末轮）。}
+\label{tab:clip-starts}
+\input{motivation_method/tables/clip_starts}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Flan-T5 换起点。``---'' 表示未跑。}
+\label{tab:t5-starts}
+\input{motivation_method/tables/t5_starts}
+\end{table}
+
+RTX 4090 单卡上，Llama-3.2-3B 每轮约 $35$ 分钟，Gemma-2-2B 约 $20$ 分钟，四轮加 GSM8K 评测约 $2.6$ 小时一格，主机内存峰值约 $85$\,GB。T5-base 每轮约 $1.5$ 分钟，评测约 $6.5$ 分钟。
+
 \newpage
 \section{逐层求解：收缩、正规方程与共轭梯度}
 \label{app:solver}
