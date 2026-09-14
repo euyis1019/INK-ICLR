@@ -1,0 +1,39 @@
+\begin{table}[!htbp]
+  \centering
+  \caption{视觉模型合并汇总：三个骨干分别预留 8、14、20 tasks。单元格为平均绝对准确率$_{(\text{归一化准确率})}$（\%）；-- 表示本地缺少可核验结果。}
+  \label{tab:ink-vision-summary}
+  \setlength{\tabcolsep}{3.0pt}
+  \renewcommand{\arraystretch}{1.15}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lccc|ccc|ccc@{}}
+    \toprule
+    \multirow{2}{*}{\textbf{Method}} &
+    \multicolumn{3}{c}{\texttt{ViT-B-32}} &
+    \multicolumn{3}{c}{\texttt{ViT-B-16}} &
+    \multicolumn{3}{c}{\texttt{ViT-L-14}} \\
+    \cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(l){8-10}
+    & 8 tasks & 14 tasks & 20 tasks & 8 tasks & 14 tasks & 20 tasks & 8 tasks & 14 tasks & 20 tasks \\
+    \midrule
+    Individual FT & $89.93_{(100.00)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    \midrule
+    Zero-shot & $46.69_{(53.63)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    Weight Avg. & $66.42_{(73.83)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    Task Arith. & $66.49_{(73.76)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    TIES & $69.41_{(76.94)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    Consensus TA & $70.36_{(77.86)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    Iso-C & $81.33_{(90.21)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    Iso-CTS & $81.04_{(89.86)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    TSV-M & $81.35_{(90.08)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    RegMean & $81.27_{(90.00)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    WUDI & $82.55_{(91.37)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    LiNeS (Iso-C) & $83.37_{(92.58)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    CoM & $83.38_{(92.29)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    ESM & $84.19_{(93.48)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    SVC (Iso-CTS) & $81.61_{(90.79)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    SVC (ESM) & $82.38_{(91.58)}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    \rowcolor{black!8}
+    \textbf{\method{}} & $\boldsymbol{86.95_{(96.54)}}$ & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} & \placeholdervalue{--} \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}

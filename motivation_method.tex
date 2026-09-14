@@ -4,8 +4,9 @@
 \usepackage{iclr2027_conference,times}
 \usepackage[UTF8,fontset=fandol,scheme=plain]{ctex}
 \DeclareFontShape{TU}{FandolSong-Regular(0)}{m}{sc}{<->ssub * FandolSong-Regular(0)/m/n}{}
-\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,graphicx,xcolor}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,graphicx,xcolor,colortbl,multirow}
 \usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
+\newcommand{\placeholdervalue}[1]{\textcolor{black!55}{#1}}
 \usepackage{microtype,hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,
 pdftitle={Coexist-Merge：以当前模型为参照的迭代模型合并}}
@@ -31,7 +32,7 @@ pdftitle={Coexist-Merge：以当前模型为参照的迭代模型合并}}
 \begin{document}
 \maketitle
 \begin{abstract}
-合并模型仍可能保留与各任务专家的功能分歧，而修正这些分歧所依赖的内部统计会随模型更新而改变。\method{} 以当前共享模型为参照，收集输入二阶矩与归一化 KL 纠正二阶矩，以专家参数为锚点逐层求解，并在留出 KL 接受更新后重新测量。ViT-B/32 上的起点适配、刷新对照及度量变化共同刻画这一迭代过程；CLIP、T5 和 LLM 的已有结果进一步检验其适用范围。方法的估计式、求解流程与归一化的条件性理论依据分别在正文和附录中给出。
+合并模型仍可能保留与各任务专家的功能分歧，而修正这些分歧所依赖的内部统计会随模型更新而改变。\method{} 以当前共享模型为参照，收集输入统计与 KL 纠正统计，以专家参数为锚点逐层求解，并在留出 KL 接受更新后重新测量。ViT-B/32 上的起点适配、刷新对照及度量变化共同刻画这一迭代过程；CLIP、T5 和 LLM 的已有结果进一步检验其适用范围。方法的估计式、求解流程与归一化的条件性理论依据分别在正文和附录中给出。
 \end{abstract}
 
 \input{motivation_method/sections/motivation}

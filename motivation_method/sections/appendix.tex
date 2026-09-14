@@ -27,11 +27,11 @@ $M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~
 \end{table}
 
 \paragraph{继续更新与重测统计分别起什么作用？}
-对每种初始化先共享第一轮模型 $\theta^{(1)}$，再分为刷新和冻结两支。冻结分支固定初始 A/G 及收缩配置，仍然继续求解和选择步长；刷新分支在各自当前模型上重测。两支复用同一批图像。单轮 CG400 从原初始化出发，仅求解一次初始统计问题。表~\ref{tab:refresh} 显示，Average 第一轮之后的 $1.6004$ 个百分点收益中，冻结流程也取得 $0.8069$ 个百分点，刷新流程的额外收益为 $0.7935$ 个百分点。
+对每种初始化先共享第一轮模型 $\theta^{(1)}$，再分为刷新和冻结两支。冻结分支固定初始 A/G 及收缩配置，仍然继续求解和选择步长；刷新分支在各自当前模型上重测。两支复用同一批图像。只解一次从原初始化出发，仅用初始统计做一次共轭梯度（内层 400 步）。表~\ref{tab:refresh} 显示，Average 第一轮之后的 $1.6004$ 个百分点收益中，冻结流程也取得 $0.8069$ 个百分点，刷新流程的额外收益为 $0.7935$ 个百分点。
 
 \begin{table}[htbp]
 \centering\small
-\caption{完整测试准确率（\%）。最后一列为百分点差；单轮 CG400 不是等耗时或已收敛对照。}
+\caption{完整测试准确率（\%）。最后一列为百分点差；只解一次不是等耗时或已收敛对照。}
 \label{tab:refresh}
 \input{motivation_method/tables/refresh}
 \end{table}
@@ -51,6 +51,59 @@ $M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~
 
 \paragraph{归一化的直接消融。}
 另一组同机 RTX 4090、seed 0 的配对记录中，归一化与未归一化版本的资产指纹、配置摘要及初始化相同，均刷新四轮并选中第 4 轮；平均测试准确率分别为 $87.0451\%$、$86.6652\%$，最终留出 KL 为 $0.155523$、$0.169934$。该消融支持组件有效，但不单独识别卡方相对其他归一化的优势。它与多起点研究的 $87.0558\%$ 属于不同运行记录，不拼接为同一轨迹。上述结果均未提供跨 seed 显著性结论。
+
+\newpage
+\section{逐层求解：收缩、正规方程与共轭梯度}
+\label{app:solver}
+
+正文在当前学生上估计 $A,G$ 后，沿用 MaTS 的 $G\otimes A$ 求解器~\citep{tam2024mats}。与 MaTS 的差别主要在两侧矩阵量的是什么；求解器本身只有细微改动。以下给出尺度处理、层回归代理与有限步 CG。
+
+先统一两侧统计的平均对角元，并仅对输出侧做由样本估计强度的 Ledoit--Wolf 收缩。对非零 $d\times d$ 矩阵 $M$，处理为
+\begin{equation}
+ \mathcal S_\lambda(M)=(1-\lambda)\frac{M}{\tr(M)/d}+\lambda I,
+ \qquad\mathcal S_\lambda(0)=0.
+ \label{eq:shrink}
+\end{equation}
+输入取 $\lambda=0$，输出强度逐任务、逐层估计。以下求解式中的 $A_t^\ell,G_t^\ell$ 均指处理后的矩阵。
+
+当前输入与纠正轴给出候选 $X$ 相对专家 $W_t^\ell$ 的平方响应差
+$\E[(h^{\ell\top}(X-W_t^\ell)u_t^\ell)^2]$。采用 K-FAC 形式的因子化~\citep{martens2015kfac}，以 $G_t^\ell\otimes A_t^\ell$ 表示双侧权重，构造逐层回归代理
+\begin{equation}
+ \min_X\ \frac12\sum_{t=1}^T
+ \left\|(A_t^\ell)^{1/2}(X-W_t^\ell)(G_t^\ell)^{1/2}\right\|_F^2.
+ \label{eq:regression}
+\end{equation}
+其正规方程沿用相同权重约定：
+\begin{equation}
+ \sum_{t=1}^T A_t^\ell X G_t^\ell
+ =\sum_{t=1}^T A_t^\ell W_t^\ell G_t^\ell.
+ \label{eq:normal-equation}
+\end{equation}
+以当前 $W^{\ell,(r)}$ 为初值，用对角预条件 CG 至多求解 100 步，无需显式构造完整 Kronecker 矩阵。正规方程有形式解，但该算子通常病态，故不用一步求逆，见附录~\ref{app:onestep}。某任务的 $G$ 为零时不参与该层拟合；整层没有有效信号时保留当前权重。
+
+令 $G=I$ 可得到仅含输入权重的 RegMean 类回归形式，但不能据此等同两者的完整实现。式~\eqref{eq:regression} 是结合专家锚点、因子化和统计处理构造的代理，不是网络 KL 的精确二阶展开。
+
+\newpage
+\section{为何不把当前正规方程一步求逆}
+\label{app:onestep}
+
+\paragraph{闭式修正及其算子。}
+附录~\ref{app:solver} 的层回归代理~\eqref{eq:regression} 的正规方程为~\eqref{eq:normal-equation}。令 $L(X)=\sum_{t=1}^T A_t X G_t$。由 $\mathrm{vec}(AXB)=(B^\top\otimes A)\mathrm{vec}(X)$，
+\begin{equation}
+ \mathrm{vec}\bigl(L(X)\bigr)
+ =\Bigl(\sum_{t=1}^T G_t^\top\otimes A_t\Bigr)\mathrm{vec}(X).
+ \label{eq:kronecker-sum}
+\end{equation}
+$G_t$ 为对称外积，故系数矩阵是 $\sum_t G_t\otimes A_t$。若该算子可逆，一步修正即对其求逆。这只是二次代理的形式解：既不保证数值稳定，也不等于网络 KL 的全局最优。
+
+\paragraph{残差几何使算子退化。}
+单任务且 $A,G\succ0$ 时，$\kappa(G\otimes A)=\kappa(G)\kappa(A)$。本文的 $G_t=\E[uu^\top]$ 来自尚未消除的 KL 纠正；师生一致时 $u=0$，有效秩由当前残差轴决定，通常远低于层宽。多任务时 Kronecker 之和一般不能写成单个 Kronecker，显式求逆还要面对 $d_{\rm in}d_{\rm out}$ 维算子。某任务 $G_t=0$ 时该任务本就不进入拟合；接近退化时，不可靠的残差方向对应很小的特征值。
+
+\paragraph{正则化困境。}
+为强制可逆而引入 $\lambda I$，或把输出侧写成式~\eqref{eq:shrink} 的 $\mathcal S_\lambda(G)$，会在两个失效端点之间折中。$\lambda\to0$ 时回到近奇异残差 Gram，反演被近零特征值主导，提案沿不可靠纠正轴放大。$\lambda\to1$ 时 $\mathcal S_\lambda(G)\to I$，残差几何被冲成各向同性，方程退化为仅由 $A_t$ 加权的输入侧匹配。中间取值只是在放大噪声与抹掉当前需求之间选择，并不能把冻结系统变成已经适配后的解。实现中的 Ledoit--Wolf 收缩由样本估计强度决定，目的是让有限 CG 可运行，而不是证明存在一个使一步求逆充分的 $\lambda$。
+
+\paragraph{与有限 CG、选步和重测的关系。}
+因此从当前权重出发做对角预条件 CG，截断迭代相当于隐式谱滤波，避免对最小特征值做完全反演；留出 KL 上的零步长允许拒绝不可靠提案。接受后再测量 $A,G$，使下一轮方程对应新的残差几何。表~\ref{tab:refresh} 的只解一次把同一初始统计解得更充分，Average 上仍低于四轮刷新，说明外层适配不能被一步、或更长的内层求解替代。该对照不是条件数测量，也不声称所有层的 $A,G$ 都不可逆。
 
 \newpage
 \section{卡方归一化的依据与优势边界}

@@ -2,7 +2,13 @@
 \label{sec:experiments}
 
 \paragraph{主实验。}
-表~\ref{tab:main-summary} 摘录已有正式结果。CLIP ViT-B/32 八任务上，四个校准 seed 的均值为 $87.06\%$。T5-base 的 $85.64$ 包含由无标签留出 KL 选择的目标插值扩展（$\alpha=0.3$）；T5-large 选择 $\alpha=0$，即原版方法。因此，两种规模共同支持迭代框架的可用性，但 base 的成绩不单独归因于原版统计与求解。
+表~\ref{tab:ink-vision-summary} 将三个视觉骨干及三种任务规模合并为一张主表。ViT-B/32 的 8 tasks 一列保留已有复现记录，其他单元格为待补位置，不据此作规模扩展结论。该列 \method{} 的平均绝对准确率为 $86.95\%$，相对独立专家的归一化准确率为 $96.54\%$；它比 ESM、CoM 和 RegMean 分别高 $2.76$、$3.57$ 和 $5.67$ 个百分点，与 Individual FT 的差距为 $2.99$ 个百分点。四个校准 seed 的正式均值为 $87.06\%$，见表~\ref{tab:main-summary}，不与表~\ref{tab:ink-vision-summary} 的单次记录混用。
+
+\input{motivation_method/tables/vision_summary}
+
+表~\ref{tab:ink-t5-results} 按参考表预留 Flan-T5-base 在八个任务上持续合并后的逐任务版式，并补齐视觉表中的方法列表。独立微调参考行置于顶部，Zero-shot 与各合并基线居中，\method{} 行以灰底突出。所有灰色数字及 $\pm$ 项均为排版占位，不代表已完成的运行。正式结果中，T5-base 的 $85.64$ 包含由无标签留出 KL 选择的目标插值扩展（$\alpha=0.3$）；T5-large 选择 $\alpha=0$，即原版方法，成绩为 $88.99$。因此，两种规模共同支持迭代框架的可用性，但 base 的成绩不单独归因于原版统计与求解。
+
+\input{motivation_method/tables/t5_results}
 
 \begin{table}[htbp]
 \centering\small

@@ -1,0 +1,36 @@
+\begin{table}[!htbp]
+  \centering
+  \caption{Flan-T5-base 八任务持续合并结果版式预留。所有灰色数字（含 $\pm$ 项）均为随机占位，非实测均值或标准差。}
+  \label{tab:ink-t5-results}
+  \setlength{\tabcolsep}{3.0pt}
+  \renewcommand{\arraystretch}{1.18}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}lrrrrrrrr|c@{}}
+    \toprule
+    \textbf{Method} & CoLA & MNLI & MRPC & QNLI & QQP & RTE & SST2 & STSB & ACC($\uparrow$) \\
+    \midrule
+    (Ref.) Single Fine-Tune & \placeholdervalue{71.8} & \placeholdervalue{90.9} & \placeholdervalue{67.1} & \placeholdervalue{83.1} & \placeholdervalue{82.8} & \placeholdervalue{81.0} & \placeholdervalue{91.1} & \placeholdervalue{85.6} & \placeholdervalue{$81.7\pm 1.3$} \\
+    \midrule
+    Zero-shot & \placeholdervalue{81.4} & \placeholdervalue{77.8} & \placeholdervalue{69.6} & \placeholdervalue{70.7} & \placeholdervalue{70.7} & \placeholdervalue{66.3} & \placeholdervalue{89.2} & \placeholdervalue{83.9} & \placeholdervalue{$76.2\pm 0.7$} \\
+    Weight Avg. & \placeholdervalue{77.0} & \placeholdervalue{72.9} & \placeholdervalue{71.4} & \placeholdervalue{84.7} & \placeholdervalue{86.9} & \placeholdervalue{88.7} & \placeholdervalue{90.1} & \placeholdervalue{70.1} & \placeholdervalue{$80.2\pm 0.4$} \\
+    Task Arith. & \placeholdervalue{92.0} & \placeholdervalue{73.0} & \placeholdervalue{71.0} & \placeholdervalue{72.1} & \placeholdervalue{73.2} & \placeholdervalue{67.4} & \placeholdervalue{87.4} & \placeholdervalue{80.1} & \placeholdervalue{$77.0\pm 0.7$} \\
+    TIES & \placeholdervalue{75.0} & \placeholdervalue{74.0} & \placeholdervalue{73.8} & \placeholdervalue{67.4} & \placeholdervalue{66.4} & \placeholdervalue{72.4} & \placeholdervalue{81.2} & \placeholdervalue{65.7} & \placeholdervalue{$72.0\pm 0.2$} \\
+    Consensus TA & \placeholdervalue{82.6} & \placeholdervalue{89.4} & \placeholdervalue{70.0} & \placeholdervalue{83.2} & \placeholdervalue{71.5} & \placeholdervalue{89.4} & \placeholdervalue{87.3} & \placeholdervalue{78.0} & \placeholdervalue{$81.4\pm 0.2$} \\
+    Iso-C & \placeholdervalue{83.2} & \placeholdervalue{78.0} & \placeholdervalue{82.7} & \placeholdervalue{71.0} & \placeholdervalue{75.5} & \placeholdervalue{80.3} & \placeholdervalue{92.3} & \placeholdervalue{81.3} & \placeholdervalue{$80.5\pm 0.4$} \\
+    Iso-CTS & \placeholdervalue{80.8} & \placeholdervalue{68.7} & \placeholdervalue{86.5} & \placeholdervalue{65.3} & \placeholdervalue{82.8} & \placeholdervalue{83.6} & \placeholdervalue{90.4} & \placeholdervalue{92.1} & \placeholdervalue{$81.3\pm 0.5$} \\
+    TSV-M & \placeholdervalue{81.2} & \placeholdervalue{66.9} & \placeholdervalue{71.9} & \placeholdervalue{75.0} & \placeholdervalue{86.5} & \placeholdervalue{82.8} & \placeholdervalue{69.5} & \placeholdervalue{74.0} & \placeholdervalue{$76.0\pm 0.6$} \\
+    RegMean & \placeholdervalue{82.2} & \placeholdervalue{72.4} & \placeholdervalue{68.2} & \placeholdervalue{89.2} & \placeholdervalue{91.6} & \placeholdervalue{88.2} & \placeholdervalue{92.8} & \placeholdervalue{74.7} & \placeholdervalue{$82.4\pm 0.1$} \\
+    WUDI & \placeholdervalue{80.7} & \placeholdervalue{83.1} & \placeholdervalue{83.8} & \placeholdervalue{80.9} & \placeholdervalue{92.8} & \placeholdervalue{89.6} & \placeholdervalue{67.0} & \placeholdervalue{79.8} & \placeholdervalue{$82.2\pm 0.8$} \\
+    LiNeS (Iso-C) & \placeholdervalue{87.3} & \placeholdervalue{77.9} & \placeholdervalue{68.1} & \placeholdervalue{67.3} & \placeholdervalue{67.0} & \placeholdervalue{74.1} & \placeholdervalue{66.9} & \placeholdervalue{76.1} & \placeholdervalue{$73.1\pm 0.5$} \\
+    CoM & \placeholdervalue{70.2} & \placeholdervalue{65.6} & \placeholdervalue{88.4} & \placeholdervalue{65.0} & \placeholdervalue{91.9} & \placeholdervalue{87.4} & \placeholdervalue{82.1} & \placeholdervalue{74.0} & \placeholdervalue{$78.1\pm 1.4$} \\
+    ESM & \placeholdervalue{82.5} & \placeholdervalue{92.2} & \placeholdervalue{91.0} & \placeholdervalue{84.8} & \placeholdervalue{76.2} & \placeholdervalue{84.6} & \placeholdervalue{77.0} & \placeholdervalue{66.9} & \placeholdervalue{$81.9\pm 0.2$} \\
+    SVC (Iso-CTS) & \placeholdervalue{76.7} & \placeholdervalue{84.5} & \placeholdervalue{74.6} & \placeholdervalue{72.0} & \placeholdervalue{73.2} & \placeholdervalue{76.1} & \placeholdervalue{86.9} & \placeholdervalue{75.9} & \placeholdervalue{$77.5\pm 0.3$} \\
+    SVC (ESM) & \placeholdervalue{86.5} & \placeholdervalue{76.6} & \placeholdervalue{92.2} & \placeholdervalue{89.9} & \placeholdervalue{65.7} & \placeholdervalue{83.6} & \placeholdervalue{90.8} & \placeholdervalue{70.6} & \placeholdervalue{$82.0\pm 1.2$} \\
+    \rowcolor{black!8}
+    \textbf{\method{} (Ours)} & \placeholdervalue{65.6} & \placeholdervalue{91.5} & \placeholdervalue{82.6} & \placeholdervalue{83.4} & \placeholdervalue{74.9} & \placeholdervalue{83.1} & \placeholdervalue{69.0} & \placeholdervalue{65.7} & \placeholdervalue{$77.0\pm 0.1$} \\
+    \bottomrule
+  \end{tabular}%
+  }
+  \par\smallskip
+  {\footnotesize 随机占位 / 非实验结果。方法列表补齐视觉表基线；不沿用视觉结果。各方法的 T5 适配与持续合并实现、任务顺序、重复次数及 ACC 统计口径待核验。}
+\end{table}
