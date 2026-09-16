@@ -2,12 +2,12 @@
 \toprule
 项 & CLIP ViT-B/32（正式） & FLAN-T5 GLUE & MergeBench LLM \\
 \midrule
-校准 / 留出 & 每任务 $256/256$ 张 & 每任务 $256/256$ 条 train 提示 & 每域 $256/256$ 条 \texttt{*\_val}，截 1024 token \\
+校准 / 预留 & 每任务 $256/256$ 张 & 每任务 $256/256$ 条 train 提示 & 每域 $256/256$ 条 \texttt{*\_val}，截 1024 token \\
 教师 & 专家 + 冻结分类头，逐类精确 & 专家贪心答案的 teacher-forced logits & 专家 top-128 logits \\
 起点 & Iso-C，尺度 $1.3$ & Iso-C $1.3$（或已合并模型） & 任意已合并模型；默认 Iso-C $1.3$ \\
 求解 & CG 100 步，从当前权重出发 & 同 & 同，按 transformer 层分段采统计 \\
 线搜索 & 全局 + 13 块 & 全局 & 全局 \\
-轮数 / 选轮 & 最多 4 轮，留出 KL 最小 & 同 & 同 \\
+轮数 / 选轮 & 最多 4 轮，$\mathcal L_{\mathcal H}$ 最小 & 同 & 同 \\
 不合并 & bias、LayerNorm 继承起点 & 同，嵌入按起点 & \texttt{embed\_tokens}、\texttt{lm\_head} 保留基座 \\
 \bottomrule
 \end{tabular}

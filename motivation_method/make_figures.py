@@ -86,8 +86,8 @@ def motivation(data: dict) -> None:
     tr = data["refresh"]["Average"]["trajectory"]
     fresh = [tr[f"refreshed_{i}"]["test_accuracy"] for i in range(1, 5)]
     frozen = [fresh[0]] + [tr[f"frozen_{i}"]["test_accuracy"] for i in range(2, 5)]
-    ax.plot(range(1, 5), fresh, "o-", color=COLORS["RegMean"], ms=3.6, lw=1.6, label="刷新 A/G")
-    ax.plot(range(1, 5), frozen, "s-", color=COLORS["Average"], ms=3.4, lw=1.4, label="冻结 A/G")
+    ax.plot(range(1, 5), fresh, "o-", color=COLORS["RegMean"], ms=3.6, lw=1.6, label="每轮重测")
+    ax.plot(range(1, 5), frozen, "s-", color=COLORS["Average"], ms=3.4, lw=1.4, label="沿用初始")
     ax.axhline(tr["one_shot_cg400"]["test_accuracy"], ls="--", lw=1.1,
                color="#6B7280", label="只解一次")
     ax.set(title="(b) 继续更新", xlabel="外层轮次", ylabel="测试准确率 (%)",
@@ -150,7 +150,7 @@ def tables(data: dict) -> None:
     (ROOT / "tables" / "starts.tex").write_text("\n".join(starts) + "\n", encoding="utf-8")
 
     refresh = [r"\begin{tabular}{lrrrrr}", r"\toprule",
-               r"初始化 & 第一轮 & 四轮冻结 & 四轮刷新 & 只解一次 & 刷新$-$冻结 \\", r"\midrule"]
+               r"初始化 & 第一轮 & 四轮沿用初始 & 四轮每轮重测 & 只解一次 & 差值 \\", r"\midrule"]
     for name in ORDER:
         tr = data["refresh"][name]["trajectory"]
         values = [tr[k]["test_accuracy"] for k in

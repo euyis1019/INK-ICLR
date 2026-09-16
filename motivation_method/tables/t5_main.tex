@@ -1,6 +1,6 @@
 \begin{table}[!htbp]
   \centering
-  \caption{Flan-T5 GLUE 八任务平均（FusionBench 口径）。\method{} 的 $\alpha$ 由无标签留出 KL 选择：base 为 $0.3$（目标插值扩展），large 为 $0$（原版）。FeatCal 移植为 5 seed，本方法 base 为 3 seed。}
+  \caption{Flan-T5 GLUE 八任务平均（FusionBench 口径）。\method{} 的 $\alpha$ 由无标签 $\mathcal L_{\mathcal H}$ 选择：base 为 $0.3$（目标插值扩展），large 为 $0$（原版）。FeatCal 移植为 5 seed，本方法 base 为 3 seed。}
   \label{tab:t5-main}
   \setlength{\tabcolsep}{8pt}
   \small
@@ -17,7 +17,7 @@
     TA + FeatCal（论文自报） & $85.2$ & $88.9$ \\
     TA + FeatCal（移植） & $84.84\pm 0.19$ & $89.06$ \\
     \rowcolor{black!8}
-    \textbf{\method{}（留出 KL 选 $\alpha$）} & $\boldsymbol{85.64\pm 0.04}$ & $88.99$ \\
+    \textbf{\method{}（$\mathcal L_{\mathcal H}$ 选 $\alpha$）} & $\boldsymbol{85.64\pm 0.04}$ & $88.99$ \\
     \bottomrule
   \end{tabular}
 \end{table}

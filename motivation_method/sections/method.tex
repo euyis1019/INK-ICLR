@@ -1,7 +1,7 @@
 \section{\method{}：测量、求解与重新测量}
 \label{sec:method}
 
-给定预训练基座 $\theta_0$、任务专家 $\theta_1,\ldots,\theta_T$，以及各任务不重叠的无标签统计集 $\mathcal C_t$ 与留出集 $\mathcal H_t$，输出一个共享骨干。数据只提供任务归属，不提供类别标签或答案。以兼容合并结果初始化 $\theta^{(0)}$，默认使用 Iso-C~\citep{marczak2025no}。分类头、嵌入等不合并部分按各设定保留。
+给定预训练基座 $\theta_0$、任务专家 $\theta_1,\ldots,\theta_T$，以及各任务不重叠的无标签统计集 $\mathcal C_t$ 与预留集 $\mathcal H_t$，输出一个共享骨干。数据只提供任务归属，不提供类别标签或答案。以兼容合并结果初始化 $\theta^{(0)}$，默认使用 Iso-C~\citep{marczak2025no}。分类头、嵌入等不合并部分按各设定保留。
 
 \subsection{在当前学生上估计两侧统计}
 对线性层 $\ell$，令输入为 $h^\ell\in\mathbb R^{d_{\rm in}}$、输出为 $y^\ell\in\mathbb R^{d_{\rm out}}$。采用样本按行的权重约定 $W^\ell\in\mathbb R^{d_{\rm in}\times d_{\rm out}}$；省略固定偏置、用列向量表示激活时，$y^\ell=(W^\ell)^\top h^\ell$。下文省略轮次下标，每轮均在当前 $\theta^{(r)}$ 上测量。任务 $t$ 的输入侧为
@@ -12,10 +12,10 @@
 
 逐层正规方程与 MaTS 同为 $G\otimes A$ 的 K-FAC 形式~\citep{tam2024mats,martens2015kfac}。两侧矩阵量的对象不同。MaTS 在专家上收集输入激活二阶矩，并用任务损失对层输出的梯度协方差作为 $G$，即专家附近的 Fisher / K-FAC 因子。合并因而写成：在专家\emph{自身}的敏感子空间里靠近专家参数。经验 Fisher 还需要标签。也就是说，输出侧用模型自己的曲率做加权，保护专家认为重要的方向。
 
-合并后的共享模型要回答的不是「专家对哪些扰动敏感」，而是「当前学生相对各任务专家还差在哪些功能方向」。因此 $A$ 取当前学生的层输入：内部表示已随合并改变，专家上的激活统计不再描述本层实际看到的 $h$。输出侧的 KL 纠正统计 $G$ 由教师分布 $p$ 与学生分布 $q$ 的 KL 估计，而不是学生或专家的 Fisher。
+合并后的共享模型要回答的不是「专家对哪些扰动敏感」，而是「当前学生相对各任务专家还差在哪些功能方向」。因此 $A$ 取当前学生的层输入：内部表示已随合并改变，专家上的激活统计不再描述本层实际看到的 $h$。输出侧的 KL 修正统计 $G$ 由教师分布 $p$ 与学生分布 $q$ 的 KL 估计，而不是学生或专家的 Fisher。
 
 \paragraph{为何用教师 KL，而不是自身 Fisher。}
-第一，校准数据无标签，经验 Fisher 所依赖的类别或答案 $y$ 不可用；专家预测 $p$ 直接给出行为目标。第二，要把共享模型拉向专家，当前预测与专家的差距就是 $\KL(p\Vert q)$，它对层输出的梯度给出局部纠正；自身 Fisher 刻画 $q$ 或专家任务损失的曲率，与这一差距不必同向。第三，师生预测一致时 $\nabla_{y}\KL(p\Vert q)=0$，该任务的 $G$ 为零、不再进入该层拟合；专家或学生的 Fisher 在已对齐时通常仍非零，会继续按自敏感方向加权，把已经匹配的任务继续拽向其参数，挤占其他任务。这是与 MaTS 在 $A,G$ 上的主要差别：MaTS 的 $G$ 是专家任务几何，我们的 $G$ 是当前的 KL 纠正统计。
+第一，校准数据无标签，经验 Fisher 所依赖的类别或答案 $y$ 不可用；专家预测 $p$ 直接给出行为目标。第二，要把共享模型拉向专家，当前预测与专家的差距就是 $\KL(p\Vert q)$，它对层输出的梯度给出局部修正；自身 Fisher 刻画 $q$ 或专家任务损失的曲率，与这一差距不必同向。第三，师生预测一致时 $\nabla_{y}\KL(p\Vert q)=0$，该任务的 $G$ 为零、不再进入该层拟合；专家或学生的 Fisher 在已对齐时通常仍非零，会继续按自敏感方向加权，把已经匹配的任务继续拽向其参数，挤占其他任务。这是与 MaTS 在 $A,G$ 上的主要差别：MaTS 的 $G$ 是专家任务几何，我们的 $G$ 是当前的 KL 修正统计。
 
 输出侧由专家提供 $p$，当前学生提供 $q$。对一个预测位置，定义逐类修正及卡方归一化
 \begin{equation}
@@ -24,7 +24,7 @@
  \hat a_c=\frac{a_c}{\sqrt{D+\varepsilon}}.
  \label{eq:normalization}
 \end{equation}
-令 $s_c^\ell=\nabla_{y^\ell}\log q_c$、$\bar s^\ell=\E_q[s_c^\ell]$，则该层聚合的纠正方向为
+令 $s_c^\ell=\nabla_{y^\ell}\log q_c$、$\bar s^\ell=\E_q[s_c^\ell]$，则该层聚合的修正方向为
 \begin{equation}
  u_t^\ell(x)=\E_q\big[\hat a_c(s_c^\ell-\bar s^\ell)\big]
  =-\frac{\nabla_{y^\ell}\KL(p\Vert q)}{\sqrt{D+\varepsilon}},
@@ -32,24 +32,24 @@
  G_t^\ell=\E_x\big[u_t^\ell(x)u_t^\ell(x)^\top\big].
  \label{eq:moments}
 \end{equation}
-梯度作用于\emph{层输出}，与式~\eqref{eq:input} 的层输入分开。$u$ 同时依赖当前预测差距与当前下游网络。$G$ 是 KL 纠正统计，即纠正方向 $u$ 的二阶矩，不是普通 Fisher 或真实 KL Hessian。卡方归一化去掉额外的样本分歧幅度加权，保留纠正轴和层敏感度的差异。令 $J_\ell=\partial z/\partial y^\ell$、$F(q)=\mathrm{diag}(q)-qq^\top$，理想精确算术下有 $uu^\top\preceq J_\ell^\top F(q)J_\ell$。附录~\ref{app:normalization} 给出该界、条件性优势和反例。
+梯度作用于\emph{层输出}，与式~\eqref{eq:input} 的层输入分开。$u$ 同时依赖当前预测差距与当前下游网络。$G$ 是 KL 修正统计，即修正方向 $u$ 的二阶矩，不是普通 Fisher 或真实 KL Hessian。卡方归一化去掉额外的样本分歧幅度加权，保留修正轴和层敏感度的差异。令 $J_\ell=\partial z/\partial y^\ell$、$F(q)=\mathrm{diag}(q)-qq^\top$，理想精确算术下有 $uu^\top\preceq J_\ell^\top F(q)J_\ell$。附录~\ref{app:normalization} 给出该界、条件性优势和反例。
 
-得到 $A,G$ 后，沿用 MaTS 的 $G\otimes A$ 求解器，以专家参数为锚点、当前权重为初值逐层求候选 $X$；收缩、正规方程与有限步 CG 见附录~\ref{app:solver}。该代理不是网络 KL 的精确二阶展开，因此还需用完整模型上的留出 KL 决定是否接受。
+得到 $A,G$ 后，沿用 MaTS 的 $G\otimes A$ 求解器，以专家参数为锚点、当前权重为初值逐层求候选 $X$；收缩、正规方程与有限步 CG 见附录~\ref{app:solver}。该代理不是网络 KL 的精确二阶展开，因此还需用完整模型上的 $\mathcal L_{\mathcal H}$ 决定是否接受。
 
-\subsection{用留出 KL 接受更新并迭代}
+\subsection{选择更新幅度并迭代}
 将各层候选组成完整模型，按
 \begin{equation}
  W^{\ell,(r+1)}=(1-\omega_\ell)W^{\ell,(r)}+\omega_\ell X^\ell,
  \qquad\omega_\ell\in\{0,\tfrac18,\tfrac14,\tfrac12,1\}
  \label{eq:update}
 \end{equation}
-选择接受幅度。CLIP 先选全局尺度，再按 13 组块细化，各组内共享尺度；T5 与 LLM 仅选全局尺度。每次均评价完整模型，目标为
+选择更新幅度。CLIP 先选全局尺度，再按 13 组块细化，各组内共享尺度；T5 与 LLM 仅选全局尺度。每次均评价完整模型。预留集 $\mathcal H_t$ 不参与 $A,G$ 估计，其上的教师–学生 KL 为
 \begin{equation}
  \mathcal L_{\mathcal H}(\theta)=\frac1T\sum_{t=1}^T\frac1{|\mathcal H_t|}
  \sum_{x\in\mathcal H_t}\KL\!\left(p_t(\cdot\mid x)\Vert q_{t,\theta}(\cdot\mid x)\right).
  \label{eq:behavior}
 \end{equation}
-序列任务先按其有效预测位置聚合每条输入的 KL。零步长允许拒绝更新。接受后，在新的 $\theta^{(r+1)}$ 上重算 A/G，固定专家与统计输入。至多四轮，所有尺度为零、相对更新低于阈值或预算耗尽时停止；包括初始化在内，返回留出 KL 最低的轮次，同分取更早者。测试分数不参与这些选择。
+序列任务先按其有效预测位置聚合每条输入的 KL。零步长允许拒绝更新。接受后，在新的 $\theta^{(r+1)}$ 上重算 A/G，固定专家与统计输入。至多四轮，所有尺度为零、相对更新低于阈值或预算耗尽时停止；包括初始化在内，返回 $\mathcal L_{\mathcal H}$ 最低的轮次，同分取更早者。测试分数不参与这些选择。
 
 \begin{algorithm}[h]
 \DontPrintSemicolon
@@ -61,7 +61,7 @@ $\widehat\theta\leftarrow\theta^{(0)}$；准备固定教师预测\;
  在当前模型上收集各任务、各层的 $A_t^\ell,G_t^\ell$\;
  从当前权重出发求解各层候选 $X^\ell$（附录~\ref{app:solver}）\;
  固定候选，用 $\mathcal L_{\mathcal H}$ 选全局尺度；CLIP 再细化各组尺度\;
- 按式~\eqref{eq:update} 得到 $\theta^{(r+1)}$；若留出 KL 严格更低则更新 $\widehat\theta$\;
+ 按式~\eqref{eq:update} 得到 $\theta^{(r+1)}$；若 $\mathcal L_{\mathcal H}$ 严格更低则更新 $\widehat\theta$\;
  满足停止条件则退出；否则在新状态上进入下一轮\;
 }
 \caption{外层重新测量与内层 CG 求解。}
