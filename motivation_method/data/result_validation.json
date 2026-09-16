@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "model_runs": 0,
+  "source_files": 159,
+  "clip_prototype_cells": 9,
+  "clip_formal_seeds": 4,
+  "t5_base_seeds": {
+    "average": 1,
+    "ta": 1,
+    "ties": 1,
+    "iso_c": 1,
+    "tsv_m": 1,
+    "regmean": 1,
+    "featcal": 5,
+    "cm": 5,
+    "cm_target03": 4,
+    "cm_target06": 3
+  },
+  "llm_pairs": 10,
+  "llm_positive_gsm8k_pairs": 9,
+  "missing_vision_baseline_cells": [
+    {
+      "method": "ESM",
+      "architecture": "ViT-L-14",
+      "tasks": 20
+    },
+    {
+      "method": "SVC (ESM)",
+      "architecture": "ViT-L-14",
+      "tasks": 20
+    }
+  ],
+  "missing_formal_clip_scale_cells": 8,
+  "missing_normalized_values": [
+    {
+      "architecture": "ViT-L-14",
+      "tasks": 20,
+      "method": "iso_c"
+    },
+    {
+      "architecture": "ViT-L-14",
+      "tasks": 20,
+      "method": "iso_cts"
+    },
+    {
+      "architecture": "ViT-L-14",
+      "tasks": 20,
+      "method": "tsv_m"
+    }
+  ],
+  "t5_zero_shot_tasks": [
+    "cola",
+    "mnli",
+    "mrpc",
+    "qnli"
+  ],
+  "t5_expert_diagonal_tasks": [
+    "cola"
+  ],
+  "notes": [
+    "No synthetic scores or errors.",
+    "Differences computed before rounding.",
+    "T5 full averages require eight tasks.",
+    "Source paths retain historical filenames; no historical-method result rows."
+  ]
+}

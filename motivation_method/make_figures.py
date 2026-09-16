@@ -162,33 +162,9 @@ def tables(data: dict) -> None:
 
 
 def main_tables() -> None:
-    data = json.loads((ROOT / "data/main_results.json").read_text())
-    get = lambda rows, name: next(row for row in rows[1:] if row[0] == name)
-    clip_ref = get(data["clip_main"], "ESM")
-    clip_ours = get(data["clip_main"], "Coexist-Merge（4 seed）")
-    t5_ref = get(data["t5_main"], "TA + FeatCal（我们移植）")
-    t5_ours = next(r for r in data["t5_main"][1:] if r[0].startswith("Coexist-Merge"))
-    def score(value: str) -> str:
-        clean = value.split("（", 1)[0].strip()
-        return "$" + clean.replace("±", r"\pm") + "$"
-    rows = [r"\begin{tabular}{llcc}", r"\toprule",
-            r"设定 & 参照方法 & 参照分数 & \method{} \\", r"\midrule",
-            "CLIP ViT-B/32 & ESM & " + score(clip_ref[2]) + " & " + score(clip_ours[2]) + r" \\",
-            "T5-base & TA + FeatCal（移植） & " + score(t5_ref[1]) + " & " + score(t5_ours[1]) + r" \\",
-            "T5-large & TA + FeatCal（移植） & " + score(t5_ref[2]) + " & " + score(t5_ours[2]) + r" \\",
-            r"\bottomrule", r"\end{tabular}"]
-    (ROOT / "tables/main_summary.tex").write_text("\n".join(rows) + "\n")
-    rows = [r"\begin{tabular}{llrrrr}", r"\toprule",
-            r"模型 & 起点 & \multicolumn{2}{c}{GSM8K} & \multicolumn{2}{c}{IFEval} \\",
-            r"\cmidrule(lr){3-4}\cmidrule(lr){5-6}",
-            r" & & 起点 & 接受后 & 起点 & 接受后 \\", r"\midrule"]
-    for model, name in data["paper_selection"]["llm_rows"]:
-        record = get(data["llama"] if model.startswith("Llama") else data["gemma"], name)
-        label = "Llama-3.2-3B" if model.startswith("Llama") else "Gemma-2-2B"
-        short = name.replace("（自身默认）", "")
-        rows.append(" & ".join([label, short, record[1], record[2], record[4], record[5]]) + r" \\")
-    rows.extend([r"\bottomrule", r"\end{tabular}"])
-    (ROOT / "tables/llm_summary.tex").write_text("\n".join(rows) + "\n")
+    from update_results import render
+    data = json.loads((ROOT / "data/verified_results.json").read_text())
+    render(data)
 
 
 def main() -> None:
@@ -203,7 +179,7 @@ def main() -> None:
     context(data)
     tables(data)
     main_tables()
-    print("Generated two figures and four tables from archived and supplied data.")
+    print("Generated two figures and thirteen tables from archived and verified data.")
 
 
 if __name__ == "__main__":

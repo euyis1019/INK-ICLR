@@ -1,337 +1,863 @@
 {
-  "source_file": "sources/coexist_method_results_20260912.md",
-  "source_sha256": "871e4f3efd529f7b32204e2ccf8fab12e77b0f08d76eea44dbcd2085b497a500",
-  "status": "Supplied result tables; not independently rerun or fully audited against experiment logs.",
+  "source_file": "data/verified_results.json",
+  "source_sha256": "2286cf279efbc2506f38c6aabd125c6aef6964c057e0182d3b664e4b938068ec",
+  "status": "Read-only audit of measured logs; formal/prototype/extension versions are separate. No model reruns.",
   "clip_main": [
     [
       "方法",
-      "校准数据",
-      "test 均值"
+      "test 宏平均"
+    ],
+    [
+      "Individual FT",
+      89.96
     ],
     [
       "Zero-shot",
-      "无",
-      "46.69"
+      46.69
     ],
     [
-      "Weight Averaging",
-      "无",
-      "66.42"
+      "Weight Avg.",
+      66.42
     ],
     [
-      "Task Arithmetic",
-      "无",
-      "66.49"
+      "Task Arith.",
+      66.49
     ],
     [
       "TIES",
-      "无",
-      "69.41"
+      69.41
     ],
     [
       "Consensus TA",
-      "无",
-      "70.36"
+      70.36
     ],
     [
       "Iso-C",
-      "无",
-      "81.33"
+      81.33
     ],
     [
       "Iso-CTS",
-      "无",
-      "81.04"
+      81.04
     ],
     [
       "TSV-M",
-      "无",
-      "81.35"
+      81.35
+    ],
+    [
+      "RegMean",
+      81.27
     ],
     [
       "WUDI",
-      "无",
-      "82.55"
+      82.55
     ],
     [
       "LiNeS (Iso-C)",
-      "无",
-      "83.37"
+      83.37
     ],
     [
-      "RegMean (a=1.0)",
-      "256",
-      "81.27"
-    ],
-    [
-      "Chain of Merges",
-      "256",
-      "83.38"
+      "CoM",
+      83.38
     ],
     [
       "ESM",
-      "无",
-      "84.19"
+      84.19
     ],
     [
-      "Coexist-Merge（4 seed）",
-      "256",
-      "87.06"
+      "SVC (Iso-CTS)",
+      81.61
     ],
     [
-      "单任务专家（上界）",
-      "无",
-      "89.96"
+      "SVC (ESM)",
+      82.38
     ]
+  ],
+  "clip_formal": {
+    "mean": 87.05920101755822,
+    "sample_sd": 0.021299335521212916,
+    "n": 4,
+    "values": [
+      87.04513957495699,
+      87.06165559670718,
+      87.08834835978057,
+      87.04166053878816
+    ],
+    "normalized": 96.64137082381177
+  },
+  "clip_scaling": [
+    {
+      "architecture": "ViT-B-32",
+      "tasks": 8,
+      "initial_accuracy": 81.3983511515321,
+      "accuracy": 86.60452711350209,
+      "normalized": 96.13120351892988,
+      "selection": "held-out teacher KL; round 2; seed 0"
+    },
+    {
+      "architecture": "ViT-B-32",
+      "tasks": 14,
+      "initial_accuracy": 74.29202949404969,
+      "accuracy": 83.92968271644956,
+      "normalized": 94.16905740650807,
+      "selection": "held-out teacher KL; round 3; seed 0"
+    },
+    {
+      "architecture": "ViT-B-32",
+      "tasks": 20,
+      "initial_accuracy": 66.76154750517009,
+      "accuracy": 83.41898221843356,
+      "normalized": 92.79931512594892,
+      "selection": "held-out teacher KL; round 4; seed 0"
+    },
+    {
+      "architecture": "ViT-B-16",
+      "tasks": 8,
+      "initial_accuracy": 86.39729777792364,
+      "accuracy": 88.99046682789357,
+      "normalized": 97.03610160055078,
+      "selection": "held-out teacher KL; round 1; seed 0"
+    },
+    {
+      "architecture": "ViT-B-16",
+      "tasks": 14,
+      "initial_accuracy": 78.92298919583082,
+      "accuracy": 86.44745120276328,
+      "normalized": 95.14748355948907,
+      "selection": "held-out teacher KL; round 3; seed 0"
+    },
+    {
+      "architecture": "ViT-B-16",
+      "tasks": 20,
+      "initial_accuracy": 71.25787371769214,
+      "accuracy": 85.82805478967609,
+      "normalized": 93.68444758260854,
+      "selection": "held-out teacher KL; round 3; seed 0"
+    },
+    {
+      "architecture": "ViT-L-14",
+      "tasks": 8,
+      "initial_accuracy": 90.13923869511024,
+      "accuracy": 91.52181622317853,
+      "normalized": 98.23589600783016,
+      "selection": "held-out teacher KL; round 2; seed 0"
+    },
+    {
+      "architecture": "ViT-L-14",
+      "tasks": 14,
+      "initial_accuracy": 84.96451288316632,
+      "accuracy": 88.7495547689235,
+      "normalized": 96.29367090734695,
+      "selection": "held-out teacher KL; round 2; seed 0"
+    },
+    {
+      "architecture": "ViT-L-14",
+      "tasks": 20,
+      "initial_accuracy": 82.4080370423372,
+      "accuracy": 88.95527099773953,
+      "normalized": 95.64430107074467,
+      "selection": "held-out teacher KL; round 3; seed 0"
+    }
   ],
   "t5_main": [
-    [
-      "方法",
-      "base",
-      "large"
-    ],
-    [
-      "Simple Average",
-      "78.88",
-      "86.53"
-    ],
-    [
-      "Task Arithmetic",
-      "78.89",
-      "87.30"
-    ],
-    [
-      "TIES",
-      "80.01",
-      "86.16"
-    ],
-    [
-      "Iso-C 1.3",
-      "79.64",
-      "82.42"
-    ],
-    [
-      "TSV-M",
-      "82.76",
-      "88.09"
-    ],
-    [
-      "RegMean a=0.9",
-      "83.80",
-      "88.24"
-    ],
-    [
-      "TA + FeatCal（论文自报）",
-      "85.2",
-      "88.9"
-    ],
-    [
-      "TA + FeatCal（我们移植）",
-      "84.84 ± 0.19（5 seed）",
-      "89.06"
-    ],
-    [
-      "Coexist-Merge，$\\alpha$ 由留出 KL 选",
-      "85.64 ± 0.04（3 seed）",
-      "88.99"
-    ]
-  ],
-  "clip_scaling": [
-    [
-      "格子",
-      "Iso-C 起点",
-      "Coexist-Merge",
-      "Δ"
-    ],
-    [
-      "ViT-B/32 × 8",
-      "81.40",
-      "86.60",
-      "+5.20"
-    ],
-    [
-      "ViT-B/32 × 14",
-      "74.29",
-      "83.93",
-      "+9.64"
-    ],
-    [
-      "ViT-B/32 × 20",
-      "66.76",
-      "83.42",
-      "+16.66"
-    ],
-    [
-      "ViT-B/16 × 8",
-      "86.40",
-      "88.99",
-      "+2.59"
-    ],
-    [
-      "ViT-B/16 × 14",
-      "78.92",
-      "86.45",
-      "+7.53"
-    ],
-    [
-      "ViT-B/16 × 20",
-      "71.26",
-      "85.83",
-      "+14.57"
-    ],
-    [
-      "ViT-L/14 × 8",
-      "90.14",
-      "91.52",
-      "+1.38"
-    ],
-    [
-      "ViT-L/14 × 14",
-      "84.96",
-      "88.75",
-      "+3.79"
-    ],
-    [
-      "ViT-L/14 × 20",
-      "82.41",
-      "88.96",
-      "+6.55"
-    ]
+    {
+      "key": "average",
+      "label": "Weight Avg.",
+      "base": {
+        "mean": 78.87840485368685,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          78.87840485368685
+        ],
+        "per_task": {
+          "cola": 69.12751677852349,
+          "mnli": 62.64900662251656,
+          "mrpc": 79.41176470588235,
+          "qnli": 89.80413692110562,
+          "qqp": 83.856047489488,
+          "rte": 81.2274368231047,
+          "sst2": 91.74311926605505,
+          "stsb": 73.20821022281889
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_average.json"
+        ]
+      },
+      "large": {
+        "mean": 86.52749910740592,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          86.52749910740592
+        ],
+        "per_task": {
+          "cola": 74.59252157238734,
+          "mnli": 84.28935303107488,
+          "mrpc": 84.06862745098039,
+          "qnli": 92.8061504667765,
+          "qqp": 86.27751669552313,
+          "rte": 87.36462093862816,
+          "sst2": 94.83944954128441,
+          "stsb": 87.98175316259254
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_average.json"
+        ]
+      }
+    },
+    {
+      "key": "ta",
+      "label": "Task Arith.",
+      "base": {
+        "mean": 78.89205843058306,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          78.89205843058306
+        ],
+        "per_task": {
+          "cola": 70.46979865771812,
+          "mnli": 57.768721344880284,
+          "mrpc": 78.43137254901961,
+          "qnli": 90.20684605528098,
+          "qqp": 83.62107346030176,
+          "rte": 80.50541516245487,
+          "sst2": 92.31651376146789,
+          "stsb": 77.81672645354095
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_ta0.3.json"
+        ]
+      },
+      "large": {
+        "mean": 87.30260143269213,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          87.30260143269213
+        ],
+        "per_task": {
+          "cola": 76.89357622243529,
+          "mnli": 85.44065206316861,
+          "mrpc": 85.29411764705883,
+          "qnli": 93.9227530660809,
+          "qqp": 85.84466979965373,
+          "rte": 88.08664259927798,
+          "sst2": 95.18348623853211,
+          "stsb": 87.75491382532951
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_ta0.3.json"
+        ]
+      }
+    },
+    {
+      "key": "ties",
+      "label": "TIES",
+      "base": {
+        "mean": 80.00916449965807,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          80.00916449965807
+        ],
+        "per_task": {
+          "cola": 70.0862895493768,
+          "mnli": 66.24554253693327,
+          "mrpc": 78.43137254901961,
+          "qnli": 90.1153212520593,
+          "qqp": 83.62354687113529,
+          "rte": 81.5884476534296,
+          "sst2": 91.74311926605505,
+          "stsb": 78.23967631925561
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_ties0.3.json"
+        ]
+      },
+      "large": {
+        "mean": 86.16259832837974,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          86.16259832837974
+        ],
+        "per_task": {
+          "cola": 77.46883988494727,
+          "mnli": 79.82679572083545,
+          "mrpc": 85.29411764705883,
+          "qnli": 93.79461834157057,
+          "qqp": 85.51323274795944,
+          "rte": 87.72563176895306,
+          "sst2": 95.18348623853211,
+          "stsb": 84.49406427718118
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_ties0.3.json"
+        ]
+      }
+    },
+    {
+      "key": "iso_c",
+      "label": "Iso-C 1.3",
+      "base": {
+        "mean": 79.64478618764153,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          79.64478618764153
+        ],
+        "per_task": {
+          "cola": 69.51102588686481,
+          "mnli": 67.27457972491085,
+          "mrpc": 78.43137254901961,
+          "qnli": 90.17023613399232,
+          "qqp": 84.38288399703191,
+          "rte": 81.2274368231047,
+          "sst2": 92.20183486238533,
+          "stsb": 73.95891952382276
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_iso_c1.3.json"
+        ]
+      },
+      "large": {
+        "mean": 82.42192104402464,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          82.42192104402464
+        ],
+        "per_task": {
+          "cola": 73.92138063279003,
+          "mnli": 58.54304635761589,
+          "mrpc": 82.3529411764706,
+          "qnli": 91.19531393007505,
+          "qqp": 85.53054662379421,
+          "rte": 85.92057761732852,
+          "sst2": 94.38073394495413,
+          "stsb": 87.53082806916872
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_iso_c1.3.json"
+        ]
+      }
+    },
+    {
+      "key": "tsv_m",
+      "label": "TSV-M",
+      "base": {
+        "mean": 82.75929090583355,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          82.75929090583355
+        ],
+        "per_task": {
+          "cola": 70.75743048897411,
+          "mnli": 79.73509933774834,
+          "mrpc": 78.67647058823529,
+          "qnli": 90.68277503203367,
+          "qqp": 84.27158050952264,
+          "rte": 83.39350180505416,
+          "sst2": 93.11926605504587,
+          "stsb": 81.43820343005437
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_tsv_m.json"
+        ]
+      },
+      "large": {
+        "mean": 88.09297673812956,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          88.09297673812956
+        ],
+        "per_task": {
+          "cola": 77.94822627037392,
+          "mnli": 88.37493632195618,
+          "mrpc": 86.27450980392157,
+          "qnli": 93.8678381841479,
+          "qqp": 86.04996289883749,
+          "rte": 87.72563176895306,
+          "sst2": 95.29816513761467,
+          "stsb": 89.20454351923158
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_tsv_m.json"
+        ]
+      }
+    },
+    {
+      "key": "regmean",
+      "label": "RegMean 0.9",
+      "base": {
+        "mean": 83.80109444608075,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          83.80109444608075
+        ],
+        "per_task": {
+          "cola": 69.79865771812081,
+          "mnli": 83.32144676515537,
+          "mrpc": 79.65686274509804,
+          "qnli": 90.9024345597657,
+          "qqp": 84.51150136037596,
+          "rte": 83.39350180505416,
+          "sst2": 93.11926605504587,
+          "stsb": 85.70508456003013
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_regmean0.9.json"
+        ]
+      },
+      "large": {
+        "mean": 88.23626786325056,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          88.23626786325056
+        ],
+        "per_task": {
+          "cola": 75.83892617449665,
+          "mnli": 88.68059093224656,
+          "mrpc": 86.51960784313725,
+          "qnli": 93.8678381841479,
+          "qqp": 86.80435320306702,
+          "rte": 88.8086642599278,
+          "sst2": 94.95412844036697,
+          "stsb": 90.41603386861439
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_regmean0.9.json"
+        ]
+      }
+    },
+    {
+      "key": "featcal",
+      "label": "TA + FeatCal（移植）",
+      "base": {
+        "mean": 84.83666762958468,
+        "sample_sd": 0.2174899593334921,
+        "n": 5,
+        "values": [
+          84.55565558922835,
+          84.97701934577134,
+          85.08038868925429,
+          84.89878242463188,
+          84.67149209903752
+        ],
+        "per_task": {
+          "cola": 72.06136145733461,
+          "mnli": 82.49617931737137,
+          "mrpc": 83.82352941176471,
+          "qnli": 90.94270547318324,
+          "qqp": 84.79742765273312,
+          "rte": 84.18772563176896,
+          "sst2": 93.0045871559633,
+          "stsb": 87.37982493655812
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_featcal.json",
+          "experiments/nlp_runs/results/t5_featcal_seed1.json",
+          "experiments/nlp_runs/results/t5_featcal_seed2.json",
+          "experiments/nlp_runs/results/t5_featcal_seed3.json",
+          "experiments/nlp_runs/results/t5_featcal_seed4.json"
+        ]
+      },
+      "large": {
+        "mean": 89.06066436199751,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          89.06066436199751
+        ],
+        "per_task": {
+          "cola": 78.71524448705657,
+          "mnli": 88.04890473764645,
+          "mrpc": 87.99019607843137,
+          "qnli": 94.16071755445726,
+          "qqp": 86.89834281474153,
+          "rte": 90.25270758122744,
+          "sst2": 95.52752293577981,
+          "stsb": 90.89167870663964
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_featcal.json"
+        ]
+      }
+    },
+    {
+      "key": "cm",
+      "label": "\\method{}（原版）",
+      "base": {
+        "mean": 84.91556347304675,
+        "sample_sd": 0.046009466120763114,
+        "n": 5,
+        "values": [
+          84.8455535396478,
+          84.92465767836862,
+          84.91284235744656,
+          84.92044530138136,
+          84.97431848838936
+        ],
+        "per_task": {
+          "cola": 71.90795781399808,
+          "mnli": 83.37850229240958,
+          "mrpc": 84.26470588235294,
+          "qnli": 91.21727988284825,
+          "qqp": 84.79248083106604,
+          "rte": 83.17689530685921,
+          "sst2": 93.21100917431193,
+          "stsb": 87.37567660052795
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_coexist_n256.json",
+          "experiments/nlp_runs/results/t5_coexist_seed1.json",
+          "experiments/nlp_runs/results/t5_coexist_seed2.json",
+          "experiments/nlp_runs/results/t5_coexist_seed3.json",
+          "experiments/nlp_runs/results/t5_coexist_seed4.json"
+        ]
+      },
+      "large": {
+        "mean": 88.9861073119702,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          88.9861073119702
+        ],
+        "per_task": {
+          "cola": 79.0987535953979,
+          "mnli": 88.35455934793683,
+          "mrpc": 87.99019607843137,
+          "qnli": 93.99597290865825,
+          "qqp": 86.96265149641356,
+          "rte": 89.53068592057761,
+          "sst2": 95.41284403669725,
+          "stsb": 90.54319511164883
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_coexist.json"
+        ]
+      }
+    },
+    {
+      "key": "cm_target03",
+      "label": "\\method{}（目标插值 0.3）",
+      "base": {
+        "mean": 85.63539720827069,
+        "sample_sd": 0.04098200971763889,
+        "n": 4,
+        "values": [
+          85.58767619261754,
+          85.68676177486901,
+          85.64120182096495,
+          85.62594904463126
+        ],
+        "per_task": {
+          "cola": 74.97603068072867,
+          "mnli": 83.2475802343352,
+          "mrpc": 85.53921568627452,
+          "qnli": 90.93904448105437,
+          "qqp": 84.8689092258224,
+          "rte": 84.38628158844766,
+          "sst2": 93.26261467889908,
+          "stsb": 87.86350109060362
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_coexist_tgt0.3.json",
+          "experiments/nlp_runs/results/t5_coexist_tgt0.3_seed1.json",
+          "experiments/nlp_runs/results/t5_coexist_tgt0.3_seed2.json",
+          "experiments/nlp_runs/results/t5_coexist_tgt0.3_seed3.json"
+        ]
+      },
+      "large": {
+        "mean": 87.96731086960327,
+        "sample_sd": null,
+        "n": 1,
+        "values": [
+          87.96731086960327
+        ],
+        "per_task": {
+          "cola": 75.35953978906998,
+          "mnli": 86.77534386143658,
+          "mrpc": 87.74509803921569,
+          "qnli": 93.53834889254988,
+          "qqp": 86.3442987880287,
+          "rte": 88.8086642599278,
+          "sst2": 94.4954128440367,
+          "stsb": 90.6717804825609
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5l_coexist_tgt0.3.json"
+        ]
+      }
+    },
+    {
+      "key": "cm_target06",
+      "label": "\\method{}（目标插值 0.6）",
+      "base": {
+        "mean": 85.76592962577361,
+        "sample_sd": 0.08094680080915545,
+        "n": 3,
+        "values": [
+          85.7001527923277,
+          85.85632839545679,
+          85.74130768953636
+        ],
+        "per_task": {
+          "cola": 75.07190795781399,
+          "mnli": 82.95466123280693,
+          "mrpc": 85.70261437908496,
+          "qnli": 90.79260479589969,
+          "qqp": 84.795943606233,
+          "rte": 85.31889290012033,
+          "sst2": 93.31039755351682,
+          "stsb": 88.18041458071318
+        },
+        "sources": [
+          "experiments/nlp_runs/results/t5_coexist_tgt0.6.json",
+          "experiments/nlp_runs/results/t5_coexist_tgt0.6_seed1.json",
+          "experiments/nlp_runs/results/t5_coexist_tgt0.6_seed2.json"
+        ]
+      },
+      "large": null
+    }
   ],
   "llama": [
-    [
-      "起点（官方超参）",
-      "GSM8K 起点",
-      "+ Coexist",
-      "Δ",
-      "IFEval 起点",
-      "+ Coexist",
-      "三域宏平均 起点",
-      "+ Coexist"
-    ],
-    [
-      "Iso-C 1.3（自身默认）",
-      "52.84",
-      "55.65",
-      "+2.81",
-      "9.80",
-      "13.12",
-      "36.64",
-      "38.63"
-    ],
-    [
-      "TSV-M",
-      "54.13",
-      "55.04",
-      "+0.91",
-      "18.30",
-      "15.53",
-      "39.97",
-      "39.26"
-    ],
-    [
-      "Model Soup",
-      "39.95",
-      "54.06",
-      "+14.11",
-      "9.61",
-      "16.64",
-      "32.32",
-      "39.16"
-    ],
-    [
-      "Task Arithmetic 0.4",
-      "40.71",
-      "51.86",
-      "+11.15",
-      "20.70",
-      "15.71",
-      "36.14",
-      "38.20"
-    ],
-    [
-      "TIES 0.3 / 0.4",
-      "42.53",
-      "50.27",
-      "+7.74",
-      "9.80",
-      "14.42",
-      "33.25",
-      "37.10"
-    ],
-    [
-      "RegMean a=0.5",
-      "53.53",
-      "52.39",
-      "−1.14",
-      "11.46",
-      "13.12",
-      "37.51",
-      "37.61"
-    ]
+    {
+      "model": "Llama-3.2-3B",
+      "start": "Soup",
+      "seed": "0",
+      "GSM8K_before": 39.95451099317665,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L1_soup/assets__ckpt__merged__L1_soup/results_2026-08-10T20-27-54.748642.json",
+      "GSM8K_after": 54.05610310841546,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L1_coexist_from_soup/assets__ckpt__merged__L1_coexist_from_soup/results_2026-09-10T13-19-22.757014.json",
+      "GSM8K_difference_pp": 14.101592115238816,
+      "IFEval_before": 9.611829944547134,
+      "IFEval_before_source": "assets/lmeval/ifeval_L1_soup/assets__ckpt__merged__L1_soup/results_2026-08-13T17-44-23.867372.json",
+      "IFEval_after": 16.635859519408502,
+      "IFEval_after_source": "assets/lmeval/ifeval_L1_coexist_from_soup/assets__ckpt__merged__L1_coexist_from_soup/results_2026-09-10T20-59-55.780496.json",
+      "IFEval_difference_pp": 7.024029574861368,
+      "multilingual_before": 47.39267380098681,
+      "multilingual_before_source": "assets/lmeval/L1_soup/assets__ckpt__merged__L1_soup/results_2026-08-09T14-49-12.485404.json",
+      "multilingual_after": 46.78541781704488,
+      "multilingual_after_source": "assets/lmeval/L1_coexist_from_soup/assets__ckpt__merged__L1_coexist_from_soup/results_2026-09-10T21-30-22.371910.json",
+      "multilingual_difference_pp": -0.6072559839419327,
+      "three_domain_before": 32.3196715795702,
+      "three_domain_after": 39.15912681495628,
+      "three_domain_difference_pp": 6.839455235386083
+    },
+    {
+      "model": "Llama-3.2-3B",
+      "start": "TA",
+      "seed": "0",
+      "GSM8K_before": 40.71266110689917,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L1_ta/assets__ckpt__merged__L1_ta/results_2026-08-10T18-19-07.776418.json",
+      "GSM8K_after": 51.85746777862017,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L1_coexist_from_ta/assets__ckpt__merged__L1_coexist_from_ta/results_2026-09-10T17-29-55.734016.json",
+      "GSM8K_difference_pp": 11.144806671721,
+      "IFEval_before": 20.70240295748614,
+      "IFEval_before_source": "assets/lmeval/ifeval_L1_ta/assets__ckpt__merged__L1_ta/results_2026-08-13T17-13-21.301865.json",
+      "IFEval_after": 15.711645101663585,
+      "IFEval_after_source": "assets/lmeval/ifeval_L1_coexist_from_ta/assets__ckpt__merged__L1_coexist_from_ta/results_2026-09-11T02-30-37.302379.json",
+      "IFEval_difference_pp": -4.9907578558225545,
+      "multilingual_before": 46.99859646189622,
+      "multilingual_before_source": "assets/lmeval/L1_ta/assets__ckpt__merged__L1_ta/results_2026-08-09T23-10-08.193615.json",
+      "multilingual_after": 47.025445098664854,
+      "multilingual_after_source": "assets/lmeval/L1_coexist_from_ta/assets__ckpt__merged__L1_coexist_from_ta/results_2026-09-11T03-01-17.284069.json",
+      "multilingual_difference_pp": 0.026848636768633583,
+      "three_domain_before": 36.13788684209384,
+      "three_domain_after": 38.19818599298287,
+      "three_domain_difference_pp": 2.06029915088903
+    },
+    {
+      "model": "Llama-3.2-3B",
+      "start": "TIES",
+      "seed": "0",
+      "GSM8K_before": 42.53222137983321,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L1_ties/assets__ckpt__merged__L1_ties/results_2026-08-10T21-05-08.065734.json",
+      "GSM8K_after": 50.265352539802876,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L1_coexist_from_ties/assets__ckpt__merged__L1_coexist_from_ties/results_2026-09-10T14-47-37.831706.json",
+      "GSM8K_difference_pp": 7.733131159969666,
+      "IFEval_before": 9.796672828096119,
+      "IFEval_before_source": "assets/lmeval/ifeval_L1_ties/assets__ckpt__merged__L1_ties/results_2026-09-10T22-53-23.123304.json",
+      "IFEval_after": 14.417744916820702,
+      "IFEval_after_source": "assets/lmeval/ifeval_L1_coexist_from_ties/assets__ckpt__merged__L1_coexist_from_ties/results_2026-09-10T23-55-49.058956.json",
+      "IFEval_difference_pp": 4.621072088724583,
+      "multilingual_before": 47.41413294233294,
+      "multilingual_before_source": "assets/lmeval/L1_ties/assets__ckpt__merged__L1_ties/results_2026-09-10T23-23-58.607023.json",
+      "multilingual_after": 46.6245967840107,
+      "multilingual_after_source": "assets/lmeval/L1_coexist_from_ties/assets__ckpt__merged__L1_coexist_from_ties/results_2026-09-11T00-26-19.320038.json",
+      "multilingual_difference_pp": -0.7895361583222424,
+      "three_domain_before": 33.24767571675409,
+      "three_domain_after": 37.102564746878095,
+      "three_domain_difference_pp": 3.8548890301240064
+    },
+    {
+      "model": "Llama-3.2-3B",
+      "start": "TSV-M",
+      "seed": "0",
+      "GSM8K_before": 54.13191811978771,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L1_tsv/assets__ckpt__merged__L1_tsv/results_2026-08-10T22-17-00.629671.json",
+      "GSM8K_after": 55.04169825625473,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L1_coexist_from_tsv/assets__ckpt__merged__L1_coexist_from_tsv/results_2026-09-10T12-13-00.373391.json",
+      "GSM8K_difference_pp": 0.9097801364670204,
+      "IFEval_before": 18.299445471349355,
+      "IFEval_before_source": "assets/lmeval/ifeval_L1_tsv/assets__ckpt__merged__L1_tsv/results_2026-08-13T16-29-56.575450.json",
+      "IFEval_after": 15.526802218114602,
+      "IFEval_after_source": "assets/lmeval/ifeval_L1_coexist_from_tsv/assets__ckpt__merged__L1_coexist_from_tsv/results_2026-09-10T22-01-55.917090.json",
+      "IFEval_difference_pp": -2.7726432532347527,
+      "multilingual_before": 47.48090004146889,
+      "multilingual_before_source": "assets/lmeval/L1_tsv/assets__ckpt__merged__L1_tsv/results_2026-08-13T18-46-12.560951.json",
+      "multilingual_after": 47.22028168696471,
+      "multilingual_after_source": "assets/lmeval/L1_coexist_from_tsv/assets__ckpt__merged__L1_coexist_from_tsv/results_2026-09-10T22-32-23.208836.json",
+      "multilingual_difference_pp": -0.2606183545041816,
+      "three_domain_before": 39.97075454420199,
+      "three_domain_after": 39.26292738711135,
+      "three_domain_difference_pp": -0.7078271570906409
+    },
+    {
+      "model": "Llama-3.2-3B",
+      "start": "RegMean 0.5",
+      "seed": "0",
+      "GSM8K_before": 53.525398028809704,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L1_regmean_a0.5/assets__ckpt__merged__L1_regmean_a0.5/results_2026-08-10T18-38-55.098686.json",
+      "GSM8K_after": 52.388172858225936,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L1_coexist_from_regmean0.5/assets__ckpt__merged__L1_coexist_from_regmean0.5/results_2026-09-10T17-52-27.166803.json",
+      "GSM8K_difference_pp": -1.1372251705837684,
+      "IFEval_before": 11.460258780036968,
+      "IFEval_before_source": "assets/lmeval/ifeval_L1_regmean_a0.5/assets__ckpt__merged__L1_regmean_a0.5/results_2026-09-11T00-54-43.668313.json",
+      "IFEval_after": 13.123844731977819,
+      "IFEval_after_source": "assets/lmeval/ifeval_L1_coexist_from_regmean0.5/assets__ckpt__merged__L1_coexist_from_regmean0.5/results_2026-09-11T01-28-50.348248.json",
+      "IFEval_difference_pp": 1.663585951940851,
+      "multilingual_before": 47.55925266510603,
+      "multilingual_before_source": "assets/lmeval/L1_regmean_a0.5/assets__ckpt__merged__L1_regmean_a0.5_n1000/results_2026-08-09T13-34-51.480463.json",
+      "multilingual_after": 47.31819193896023,
+      "multilingual_after_source": "assets/lmeval/L1_coexist_from_regmean0.5/assets__ckpt__merged__L1_coexist_from_regmean0.5/results_2026-09-11T01-59-32.532176.json",
+      "multilingual_difference_pp": -0.24106072614579688,
+      "three_domain_before": 37.5149698246509,
+      "three_domain_after": 37.61006984305466,
+      "three_domain_difference_pp": 0.09510001840376248
+    },
+    {
+      "model": "Llama-3.2-3B",
+      "start": "Iso-C",
+      "seed": "0",
+      "GSM8K_before": 52.84306292645944,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L1_iso_c_a1.3/assets__ckpt__merged__L1_iso_c_a1.3/results_2026-08-10T23-47-33.581965.json",
+      "GSM8K_after": 55.64821834723275,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L1_coexist_isoc/assets__ckpt__merged__L1_coexist_isoc/results_2026-09-10T20-27-01.651277.json",
+      "GSM8K_difference_pp": 2.8051554207733105,
+      "IFEval_before": 9.796672828096119,
+      "IFEval_before_source": "assets/lmeval/ifeval_L1_iso_c_a1.3/assets__ckpt__merged__L1_iso_c_a1.3/results_2026-08-13T16-54-14.782812.json",
+      "IFEval_after": 13.123844731977819,
+      "IFEval_after_source": "assets/lmeval/ifeval_L1_coexist_isoc/assets__ckpt__merged__L1_coexist_isoc/results_2026-09-11T03-29-36.407928.json",
+      "IFEval_difference_pp": 3.3271719038817,
+      "multilingual_before": 47.28142480225208,
+      "multilingual_before_source": "assets/lmeval/L1_iso_c_a1.3/assets__ckpt__merged__L1_iso_c_a1.3/results_2026-08-13T19-17-06.731448.json",
+      "multilingual_after": 47.111395332821736,
+      "multilingual_after_source": "assets/lmeval/L1_coexist_isoc/assets__ckpt__merged__L1_coexist_isoc/results_2026-09-11T04-00-03.345605.json",
+      "multilingual_difference_pp": -0.17002946943034658,
+      "three_domain_before": 36.640386852269216,
+      "three_domain_after": 38.62781947067744,
+      "three_domain_difference_pp": 1.9874326184082207
+    }
   ],
   "gemma": [
-    [
-      "起点（官方超参）",
-      "GSM8K 起点",
-      "+ Coexist",
-      "Δ",
-      "IFEval 起点",
-      "+ Coexist"
-    ],
-    [
-      "Model Soup",
-      "35.25",
-      "48.07",
-      "+12.82",
-      "18.11",
-      "26.06"
-    ],
-    [
-      "Task Arithmetic 0.4",
-      "39.88",
-      "47.46",
-      "+7.58",
-      "25.32",
-      "27.17"
-    ],
-    [
-      "TIES 0.3 / 0.4",
-      "42.91",
-      "46.93",
-      "+4.02",
-      "19.22",
-      "26.80"
-    ],
-    [
-      "TSV-M",
-      "41.17",
-      "46.32",
-      "+5.15",
-      "26.25",
-      "29.21"
-    ]
-  ],
-  "paper_selection": {
-    "clip_reference": "ESM",
-    "t5_reference": "TA + FeatCal（我们移植）",
-    "llm_rows": [
-      [
-        "Llama-3.2-3B",
-        "Iso-C 1.3（自身默认）"
-      ],
-      [
-        "Llama-3.2-3B",
-        "TSV-M"
-      ],
-      [
-        "Llama-3.2-3B",
-        "RegMean a=0.5"
-      ],
-      [
-        "Gemma-2-2B",
-        "Model Soup"
-      ]
-    ]
-  }
+    {
+      "model": "Gemma-2-2B",
+      "start": "Soup",
+      "seed": "0",
+      "GSM8K_before": 35.25398028809704,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L2_soup/assets__ckpt__merged__L2_soup/results_2026-08-11T11-13-14.988504.json",
+      "GSM8K_after": 48.06671721000758,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L2_coexist_from_soup/assets__ckpt__merged__L2_coexist_from_soup/results_2026-09-10T18-40-55.486880.json",
+      "GSM8K_difference_pp": 12.812736921910542,
+      "IFEval_before": 18.11460258780037,
+      "IFEval_before_source": "assets/lmeval/ifeval_L2_soup/assets__ckpt__merged__L2_soup/results_2026-09-11T04-57-39.807052.json",
+      "IFEval_after": 26.062846580406656,
+      "IFEval_after_source": "assets/lmeval/ifeval_L2_coexist_from_soup/assets__ckpt__merged__L2_coexist_from_soup/results_2026-09-11T04-23-51.111135.json",
+      "IFEval_difference_pp": 7.948243992606287,
+      "multilingual_before": null,
+      "multilingual_before_source": "",
+      "multilingual_after": null,
+      "multilingual_after_source": "",
+      "multilingual_difference_pp": null,
+      "three_domain_before": null,
+      "three_domain_after": null,
+      "three_domain_difference_pp": null
+    },
+    {
+      "model": "Gemma-2-2B",
+      "start": "TA",
+      "seed": "0",
+      "GSM8K_before": 39.8786959818044,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L2_ta/assets__ckpt__merged__L2_ta/results_2026-08-11T11-43-35.267089.json",
+      "GSM8K_after": 47.460197119029566,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L2_coexist_from_ta/assets__ckpt__merged__L2_coexist_from_ta/results_2026-09-10T21-41-18.195562.json",
+      "GSM8K_difference_pp": 7.5815011372251675,
+      "IFEval_before": 25.32347504621072,
+      "IFEval_before_source": "assets/lmeval/ifeval_L2_ta/assets__ckpt__merged__L2_ta/results_2026-09-11T06-02-09.856801.json",
+      "IFEval_after": 27.171903881700555,
+      "IFEval_after_source": "assets/lmeval/ifeval_L2_coexist_from_ta/assets__ckpt__merged__L2_coexist_from_ta/results_2026-09-11T05-39-50.115471.json",
+      "IFEval_difference_pp": 1.848428835489834,
+      "multilingual_before": null,
+      "multilingual_before_source": "",
+      "multilingual_after": null,
+      "multilingual_after_source": "",
+      "multilingual_difference_pp": null,
+      "three_domain_before": null,
+      "three_domain_after": null,
+      "three_domain_difference_pp": null
+    },
+    {
+      "model": "Gemma-2-2B",
+      "start": "TIES",
+      "seed": "0",
+      "GSM8K_before": 42.91129643669447,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L2_ties/assets__ckpt__merged__L2_ties/results_2026-08-11T12-38-40.307964.json",
+      "GSM8K_after": 46.929492039423806,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L2_coexist_from_ties/assets__ckpt__merged__L2_coexist_from_ties/results_2026-09-11T00-42-02.166536.json",
+      "GSM8K_difference_pp": 4.018195602729335,
+      "IFEval_before": 19.223659889094268,
+      "IFEval_before_source": "assets/lmeval/ifeval_L2_ties/assets__ckpt__merged__L2_ties/results_2026-09-11T07-08-48.193450.json",
+      "IFEval_after": 26.80221811460259,
+      "IFEval_after_source": "assets/lmeval/ifeval_L2_coexist_from_ties/assets__ckpt__merged__L2_coexist_from_ties/results_2026-09-11T06-43-19.839687.json",
+      "IFEval_difference_pp": 7.578558225508321,
+      "multilingual_before": null,
+      "multilingual_before_source": "",
+      "multilingual_after": null,
+      "multilingual_after_source": "",
+      "multilingual_difference_pp": null,
+      "three_domain_before": null,
+      "three_domain_after": null,
+      "three_domain_difference_pp": null
+    },
+    {
+      "model": "Gemma-2-2B",
+      "start": "TSV-M",
+      "seed": "0",
+      "GSM8K_before": 41.16755117513268,
+      "GSM8K_before_source": "assets/lmeval/gsm8k_L2_tsv/assets__ckpt__merged__L2_tsv/results_2026-08-11T14-13-42.091552.json",
+      "GSM8K_after": 46.32297194844579,
+      "GSM8K_after_source": "assets/lmeval/gsm8k_L2_coexist_from_tsv/assets__ckpt__merged__L2_coexist_from_tsv/results_2026-09-11T03-41-35.170051.json",
+      "GSM8K_difference_pp": 5.155420773313111,
+      "IFEval_before": 26.247689463955638,
+      "IFEval_before_source": "assets/lmeval/ifeval_L2_tsv/assets__ckpt__merged__L2_tsv/results_2026-09-11T08-08-05.880952.json",
+      "IFEval_after": 29.20517560073937,
+      "IFEval_after_source": "assets/lmeval/ifeval_L2_coexist_from_tsv/assets__ckpt__merged__L2_coexist_from_tsv/results_2026-09-11T07-43-15.730407.json",
+      "IFEval_difference_pp": 2.957486136783732,
+      "multilingual_before": null,
+      "multilingual_before_source": "",
+      "multilingual_after": null,
+      "multilingual_after_source": "",
+      "multilingual_difference_pp": null,
+      "three_domain_before": null,
+      "three_domain_after": null,
+      "three_domain_difference_pp": null
+    }
+  ]
 }

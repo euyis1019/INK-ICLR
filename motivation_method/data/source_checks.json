@@ -1,9 +1,10 @@
 {
   "supplied_text_sha256": "871e4f3efd529f7b32204e2ccf8fab12e77b0f08d76eea44dbcd2085b497a500",
-  "main_results_evidence_level": "Provided table summary, not an independent model rerun or complete log audit.",
+  "main_results_evidence_level": "Read-only audit of measured logs; formal/prototype/extension versions are separate. No model reruns.",
   "files": {
-    "data/main_results.json": "6672a2e0ae4b3bffff3cd5440344e607b0bd0c3311acafc1d82ce1c0d2f6268f",
-    "evidence.json": "62b0f15044012bf0a5659658aa254d682dbe7cfc600f5a5efd549570f0799af2"
+    "data/main_results.json": "a33c804fedcdcac0e46801735724bd9f3f5bbd0f5acee7b4712fc626269be0ff",
+    "evidence.json": "62b0f15044012bf0a5659658aa254d682dbe7cfc600f5a5efd549570f0799af2",
+    "data/verified_results.json": "2286cf279efbc2506f38c6aabd125c6aef6964c057e0182d3b664e4b938068ec"
   },
   "notation_sanity_checks": {
     "random_cases": 20,
@@ -38,5 +39,6 @@
       ]
     },
     "normalization_proof_role": "A theoretical comparison bound, not an ordinary-Fisher experiment."
-  }
+  },
+  "measured_result_sources": 159
 }

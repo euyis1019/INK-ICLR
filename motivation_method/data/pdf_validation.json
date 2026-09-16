@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "pages": 14,
+  "pdf_sha256": "53d2032e81bf325a878b4996b5576fb92673d48c429739d5576bc40ee708c49a",
+  "source_files_verified": 159,
+  "undefined_references": false,
+  "overfull_boxes": false,
+  "missing_characters": false,
+  "model_experiments_run": 0,
+  "reviewed_table_pages": [
+    4,
+    9,
+    10,
+    11
+  ],
+  "integrated_remote_base": "ba5b05d433e046ac60abeb0e38f3ca9276d5407d",
+  "table_pages": {
+    "ink-vision-summary": 4,
+    "ink-t5-results": 4,
+    "t5-main": 9,
+    "llama-full": 10,
+    "gemma-full": 10,
+    "t5-starts": 11
+  }
+}

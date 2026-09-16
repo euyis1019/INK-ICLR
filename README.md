@@ -1,4 +1,14 @@
-# INK-Merge manuscript (ICLR 2027 template)
+# Coexist-Merge manuscript (ICLR 2027 template)
+
+## CM 结果回填（2026-09-16）
+
+当前编辑入口为 [motivation_method.tex](motivation_method.tex)，输出为 [motivation_method.pdf](motivation_method.pdf)。已按实验工作区日志回填 CLIP 九格、正式 CM 四种子、T5 逐任务与跨模型结果及 LLM 起点对照；只报告 CM、明确命名的扩展与必要外部基线。缺测格不使用占位数，正式版与原型分行。
+
+- [回填说明、修正和剩余缺口](motivation_method/RESULTS_UPDATE.md)
+- [可独立重建表格的数据快照](motivation_method/data/verified_results.json)
+- [数据检查结果与缺测清单](motivation_method/data/result_validation.json)
+
+重建表格使用 `python3 motivation_method/update_results.py`，编译使用 `bash motivation_method/build.sh`。下面涉及随机占位或旧方法的说明属于历史全文入口，不适用于已回填的 CM 聚焦稿。
 
 ## 新增：中文 motivation → method 精简稿
 
@@ -10,7 +20,7 @@
 - [论点 → issue → 原报告/源码/数据](motivation_method/SOURCE_MAP.md)
 
 在仓库根目录运行 `bash motivation_method/build.sh`。图表 PDF 已随稿件提供，编译正文不需要 Python。
-动机图使用已归档的 ViT-B/32 实测结果；跨设定主表摘录本次提供的方法与结果说明，不加载旧稿的占位表格或预期趋势图。
+动机图使用已归档的 ViT-B/32 实测结果；跨设定主表来自 2026-09-16 核验的数据快照，不加载旧稿的占位表格或预期趋势图。
 按照此次写作要求，独立稿的整篇 PDF 随源码提交；原稿及模板文件保持原样。下文为原稿的编译与内容说明。
 
 ## 编译入口

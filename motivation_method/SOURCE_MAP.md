@@ -1,6 +1,19 @@
 # 论点、实验与来源
 
-本稿使用归一化 KL-G 的机制实验及本次提供的跨设定主实验说明，不新增模型运行。普通 Fisher 的学生/专家实验已移出稿件；附录的 Fisher 相对界仅作归一化的数学参照。跨设定主表在本次写作中没有逐项回查全部运行日志。
+本稿使用归一化 KL-G 的机制实验及跨设定 CM 结果，不新增模型运行。普通 Fisher 的学生/专家实验已移出稿件；附录的 Fisher 相对界仅作归一化的数学参照。2026-09-16 已回查跨设定表所用的结果 JSON，生成 [verified_results.json](data/verified_results.json)：包含每行数值、选点规则、版本、原始文件路径与 SHA-256。原文与旧表仅作为历史档案，当前数值以该快照为准。
+
+## 2026-09-16 回填入口
+
+| 位置 | 当前数据 | 口径 |
+|---|---|---|
+| 正文视觉表、附录 CLIP 表 | `verified_results.json → vision` | 工作台九格与正式四种子分行；归一化使用逐任务实测专家；三格仅有日志宏平均，不补归一化 |
+| 正文 T5 逐任务表、附录 base / large | `verified_results.json → t5.rows` | 八任务一次性合并后 validation；原版与两种目标插值分别列行；样本标准差 |
+| T5 零样本及专家参考 | `t5.partial_base / partial_expert` | 零样本仅四任务，专家仅 CoLA 对角；不计算缺测的八任务均值 |
+| LLM 精简与完整表 | `verified_results.json → llm` | 原始精度计算增益后统一舍入；保留全部十对和负向格 |
+| 起点附表 | `vision.starts / t5.starts` | CLIP 原型末轮；T5 使用配对 seed 0，不能用多种子均值替换某一配对终点 |
+| 来源清单 | `verified_results.json → sources` | 实验工作区相对路径、字节数与 SHA-256；不包含模型权重 |
+
+生成器为 [update_results.py](update_results.py)，变更说明和缺口见 [RESULTS_UPDATE.md](RESULTS_UPDATE.md)。下面的提供材料记录说明历史来源；当前主表不再直接抄录旧汇总。
 
 ## 主线对应关系
 
@@ -12,7 +25,7 @@
 | 图 1c：相邻轮度量变化 | 固定校准图像，比较按求解规则处理后的矩阵的方向；曲线只描述统计变化与趋稳 | R2 的 `moment_hook_summary`；[定义与数值](data/source_checks.json) |
 | §1 同状态干预、附录 A 图 2 | 同一待更新状态交换统计，并保留跨 block、等幅负结果 | R2 的三份数据文件；用于判断重测的效果 |
 | §2 公式与算法 | 沿用 a、hat-a、u、G 和 AXG 公式；输入 h 与输出 y 分开，补齐 bar-s | [提供的方法说明](sources/coexist_method_results_20260912.md) §1；下方实现链接 |
-| §3 主实验与适用范围 | 摘录 CLIP/T5 主表、LLM 起点对照，保留实现差异、T5 扩展和负结果 | [主实验说明](sources/coexist_method_results_20260912.md) §2–5；[机器可读表格](data/main_results.json) |
+| §3 主实验与适用范围 | 回填 CLIP/T5 主表、LLM 起点对照，保留实现差异、T5 扩展和负结果 | [核验结果快照](data/verified_results.json)；[机器可读摘要](data/main_results.json) |
 | §2、附录 A/B 归一化 | 同机归一化消融、Fisher 相对预算与条件性风险界 | [Issue #5](https://github.com/euyis1019/INK/issues/5#issuecomment-5648435999)；R5 |
 
 ## 图 1c 的精确定义
@@ -24,7 +37,8 @@
 ## 本次提供的材料
 
 - `sources/coexist_method_results_20260912.md`：提供文本的逐字节副本，保留原文用于追溯；超出数值表支持范围的强结论没有被正文采用。
-- `data/main_results.json`：从该文本的 Markdown 表格抽取，包含来源 SHA-256 和正文所选行。
+- `sources/supplied_main_results_20260912.json`：最初从提供文本抽取的表格，原样归档；不是当前绘表来源。
+- `data/main_results.json`：当前核验快照的机器可读摘要；`data/verified_results.json` 保留完整数值、版本和来源。
 - `data/source_checks.json`：来源哈希、现成公式的数值代数检查，以及 C 面板的明确含义与逐轮值。
 - `evidence.json`：本稿原有 KL-G 起点、刷新、干预及归一化记录，本次未修改。
 
@@ -46,9 +60,9 @@
 | `evidence.json → refresh.Average.trajectory` | 图 1b、附录冻结表，完整测试准确率 |
 | `evidence.json → refresh.*.moment_hook_summary.*.vs_previous.H_used_cosine` | 图 1c，各层/任务按求解规则处理后的度量余弦的中位数，绘图取 1 减该值 |
 | `evidence.json → refresh.*.cross_block` | 附录图 2，固定本块权重的状态干预 |
-| `data/main_results.json → clip_main / t5_main` | 主文表 1，T5-base 含目标插值扩展，large 选择原版 |
-| `data/main_results.json → llama / gemma` | 主文表 2，所选行含收益与下降，非所有方法排名 |
-| `data/main_results.json → clip_scaling` | 九格收益范围，工作台实现与正式 CLIP 结果分开 |
+| `data/verified_results.json → vision / t5` | 主文视觉与逐任务表、附录主表；T5 原版与扩展分行，base 与 large 不拼成一个版本 |
+| `data/verified_results.json → llm` | LLM 精简与完整表，含收益与下降，非所有方法排名 |
+| `data/verified_results.json → vision.cells.*.cm_prototype` | 九格收益范围，工作台实现与正式 CLIP 结果分开 |
 | `evidence.json → normalization` | 已有独立归一化消融 |
 
 准确率差为百分点，KL/JS 和矩阵余弦都不是百分数。三个动机面板均为 seed 0，不能借主表的多 seed 数量声明机制实验的跨 seed 显著性。校准、留出与诊断各有用途，测试不参与接受、选步与选轮。

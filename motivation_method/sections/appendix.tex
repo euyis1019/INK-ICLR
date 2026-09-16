@@ -68,7 +68,7 @@ $M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~
 \section{跨设定主实验补充}
 \label{app:cross-setting}
 
-正文表~\ref{tab:ink-vision-summary} 只保留 ViT-B/32 八任务的单次复现列。表~\ref{tab:clip-main} 是同一设定的正式 4-seed 均值；表~\ref{tab:clip-scaling} 是独立工作台九格，B/32 八任务为 $86.60$，三者不可混用。表~\ref{tab:t5-main} 是 FusionBench 口径的 T5 实测平均，不填入正文表~\ref{tab:ink-t5-results} 的灰色占位。
+正文表~\ref{tab:ink-vision-summary} 已回填工作台九格，并将正式 CM 单独列出。表~\ref{tab:clip-main} 补充正式 ViT-B/32 八任务四种子的均值与样本标准差；表~\ref{tab:clip-scaling} 给出工作台原型相对各自固定起点的变化，B/32 八任务为 $86.60$。表~\ref{tab:t5-main} 与正文逐任务表共享同一份日志回填数据，原版、目标插值 $0.3$ 和 $0.6$ 分行，误差只来自真实重复种子。缺测位置保留空缺，不使用排版占位数。
 
 \input{motivation_method/tables/clip_main}
 \input{motivation_method/tables/clip_scaling}
@@ -98,7 +98,7 @@ $M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~
 \input{motivation_method/tables/gemma_full}
 \end{table}
 
-表~\ref{tab:clip-starts} 与表~\ref{tab:t5-starts} 把 \method{} 叠在其它方法的输出上，与图~\ref{fig:motivation}a 的诊断多起点不是同一协议。CLIP 为工作台实现、报告 test 末轮，默认 Iso-C 终点 $86.65$ 不与规模格按 $\mathcal L_{\mathcal H}$ 选轮的 $86.60$、正式实现的 $87.06$ 混用。T5-base 使用 $\mathcal L_{\mathcal H}$ 选中的 $\alpha=0.3$，large 使用 $\alpha=0$。T5 与 LLM 上终点对起点不敏感；CLIP 上 SVD 类起点（Iso-C、TSV-M）的终点仍高约 $1.1$--$1.5$ 个百分点。反方向只在 T5 上试过：FeatCal 叠在 \method{} 之上，base 为 $84.78$，large 为 $89.32$；后者用了两份校准数据，未进入主表。
+表~\ref{tab:clip-starts} 与表~\ref{tab:t5-starts} 把 \method{} 叠在其它方法的输出上，与图~\ref{fig:motivation}a 的诊断多起点不是同一协议。CLIP 为工作台实现、报告 test 末轮，默认 Iso-C 终点 $86.65$ 不与规模格按 $\mathcal L_{\mathcal H}$ 选轮的 $86.60$、正式实现的 $87.06$ 混用。T5 起点对照均取配对 seed 0：base 固定目标插值扩展 $0.3$，large 使用原版；默认 base 终点为 $85.59$，不能用四种子均值 $85.64$ 替代。T5 的已测终点较接近；LLM 仍有起点差异和负向格，不据此声称起点无关。CLIP 上 SVD 类起点（Iso-C、TSV-M）的终点仍高约 $1.1$--$1.5$ 个百分点。反方向只在 T5 上试过：FeatCal 叠在原版 \method{} 之上，base 为 $84.78$，large 为 $89.32$；后者用了两份校准数据，未进入主表。
 
 \begin{table}[htbp]
 \centering\small
