@@ -52,12 +52,12 @@ $M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~
 \paragraph{归一化的直接消融。}
 另一组同机 RTX 4090、seed 0 的配对记录中，归一化与未归一化版本的资产指纹、配置摘要及初始化相同，均迭代四轮并选中第 4 轮；平均测试准确率分别为 $87.0451\%$、$86.6652\%$，最终 $\mathcal L_{\mathcal H}$ 为 $0.155523$、$0.169934$。该消融支持组件有效，但不单独识别卡方相对其他归一化的优势。它与多起点研究的 $87.0558\%$ 属于不同运行记录，不拼接为同一轨迹。上述结果均未提供跨 seed 显著性结论。
 
-\paragraph{跨设定冻结配置。}
-表~\ref{tab:protocol} 汇总 CLIP、T5 与 LLM 的校准、教师近似、线搜索与不合并模块。共同流程相同，具体教师与搜索粒度按设定适配。
+\paragraph{跨设定的已用配置。}
+表~\ref{tab:protocol} 汇总 CLIP、T5 与 LLM 的校准、教师近似、线搜索与不合并模块。它们共享迭代流程，但内层初值与搜索实现存在差异；不能据此声明所有设置完全对齐。正式 CLIP 与 T5 从当前权重开始 CG，工作台 CLIP 与 LLM 的历史调用使用专家平均权重作为 CG 初值。
 
 \begin{table}[htbp]
 \centering\small
-\caption{跨设定冻结配置。各列是同一迭代框架在不同骨干上的适配，不是三次独立方法。}
+\caption{已用配置及架构适配。这里 CLIP 列为正式实现；工作台九格属于另一实现记录，不能与其四种子合并统计。}
 \label{tab:protocol}
 \setlength{\tabcolsep}{3.2pt}
 \renewcommand{\arraystretch}{1.12}
@@ -75,11 +75,11 @@ $M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~
 \input{motivation_method/tables/t5_main}
 
 \paragraph{LLM 参考点与校准重复。}
-正文表~\ref{tab:llama-full} 与表~\ref{tab:gemma-full} 已给出全部十组已完成的 CM 起点对照。Llama 锚点为基座 GSM8K $27.98$、math 专家 $53.22$；三域宏平均是 GSM8K、IFEval 与 multilingual 的等权平均。Iso-C 起点换三个校准 seed 的 GSM8K 为 $55.65/53.98/56.25$，均值 $55.29\pm 1.18$。Gemma 锚点为基座 GSM8K $25.32$ / IFEval $13.68$，math 专家 $54.59$，instruction 专家 IFEval $36.97$。Gemma 上 data-free 的 Localize-and-Stitch 为 $51.33$，高于所列 CM 结果；同一方法在 Llama 上为 $16.53$。CM 的 coding、safety 及 Gemma multilingual 尚缺完整评测，当前结果覆盖已完成的指标，不计算五域宏平均。
+正文表~\ref{tab:llama-full} 与表~\ref{tab:gemma-full} 已给出全部十组已完成的 CM 起点对照。Llama 锚点为基座 GSM8K $27.98$、math 专家 $53.22$；三域宏平均是 GSM8K、IFEval 与 multilingual 的等权平均。Iso-C 起点的校准 seed 42、1、2 对应 GSM8K $55.65/53.98/56.25$，均值 $55.29\pm 1.18$；只有 GSM8K 齐全，不能将这组三次重复扩写成全部指标的三种子结果。Gemma 锚点为基座 GSM8K $25.32$ / IFEval $13.68$，math 专家 $54.59$，instruction 专家 IFEval $36.97$。Gemma 上 data-free 的 Localize-and-Stitch 为 $51.33$，高于所列 CM 结果；同一方法在 Llama 上为 $16.53$。CM 的 coding、safety 及 Gemma multilingual 尚缺完整评测，当前结果覆盖已完成的指标，不计算五域宏平均。
 
 表~\ref{tab:clip-starts} 与表~\ref{tab:t5-starts} 汇总从其它方法输出开始运行 CM 的结果。CLIP 为工作台实现、seed 0、四轮预算，同时报告按 $\mathcal L_{\mathcal H}$ 选轮后的 test 分数和末轮分数；Delta 使用选轮分数与同环境 Individual FT 比较。默认 Iso-C 的选轮分数为 $86.60$，末轮为 $86.65$，均不与固定基准实现的四种子均值 $87.06$ 混用。CM + WeightAvg 为 $85.12$、CM + RegMean 为 $85.32$、CM + TSV-M 为 $86.38$，另保留 Task Arithmetic 与 Zero-shot 起点。
 
-T5 起点对照均为配对 seed 0：base 分别列出原始目标和目标插值 $0.3$，large 列原始目标。base 插值版从 Iso-C 开始为 $85.59$，不能用四种子均值 $85.64$ 替代；原始目标从 FeatCal 和 RegMean 开始分别为 $84.82$、$84.78$。FeatCal 起点本身以 Task Arithmetic 为底座。T5 的已测终点较接近；LLM 仍有起点差异和负向格，不据此声称起点无关。CLIP 上 Iso-C、TSV-M 的选轮终点仍高于其它常用起点。相反顺序的后处理另行区分：先运行 CM 再做 FeatCal，base 原始目标为 $84.64$、插值 $0.3$ 为 $84.78$，large 原始目标为 $89.32$；large 的该结果使用两份校准数据，未进入主表。
+T5 起点对照均为配对 seed 0：base 分别列出原始目标和目标插值 $0.3$，large 列原始目标。base 插值版从 Iso-C 开始为 $85.59$，不能用四种子均值 $85.64$ 替代；原始目标从 FeatCal 和 RegMean 开始分别为 $84.82$、$84.78$。FeatCal 起点本身以 Task Arithmetic 为底座。T5 的已测终点较接近；LLM 仍有起点差异和负向格，不据此声称起点无关。CLIP 上 Iso-C、TSV-M 的选轮终点仍高于其它常用起点。相反顺序的后处理另行区分：先运行 CM 再做 FeatCal，base 原始目标为 $84.64$、插值 $0.3$ 为 $84.78$，large 原始目标为 $89.32$。缓存核对显示两阶段复用相同的 256 条统计样本；连同 CM 的 256 条独立留出数据，共涉及每任务 512 条不同样本，不能写成两份独立统计数据。串联增加校准处理阶段，仍只作单种子组合实验，不替代主结果。
 
 \begin{table}[htbp]
 \centering\small
@@ -96,6 +96,9 @@ T5 起点对照均为配对 seed 0：base 分别列出原始目标和目标插�
 \end{table}
 
 RTX 4090 单卡上，Llama-3.2-3B 每轮约 $35$ 分钟，Gemma-2-2B 约 $20$ 分钟，四轮加 GSM8K 评测约 $2.6$ 小时一格，主机内存峰值约 $85$\,GB。T5-base 每轮约 $1.5$ 分钟，评测约 $6.5$ 分钟。
+
+\newpage
+\input{motivation_method/sections/protocol_alignment}
 
 \newpage
 \section{逐层求解：收缩、正规方程与共轭梯度}

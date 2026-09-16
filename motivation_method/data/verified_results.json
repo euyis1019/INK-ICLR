@@ -5079,7 +5079,10 @@
       "multilingual_difference_pp": -0.6072559839419327,
       "three_domain_before": 32.3196715795702,
       "three_domain_after": 39.15912681495628,
-      "three_domain_difference_pp": 6.839455235386083
+      "three_domain_difference_pp": 6.839455235386083,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L1_coexist_from_soup/ink_hist.json"
     },
     {
       "model": "Llama-3.2-3B",
@@ -5102,7 +5105,10 @@
       "multilingual_difference_pp": 0.026848636768633583,
       "three_domain_before": 36.13788684209384,
       "three_domain_after": 38.19818599298287,
-      "three_domain_difference_pp": 2.06029915088903
+      "three_domain_difference_pp": 2.06029915088903,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L1_coexist_from_ta/ink_hist.json"
     },
     {
       "model": "Llama-3.2-3B",
@@ -5125,7 +5131,10 @@
       "multilingual_difference_pp": -0.7895361583222424,
       "three_domain_before": 33.24767571675409,
       "three_domain_after": 37.102564746878095,
-      "three_domain_difference_pp": 3.8548890301240064
+      "three_domain_difference_pp": 3.8548890301240064,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L1_coexist_from_ties/ink_hist.json"
     },
     {
       "model": "Llama-3.2-3B",
@@ -5148,7 +5157,10 @@
       "multilingual_difference_pp": -0.2606183545041816,
       "three_domain_before": 39.97075454420199,
       "three_domain_after": 39.26292738711135,
-      "three_domain_difference_pp": -0.7078271570906409
+      "three_domain_difference_pp": -0.7078271570906409,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L1_coexist_from_tsv/ink_hist.json"
     },
     {
       "model": "Llama-3.2-3B",
@@ -5171,7 +5183,10 @@
       "multilingual_difference_pp": -0.24106072614579688,
       "three_domain_before": 37.5149698246509,
       "three_domain_after": 37.61006984305466,
-      "three_domain_difference_pp": 0.09510001840376248
+      "three_domain_difference_pp": 0.09510001840376248,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L1_coexist_from_regmean0.5/ink_hist.json"
     },
     {
       "model": "Llama-3.2-3B",
@@ -5194,7 +5209,10 @@
       "multilingual_difference_pp": -0.17002946943034658,
       "three_domain_before": 36.640386852269216,
       "three_domain_after": 38.62781947067744,
-      "three_domain_difference_pp": 1.9874326184082207
+      "three_domain_difference_pp": 1.9874326184082207,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L1_coexist_isoc/ink_hist.json"
     },
     {
       "model": "Gemma-2-2B",
@@ -5217,7 +5235,10 @@
       "multilingual_difference_pp": null,
       "three_domain_before": null,
       "three_domain_after": null,
-      "three_domain_difference_pp": null
+      "three_domain_difference_pp": null,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L2_coexist_from_soup/ink_hist.json"
     },
     {
       "model": "Gemma-2-2B",
@@ -5240,7 +5261,10 @@
       "multilingual_difference_pp": null,
       "three_domain_before": null,
       "three_domain_after": null,
-      "three_domain_difference_pp": null
+      "three_domain_difference_pp": null,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L2_coexist_from_ta/ink_hist.json"
     },
     {
       "model": "Gemma-2-2B",
@@ -5263,7 +5287,10 @@
       "multilingual_difference_pp": null,
       "three_domain_before": null,
       "three_domain_after": null,
-      "three_domain_difference_pp": null
+      "three_domain_difference_pp": null,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L2_coexist_from_ties/ink_hist.json"
     },
     {
       "model": "Gemma-2-2B",
@@ -5286,10 +5313,63 @@
       "multilingual_difference_pp": null,
       "three_domain_before": null,
       "three_domain_after": null,
-      "three_domain_difference_pp": null
+      "three_domain_difference_pp": null,
+      "calibration_seed": 42,
+      "calibration_seed_evidence": "historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42",
+      "merge_config_source": "assets/ckpt/merged/L2_coexist_from_tsv/ink_hist.json"
     }
   ],
   "sources": [
+    {
+      "path": "assets/ckpt/merged/L1_coexist_from_regmean0.5/ink_hist.json",
+      "sha256": "0e03a5bf78fbc3ed110499f3aebdbadd22853127333b33aeebf9e68a1479f24d",
+      "bytes": 1559
+    },
+    {
+      "path": "assets/ckpt/merged/L1_coexist_from_soup/ink_hist.json",
+      "sha256": "d4879a64463286f235b9c170ad00aecacc5e161b9ca14db3978750147b968927",
+      "bytes": 1542
+    },
+    {
+      "path": "assets/ckpt/merged/L1_coexist_from_ta/ink_hist.json",
+      "sha256": "e4ce9d0a7d0a7c0ee660e6a9f9255b68f5d3d9d216b4fcfe837fdd26beb5dc39",
+      "bytes": 1538
+    },
+    {
+      "path": "assets/ckpt/merged/L1_coexist_from_ties/ink_hist.json",
+      "sha256": "844c82b85bf534d89194391b432fab3945a9423d9211a1f9c71e73402609fffd",
+      "bytes": 1538
+    },
+    {
+      "path": "assets/ckpt/merged/L1_coexist_from_tsv/ink_hist.json",
+      "sha256": "3720e0385538ac440d02620544fb6aa914bf5e1e6dc4619ce697d37565a6a726",
+      "bytes": 1539
+    },
+    {
+      "path": "assets/ckpt/merged/L1_coexist_isoc/ink_hist.json",
+      "sha256": "97005234cf3155b9031e28b96ac91a1ff87724688887ce3f9ca53338bdad8a16",
+      "bytes": 1558
+    },
+    {
+      "path": "assets/ckpt/merged/L2_coexist_from_soup/ink_hist.json",
+      "sha256": "95012892f2404861bd5e55377000bd081e1f6430461dc88c9b5612443ec4e73c",
+      "bytes": 1552
+    },
+    {
+      "path": "assets/ckpt/merged/L2_coexist_from_ta/ink_hist.json",
+      "sha256": "36cc455783b69a44594fac2f837735bd21f249a863b5b2d527b95b5202ff8f5b",
+      "bytes": 1554
+    },
+    {
+      "path": "assets/ckpt/merged/L2_coexist_from_ties/ink_hist.json",
+      "sha256": "8683b4026cf43915efa262097250b1e6b2831a2b5f9930969134cf557d16d7b3",
+      "bytes": 1552
+    },
+    {
+      "path": "assets/ckpt/merged/L2_coexist_from_tsv/ink_hist.json",
+      "sha256": "ceeb8b8daedd89b1200c4f473286f58a9d207a634a64add61399f13487bc25bb",
+      "bytes": 1550
+    },
     {
       "path": "assets/lmeval/L1_coexist_from_regmean0.5/assets__ckpt__merged__L1_coexist_from_regmean0.5/results_2026-09-11T01-59-32.532176.json",
       "sha256": "3f813e9b189b22ee557dd5d00bd78db57d5761731a6d0419807f6a733f83b5b5",

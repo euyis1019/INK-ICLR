@@ -6,9 +6,12 @@
 
 正文的 **LLM 合并**部分用两张完整表展示 Llama-3.2-3B 的六组和 Gemma-2-2B 的四组起点对照，包含 GSM8K、IFEval 与已完成的 Llama 三域结果；附录补充参考点和校准种子重复。
 
+**版本与配置先看 [协议对齐说明](motivation_method/PROTOCOL_ALIGNMENT.md)**：区分目标插值、FeatCal 移植、串联和多种子，列明 110 条已找到的运行及五种子待执行规范。T5 插值消融按共同 seed 0、1、2 单列，默认方法主表保留原版 CM；LLM 校准种子更正为 42。历史工作台/LLM 与正式 CLIP/T5 的 CG 初值不同，完整对齐需要修改实现并重跑，不能用旧成绩冒充已完成新规范。
+
 - [回填说明、修正和剩余缺口](motivation_method/RESULTS_UPDATE.md)
 - [可独立重建表格的数据快照](motivation_method/data/verified_results.json)
 - [数据检查结果与缺测清单](motivation_method/data/result_validation.json)
+- [逐运行配置清单](motivation_method/data/protocol_runs.csv) 与 [待执行的对齐规范](motivation_method/data/alignment_plan.json)
 
 重建表格使用 `python3 motivation_method/update_results.py`，编译使用 `bash motivation_method/build.sh`。下面涉及随机占位或旧方法的说明属于历史全文入口，不适用于已回填的 CM 聚焦稿。
 

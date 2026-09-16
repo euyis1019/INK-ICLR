@@ -1,7 +1,7 @@
 {
   "status": "passed",
   "model_runs": 0,
-  "source_files": 186,
+  "source_files": 196,
   "clip_prototype_cells": 9,
   "clip_formal_seeds": 4,
   "clip_formal_delta_vs_ft_pp": -2.9046243740957465,
@@ -24,6 +24,14 @@
     "cm_target03": 4,
     "cm_target06": 3
   },
+  "t5_target_comparison_seeds": [
+    0,
+    1,
+    2
+  ],
+  "llm_main_calibration_seeds": [
+    42
+  ],
   "llm_pairs": 10,
   "llm_positive_gsm8k_pairs": 9,
   "missing_vision_baseline_cells": [

@@ -11,7 +11,7 @@
 
 \input{motivation_method/tables/clip_initializations}
 
-表~\ref{tab:ink-t5-results} 给出 Flan-T5-base 八个任务专家一次性合并后的逐任务实测结果，采用 FusionBench 风格的 GLUE validation 生成评测；它不是持续合并实验。默认起点同为 Iso-C。CM + Iso-C 使用原始拟合目标时，五种子宏平均为 $84.92\pm0.05$；目标插值扩展 $0.3$ 为四种子 $85.64\pm0.04$，扩展 $0.6$ 为三种子 $85.77\pm0.08$。移植 FeatCal 的五种子结果为 $84.84\pm0.22$，统一报告样本标准差。原始目标与扩展分别报告；FT 对角参考目前仅有 CoLA，其余 Delta 留空。
+表~\ref{tab:ink-t5-results} 给出 Flan-T5-base 八个任务专家一次性合并后的逐任务实测结果，采用 FusionBench 风格的 GLUE validation 生成评测；它不是持续合并实验。默认 CM 从 Iso-C 开始，关闭目标插值，seed 0--4 宏平均为 $84.92\pm0.05$；本地 FeatCal 移植使用相同五个校准种子，为 $84.84\pm0.22$，误差统一为样本标准差。两方法采统计的每任务 256 条样本相同，CM 另用 256 条留出数据且默认起点不同，因此这里比较各自默认流程，不声称等总数据预算或隔离单个组件。目标插值消融另列于表~\ref{tab:t5-target-paired}，统一使用当前已齐的三个配对种子。FT 对角参考目前仅有 CoLA，其余 Delta 留空。
 
 \input{motivation_method/tables/t5_results}
 
@@ -19,13 +19,13 @@
 在独立的 CLIP 工作台实现中，三个骨干与 $8/14/20$ 任务构成的九格均较固定 Iso-C 起点提高约 $1.38$--$16.66$ 个百分点（表~\ref{tab:clip-scaling}）。任务规模变化同时改变任务集合，不能将宏平均变化只归因于任务数。T5-large 原版为 $88.99$，目标插值 $0.3$ 为 $87.97$，均为单种子；扩展在 base 上的收益没有迁移到 large（表~\ref{tab:t5-main}）。T5 使用教师答案上的 teacher-forced 分布，保留当前统计、逐层求解、留出集选步和接受后重测的共同流程。
 
 \paragraph{LLM 合并。}
-表~\ref{tab:llama-full} 与表~\ref{tab:gemma-full} 分别列出 Llama-3.2-3B 的六组、Gemma-2-2B 的四组起点对照。CM 使用教师 top-128 logits，采用四轮预算；表内均为单个校准 seed。两种模型均报告 GSM8K 与 IFEval，Llama 另报告 GSM8K、IFEval 和 multilingual 的等权三域宏平均。基座、独立专家参考和 Llama 的校准种子重复见附录~\ref{app:cross-setting}。
+表~\ref{tab:llama-full} 与表~\ref{tab:gemma-full} 分别列出 Llama-3.2-3B 的六组、Gemma-2-2B 的四组起点对照。CM 关闭目标插值，使用教师 top-128 logits、四轮预算；表内均为校准 seed 42。两种模型均报告 GSM8K 与 IFEval，Llama 另报告 GSM8K、IFEval 和 multilingual 的等权三域宏平均。LLM 历史实现的内层 CG 从专家平均权重开始，与正式 CLIP/T5 从当前权重开始的设置不同；已用配置及重复覆盖见附录~\ref{app:alignment}。基座、独立专家参考和 Llama 的校准种子重复见附录~\ref{app:cross-setting}。
 
 十组对照中有九组 GSM8K 提高：Llama 的 CM + Iso-C 从 $52.84$ 提升至 $55.65$，Gemma 的 CM + Model Soup 从 $35.25$ 提升至 $48.07$。收益随指标变化：Llama 的 CM + RegMean 在 GSM8K 上下降 $1.14$ 个百分点，CM + TSV-M 与 CM + Task Arithmetic 的 IFEval 也下降。Llama 三域宏平均最高仍是 TSV-M 起点自身的 $39.97$，接受 CM 后为 $39.26$；Gemma 的 Localize-and-Stitch 为 $51.33$，高于所列 CM 结果。这些对照支持 CM 在不同合并输出上继续修正的适用性，同时表明校准收益并不保证所有任务指标均提升。
 
 \begin{table}[!htbp]
 \centering\small
-\caption{Llama-3.2-3B：全部六组 CM 起点对照（单 seed）。起点为对应方法的合并结果，CM 采用四轮预算。差值为相对起点的 GSM8K 百分点增益，按未舍入数计算。}
+\caption{Llama-3.2-3B：全部六组 CM 起点对照（校准 seed 42）。起点为对应方法的合并结果，CM 采用四轮预算。差值为相对起点的 GSM8K 百分点增益，按未舍入数计算。}
 \label{tab:llama-full}
 \setlength{\tabcolsep}{3.4pt}
 \resizebox{\textwidth}{!}{\input{motivation_method/tables/llama_full}}
@@ -33,7 +33,7 @@
 
 \begin{table}[!htbp]
 \centering\small
-\caption{Gemma-2-2B：全部四组 CM 起点对照（单 seed、四轮预算）。差值为相对起点的 GSM8K 百分点增益；四组 GSM8K 与 IFEval 均提高。}
+\caption{Gemma-2-2B：全部四组 CM 起点对照（校准 seed 42、四轮预算）。差值为相对起点的 GSM8K 百分点增益；四组 GSM8K 与 IFEval 均提高。}
 \label{tab:gemma-full}
 \input{motivation_method/tables/gemma_full}
 \end{table}

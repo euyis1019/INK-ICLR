@@ -1,0 +1,602 @@
+{
+  "version": "audit-followup-v1",
+  "date": "2026-09-16",
+  "status": "plan_only_no_jobs_launched",
+  "not_retrospective_preregistration": true,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "default_cm": {
+    "initialization": "Iso-C",
+    "init_scale": 1.3,
+    "target_interpolation": 0,
+    "statistics_samples_per_task_or_domain": 256,
+    "holdout_samples_per_task_or_domain": 256,
+    "max_rounds": 4,
+    "cg_max_iterations": 100,
+    "input_shrinkage": 0,
+    "cg_initialization": "current model; requires solver change for legacy workbench/LLM before execution",
+    "output_shrinkage": "automatic",
+    "remeasure_each_round": true,
+    "selection": "held-out teacher KL only"
+  },
+  "registered_family_adaptations": {
+    "CLIP_workbench": "historical expert-mean CG and old block refinement; archive only if switching to the strict aligned profile",
+    "CLIP_formal": "explicit zero candidate, formal block search; separate cohort",
+    "T5": "teacher-forced teacher answers, global search, input-only lm_head solve",
+    "LLM": "teacher top-128, length 1024, global search/rejection, base embeddings/lm_head, Gemma eager attention; old expert-mean CG must be changed for strict alignment"
+  },
+  "t5_target_ablation": {
+    "target_interpolation_candidates": [
+      0,
+      0.3,
+      0.6
+    ],
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "settings": [
+      "base",
+      "large"
+    ],
+    "role": "separate_extension_not_default_CM"
+  },
+  "pairing_requirements": [
+    "same checkpoint and expert fingerprints",
+    "same task list and split manifests",
+    "same statistics and disjoint holdout IDs per seed",
+    "same tokenizer and eval revision",
+    "same method configuration except named intervention",
+    "matched upstream seed for data-driven starts",
+    "candidate selection cannot use final evaluation scores"
+  ],
+  "budget_reporting": "Report unique samples, calibration passes, selection budget and compute separately; no claim that original FeatCal used the CM holdout.",
+  "existing_run_reuse_gate": "Missing seeds are necessary, not sufficient: historical runs can join only after code/config/data fingerprint equivalence is checked.",
+  "coverage_semantics": "completed/missing seed lists describe historical protocols; they are not completed runs of the proposed strict profile.",
+  "implementation_work_required": [
+    "Unify CG initialization to current model in workbench and LLM before strict-profile runs.",
+    "Freeze and record global/block candidate grids, rejection tolerances, precision, teacher and output-head policy per family.",
+    "Do not retrofit changed solver settings onto already measured scores."
+  ],
+  "groups": [
+    {
+      "family": "CLIP",
+      "setting": "ViT-B-32/8",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-B-32/14",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-B-32/20",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-B-16/8",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-B-16/14",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-B-16/20",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-L-14/8",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-L-14/14",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-L-14/20",
+      "implementation": "workbench",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; freeze code and asset/split fingerprints before reuse"
+    },
+    {
+      "family": "CLIP",
+      "setting": "ViT-B-32/8",
+      "implementation": "formal",
+      "method": "CM + Iso-C",
+      "completed_seeds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "missing_seeds": [
+        4
+      ],
+      "status": "not_launched; separate cohort, not pooled with workbench"
+    },
+    {
+      "family": "T5",
+      "setting": "base",
+      "method": "cm",
+      "completed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds": [],
+      "status": "existing_default_pipeline_cohort_complete",
+      "note": "data-budget comparison remains separately labeled"
+    },
+    {
+      "family": "T5",
+      "setting": "base",
+      "method": "featcal",
+      "completed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds": [],
+      "status": "existing_default_pipeline_cohort_complete",
+      "note": "data-budget comparison remains separately labeled"
+    },
+    {
+      "family": "T5",
+      "setting": "base",
+      "method": "cm_target03",
+      "completed_seeds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "missing_seeds": [
+        4
+      ],
+      "status": "not_launched",
+      "note": "data-budget comparison remains separately labeled"
+    },
+    {
+      "family": "T5",
+      "setting": "base",
+      "method": "cm_target06",
+      "completed_seeds": [
+        0,
+        1,
+        2
+      ],
+      "missing_seeds": [
+        3,
+        4
+      ],
+      "status": "not_launched",
+      "note": "data-budget comparison remains separately labeled"
+    },
+    {
+      "family": "T5",
+      "setting": "large",
+      "method": "cm",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "not_launched",
+      "note": "data-budget comparison remains separately labeled"
+    },
+    {
+      "family": "T5",
+      "setting": "large",
+      "method": "featcal",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "not_launched",
+      "note": "data-budget comparison remains separately labeled"
+    },
+    {
+      "family": "T5",
+      "setting": "large",
+      "method": "cm_target03",
+      "completed_seeds": [
+        0
+      ],
+      "missing_seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "not_launched",
+      "note": "data-budget comparison remains separately labeled"
+    },
+    {
+      "family": "T5",
+      "setting": "large",
+      "method": "cm_target06",
+      "completed_seeds": [],
+      "missing_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "not_launched",
+      "note": "large target 0.6 seed 0 has merge log but no complete evaluation"
+    },
+    {
+      "family": "LLM",
+      "setting": "Llama-3.2-3B",
+      "method": "CM + Soup",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Llama-3.2-3B",
+      "method": "CM + TA",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Llama-3.2-3B",
+      "method": "CM + TIES",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Llama-3.2-3B",
+      "method": "CM + TSV-M",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Llama-3.2-3B",
+      "method": "CM + RegMean 0.5",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Llama-3.2-3B",
+      "method": "CM + Iso-C",
+      "completed_seeds_GSM8K": [
+        1,
+        2
+      ],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Gemma-2-2B",
+      "method": "CM + Soup",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Gemma-2-2B",
+      "method": "CM + TA",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Gemma-2-2B",
+      "method": "CM + TIES",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    },
+    {
+      "family": "LLM",
+      "setting": "Gemma-2-2B",
+      "method": "CM + TSV-M",
+      "completed_seeds_GSM8K": [],
+      "historical_seed": 42,
+      "missing_seeds_GSM8K": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_seeds_full_five_domain_evaluation": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "strict_aligned_protocol": "all five seeds require new runs if CG initialization changes to current model",
+      "status": "not_launched; verify upstream checkpoint seed; rebuild data-driven upstream per seed"
+    }
+  ],
+  "remaining_scope": [
+    "Inventory and repeat other stochastic baselines under the same seeds; do not duplicate deterministic baselines.",
+    "Initialization/stacking/sensitivity groups require paired repetitions; current single-seed records are exploratory.",
+    "CLIP/LLM target interpolation extension is not implemented/validated as a reported result.",
+    "Common-start and equal-total-data-budget FeatCal comparisons need separate controlled runs; current default-pipeline scores do not fill these slots."
+  ]
+}

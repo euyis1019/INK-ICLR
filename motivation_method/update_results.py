@@ -247,6 +247,13 @@ class Importer:
     def llm(self):
         rows = self.read('docs/experiment_inventory/2026-09-16/llm_hotplug.csv')
         for r in rows:
+            checkpoint = Path(r['GSM8K_after_source']).parts[2].removeprefix('gsm8k_')
+            config_source = f'assets/ckpt/merged/{checkpoint}/ink_hist.json'
+            args = self.read(config_source)['args']
+            r['calibration_seed'] = args.get('seed', 42)
+            r['calibration_seed_evidence'] = ('logged' if 'seed' in args else
+                'historical default: commit 43d4206 added explicit seed; prior calib.texts default was 42')
+            r['merge_config_source'] = config_source
             for name in ['GSM8K', 'IFEval', 'multilingual']:
                 for side in ['before', 'after']:
                     source = r[f'{name}_{side}_source']
@@ -335,7 +342,8 @@ def render_initialization_catalog(data):
                     variant=variant, before=before['mean'] if before else None)
     for r in data['llm']:
         add('LLM', r['model'], 'paired initialization study; GSM8K', LLM_START_LABELS[r['start']],
-            r['GSM8K_after'], [r['GSM8K_before_source'], r['GSM8K_after_source']], before=r['GSM8K_before'])
+            r['GSM8K_after'], [r['GSM8K_before_source'], r['GSM8K_after_source'], r['merge_config_source']],
+            seeds=str(r['calibration_seed']), before=r['GSM8K_before'])
     with (HERE / 'data/cm_initializations.csv').open('w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=list(records[0]), lineterminator='\n')
         writer.writeheader()
@@ -375,7 +383,9 @@ def render_initialization_catalog(data):
     lines += md_table(['模型', '前序 CM 配置', '再做 FeatCal 的八任务分数'],
                      [[r['setting'], r['cm_variant'], score(r['result'])] for r in data['t5']['featcal_after_cm']])
     lines += ['## LLM：已完成的十组起点对照', '',
-              '下面是 GSM8K；IFEval 及 Llama 三域结果见论文附录和完整快照。起点增益与 FT 差距不是同一指标。', '']
+              '十组的校准种子均为 42（旧日志未显式记录时，由历史默认调用确认），不是 seed 0。'
+              '下面是 GSM8K；IFEval 及 Llama 三域结果见论文正文和完整快照。起点增益与 FT 差距不是同一指标。'
+              '版本、目标插值和五种子补齐规范见 [协议对齐清单](PROTOCOL_ALIGNMENT.md)。', '']
     lines += md_table(['模型', '配置', '起点', 'CM 后', '起点增益'],
                      [[r['model'], 'CM + ' + LLM_START_LABELS[r['start']], f'{r["GSM8K_before"]:.2f}',
                        f'{r["GSM8K_after"]:.2f}', f'{r["GSM8K_difference_pp"]:+.2f}'] for r in data['llm']])
@@ -450,6 +460,8 @@ def render(data):
              row(['Individual FT'] + [f'{data["t5"]["partial_expert"]["per_task"][t]:.2f}' if t in data['t5']['partial_expert']['per_task'] else '---' for t in GLUE] + ['---']),
              row(['Zero-shot'] + [f'{data["t5"]["partial_base"]["per_task"][t]:.2f}' if t in data['t5']['partial_base']['per_task'] else '---' for t in GLUE] + ['---']), r'\midrule']
     for r in data['t5']['rows']:
+        if r['key'].startswith('cm_target'):
+            continue
         if r['key'].startswith('cm'):
             lines.append(r'\rowcolor{black!8}')
         g = r['base']
@@ -458,8 +470,20 @@ def render(data):
             expert = data['t5']['partial_expert']['per_task']
             lines.append(row(['Delta vs. FT'] + [f'{g["per_task"][t]-expert[t]:+.2f}' if t in expert else '---' for t in GLUE] + ['---']))
     lines += [r'\bottomrule', r'\end{tabular}}', r'\par\smallskip',
-              r'{\footnotesize 主配置为 CM + Iso-C；无括号者为原始拟合目标，目标插值扩展单独标注。多种子逐任务列为种子均值；误差为八任务均值的样本标准差。FeatCal 与原始 CM 各 5 seeds，目标插值 0.3 为 4 seeds，0.6 为 3 seeds。Delta 紧跟对应 CM 行，负值表示低于 FT。独立专家仅有 CoLA 对角结果，其余差值与八任务平均均留空。}', r'\end{table}']
+              r'{\footnotesize CM 使用原始目标，目标插值另见表~\ref{tab:t5-target-paired}。FeatCal 与 CM 均为 seed 0--4，误差为八任务均值的样本标准差；其它基线为单次记录。两方法统计样本相同，CM 另用每任务 256 条留出数据，且默认起点不同；本表比较默认流程，不声明相同总数据预算。Delta 相对实测 FT，负值表示低于 FT；独立专家仅有 CoLA 对角参考，其余留空。}', r'\end{table}']
     write_table('t5_results', lines)
+
+    lines = [r'\begin{table}[htbp]', r'\centering\small',
+             r'\caption{T5-base 目标插值消融：三行统一使用已完成的配对 seed 0、1、2。其它 CM 配置相同；误差为样本标准差。}',
+             r'\label{tab:t5-target-paired}', r'\begin{tabular}{@{}lcc@{}}', r'\toprule',
+             row(['CM 目标版本', 'seeds', '八任务宏平均']), r'\midrule']
+    for key, label in [('cm', '原始目标'), ('cm_target03', '目标插值 0.3'), ('cm_target06', '目标插值 0.6')]:
+        group = base_rows[key]['base']
+        assert all(Path(s).stem.endswith(f'_seed{i}') for i, s in enumerate(group['sources'][1:3], 1))
+        lines.append(row([label, '0, 1, 2', tex_score(summary(group['values'][:3]))]))
+    lines += [r'\bottomrule', r'\end{tabular}', r'\par\smallskip',
+              r'{\footnotesize 共同配置：Iso-C 1.3 起点，每任务统计 256、独立留出 256，四轮预算，CG 100 步，留出教师 KL 选步与选轮。完整 5/4/3 次记录保留在表~\ref{tab:t5-main}，不混成同一重复集合；两种扩展尚未补齐五种子。}', r'\end{table}']
+    write_table('t5_target_paired', lines)
 
     lines = [r'\begin{table}[!htbp]', r'\centering\small',
              r'\caption{CLIP ViT-B/32 八任务：主配置 CM + Iso-C 与外部参照（\%）。采用固定基准实现，CM 为四种子均值及样本标准差，外部方法为已归档单次结果。}',
@@ -481,9 +505,11 @@ def render(data):
     lines += [r'\bottomrule', r'\end{tabular}}', r'\end{table}']
     write_table('clip_scaling', lines)
     lines = [r'\begin{table}[!htbp]', r'\centering\small',
-             r'\caption{Flan-T5 GLUE 八任务实测宏平均。原版与目标插值扩展分行；所有误差为样本标准差。large 各行均为单种子。}',
+             r'\caption{Flan-T5 全部已有重复记录。上半表为默认流程，下半表为覆盖未齐的目标扩展；并非全表等种子、等预算比较。误差为样本标准差，large 各行均为 seed 0。}',
              r'\label{tab:t5-main}', r'\begin{tabular}{@{}lccc@{}}', r'\toprule', row(['方法', 'base', 'base seeds', 'large']), r'\midrule']
     for r in data['t5']['rows']:
+        if r['key'] == 'cm_target03':
+            lines.extend([r'\midrule', r'\multicolumn{4}{l}{\textit{扩展的全部记录；配对比较见表~\ref{tab:t5-target-paired}}} \\'])
         if r['key'].startswith('cm'):
             lines.append(r'\rowcolor{black!8}')
         lines.append(row([r['label'], tex_score(r['base']), str(r['base']['n']), tex_score(r['large'])]))
@@ -492,7 +518,7 @@ def render(data):
     lines = [r'\begin{tabular}{@{}llcc@{}}', r'\toprule', row(['设定', '方法版本', '参照分数', 'CM']), r'\midrule',
              row(['CLIP ViT-B/32', 'CM + Iso-C / ESM', f'{vision["cells"][0]["esm"]["accuracy"]:.2f}', tex_score(formal)])]
     for size in ['base', 'large']:
-        for key in ['cm', 'cm_target03']:
+        for key in ['cm']:
             lines.append(row(['T5-' + size, base_rows[key]['label'] + ' / FeatCal', tex_score(base_rows['featcal'][size]), tex_score(base_rows[key][size])]))
     lines += [r'\bottomrule', r'\end{tabular}']
     write_table('main_summary', lines)
@@ -569,6 +595,8 @@ def render(data):
         'initialization_catalog_records': initialization_records,
         'vision_methods_moved_to_appendix': [label for _, label in incomplete],
         't5_base_seeds': {r['key']: r['base']['n'] for r in data['t5']['rows']},
+        't5_target_comparison_seeds': [0, 1, 2],
+        'llm_main_calibration_seeds': sorted(set(r['calibration_seed'] for r in data['llm'])),
         'llm_pairs': len(data['llm']), 'llm_positive_gsm8k_pairs': sum(r['GSM8K_difference_pp'] > 0 for r in data['llm']),
         'missing_vision_baseline_cells': missing,
         'missing_formal_clip_scale_cells': 8,
@@ -593,7 +621,7 @@ def main():
     else:
         data = json.loads((HERE / 'data/verified_results.json').read_text())
     render(data)
-    print(f'Rendered 12 result tables and initialization catalog from {len(data["sources"])} measured source files; no model runs.')
+    print(f'Rendered result tables and initialization catalog from {len(data["sources"])} evidence source files; no model runs.')
 
 
 if __name__ == '__main__':

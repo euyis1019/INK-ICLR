@@ -1,16 +1,17 @@
 {
   "status": "passed",
-  "pages": 15,
-  "pdf_sha256": "2b3e3a3a8b87646a951e35e7a37c1320c5774de217842251d2a01b87eed2a499",
-  "source_files_verified": 186,
+  "pages": 16,
+  "pdf_sha256": "8ccff39c50b13f67d56bedcf6f68c7f68b683b0b6daa6ba06e5eecff39553b7f",
+  "source_files_verified": 196,
   "undefined_references": false,
   "overfull_boxes": false,
   "missing_characters": false,
   "model_experiments_run": 0,
   "reviewed_table_pages": [
-    6
+    5,
+    12
   ],
-  "integrated_remote_base": "a1bae4edc14a79b492d7528b32d3cee0f29c872a",
+  "integrated_remote_base": "bb860722605bc04fabf6f794e8bfe52e4d7f05c7",
   "table_pages": {
     "ink-vision-summary": 4,
     "clip-initializations": 5,
@@ -24,18 +25,23 @@
     "clip-scaling": 10,
     "t5-main": 11,
     "clip-starts": 11,
-    "t5-starts": 11
+    "t5-starts": 11,
+    "protocol-coverage": 12,
+    "t5-target-paired": 12
   },
   "data_checks": [
-    "186 input hashes verified",
-    "Individual FT references identical across CLIP implementations",
+    "196 input hashes verified",
+    "All historical CLIP, T5 and LLM measured scores preserved",
     "Snapshot-only table regeneration byte-identical",
-    "Pre-existing CLIP, T5 and LLM measurements preserved"
+    "110 existing run records audited",
+    "48 cached T5 sample/index/token comparisons verified",
+    "LLM historical calibration seed 42 verified from source history"
   ],
   "systematic_vision_table": "Only methods with all nine measured macro scores; partial baselines retained in appendix",
   "initialization_catalog_records": 53,
   "reviewed_text_pages": [
-    6
+    5,
+    12
   ],
   "introduction": {
     "section": 1,
@@ -53,7 +59,6 @@
     "source_sha256": "5a4ee4a1221053d41d40fb3bb6b786f0b1d482c71b0483cb49114218035cdec2"
   },
   "undefined_citations": false,
-  "table_content_unchanged_from": "a1bae4edc14a79b492d7528b32d3cee0f29c872a",
   "llm_results_in_main_text": {
     "page": 6,
     "tables": [
@@ -70,6 +75,26 @@
       "Llama three-domain mean"
     ],
     "negative_results_retained": true,
-    "source_data_and_generated_tables_unchanged": true
+    "source_data_and_generated_tables_unchanged": false,
+    "measured_scores_unchanged": true,
+    "calibration_seed": 42
+  },
+  "measured_scores_unchanged_from": "bb860722605bc04fabf6f794e8bfe52e4d7f05c7",
+  "table_changes": "Default T5 results separated from target extensions; paired target comparison uses seeds 0,1,2; seed coverage table added.",
+  "protocol_alignment": {
+    "appendix_page": 12,
+    "audit_run_records": 110,
+    "configuration_sources": 163,
+    "calibration_cache_checks": 48,
+    "future_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "status": "audit_and_plan_only_no_new_model_runs",
+    "solver_initialization_mismatch_disclosed": true,
+    "target_extensions_separated": true
   }
 }

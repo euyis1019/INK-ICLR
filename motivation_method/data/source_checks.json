@@ -2,10 +2,16 @@
   "supplied_text_sha256": "871e4f3efd529f7b32204e2ccf8fab12e77b0f08d76eea44dbcd2085b497a500",
   "main_results_evidence_level": "Measured CM results, named by initialization. Implementation provenance, seeds and target variants are separate metadata. No model reruns.",
   "files": {
-    "data/main_results.json": "9ad96ae07ad3ecc5087ffa2b2de66d8b1889228403119ac36e5e2b4be34bc612",
+    "data/main_results.json": "b4b9911cf75ac1c48c8b86ecb3d9b89772808b45eb5e6dcfeb575437453b1cba",
     "evidence.json": "62b0f15044012bf0a5659658aa254d682dbe7cfc600f5a5efd549570f0799af2",
-    "data/verified_results.json": "7d73ed569d4335a68c817bc87e83484c4377147f02af8bf9b23807d21bc1cdd1",
-    "data/cm_initializations.csv": "5e06d1c16e123eedb7b19eaa3de04a6b3d27f176f60b1142bde3f290b505f544"
+    "data/verified_results.json": "68633b3f8cef525e0f5710df76e87e70458252c7cad895e8a78f2f919df7d573",
+    "data/cm_initializations.csv": "e6ad19ddbac79873a0e1acca5eeb92811e8afce5581d81df4e4e0a5567a495d0",
+    "data/protocol_audit.json": "e71c7845bccf70bcdbd27ed4297da262245aadf1cc06e00d1d8863a578dccbf7",
+    "data/protocol_runs.csv": "5c298c4cb7ac9a37e68217c604f135977f4661ba2ecf9a1a7757827629b27d70",
+    "data/calibration_cache_audit.json": "7b5afaf904f542724263d8ad01f5d07d6160a23620854042542e743fa801cbc4",
+    "data/alignment_plan.json": "f4977985a7c4d625e61780b77a9025dd476678c4b2650c51250ca10de2dc9aba",
+    "PROTOCOL_ALIGNMENT.md": "1e7fd136524db02a7ab6911755b5c270c92c20b415320c069f7c05a52f0126d3",
+    "audit_protocols.py": "abe8e7bb8d20640b49ad2811f219e3f3f2eae966c4e06e7a12c433f4316527fa"
   },
   "notation_sanity_checks": {
     "random_cases": 20,
@@ -41,5 +47,5 @@
     },
     "normalization_proof_role": "A theoretical comparison bound, not an ordinary-Fisher experiment."
   },
-  "measured_result_sources": 186
+  "measured_result_sources": 196
 }
