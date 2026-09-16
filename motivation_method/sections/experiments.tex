@@ -16,7 +16,27 @@
 \input{motivation_method/tables/t5_results}
 
 \paragraph{跨任务规模与模型设定。}
-在独立的 CLIP 工作台实现中，三个骨干与 $8/14/20$ 任务构成的九格均较固定 Iso-C 起点提高约 $1.38$--$16.66$ 个百分点（表~\ref{tab:clip-scaling}）。任务规模变化同时改变任务集合，不能将宏平均变化只归因于任务数。T5-large 原版为 $88.99$，目标插值 $0.3$ 为 $87.97$，均为单种子；扩展在 base 上的收益没有迁移到 large（表~\ref{tab:t5-main}）。T5 使用教师答案上的 teacher-forced 分布，LLM 使用教师 top-128 logits；两者保留“当前统计、逐层求解、按 $\mathcal L_{\mathcal H}$ 选步、接受后重测”的共同流程，具体教师近似和搜索粒度按设定适配。LLM 十组起点对照中有九组 GSM8K 提高（表~\ref{tab:llm-summary}及完整附录表）：Llama 的 RegMean 起点下降，TSV-M 起点的 IFEval 也下降；Llama 的三域宏平均最高仍是 TSV-M 起点自身 $39.97$，接受 CM 后为 $39.26$。Gemma 的 Localize-and-Stitch 为 $51.33$，高于所列后处理结果。因此，我们主张的是\emph{同一迭代框架在多种设定中可用}，而不是所有任务均提升、所有基线均被超越，或完全不需设定适配。
+在独立的 CLIP 工作台实现中，三个骨干与 $8/14/20$ 任务构成的九格均较固定 Iso-C 起点提高约 $1.38$--$16.66$ 个百分点（表~\ref{tab:clip-scaling}）。任务规模变化同时改变任务集合，不能将宏平均变化只归因于任务数。T5-large 原版为 $88.99$，目标插值 $0.3$ 为 $87.97$，均为单种子；扩展在 base 上的收益没有迁移到 large（表~\ref{tab:t5-main}）。T5 使用教师答案上的 teacher-forced 分布，保留当前统计、逐层求解、留出集选步和接受后重测的共同流程。
+
+\paragraph{LLM 合并。}
+表~\ref{tab:llama-full} 与表~\ref{tab:gemma-full} 分别列出 Llama-3.2-3B 的六组、Gemma-2-2B 的四组起点对照。CM 使用教师 top-128 logits，采用四轮预算；表内均为单个校准 seed。两种模型均报告 GSM8K 与 IFEval，Llama 另报告 GSM8K、IFEval 和 multilingual 的等权三域宏平均。基座、独立专家参考和 Llama 的校准种子重复见附录~\ref{app:cross-setting}。
+
+十组对照中有九组 GSM8K 提高：Llama 的 CM + Iso-C 从 $52.84$ 提升至 $55.65$，Gemma 的 CM + Model Soup 从 $35.25$ 提升至 $48.07$。收益随指标变化：Llama 的 CM + RegMean 在 GSM8K 上下降 $1.14$ 个百分点，CM + TSV-M 与 CM + Task Arithmetic 的 IFEval 也下降。Llama 三域宏平均最高仍是 TSV-M 起点自身的 $39.97$，接受 CM 后为 $39.26$；Gemma 的 Localize-and-Stitch 为 $51.33$，高于所列 CM 结果。这些对照支持 CM 在不同合并输出上继续修正的适用性，同时表明校准收益并不保证所有任务指标均提升。
+
+\begin{table}[!htbp]
+\centering\small
+\caption{Llama-3.2-3B：全部六组 CM 起点对照（单 seed）。起点为对应方法的合并结果，CM 采用四轮预算。差值为相对起点的 GSM8K 百分点增益，按未舍入数计算。}
+\label{tab:llama-full}
+\setlength{\tabcolsep}{3.4pt}
+\resizebox{\textwidth}{!}{\input{motivation_method/tables/llama_full}}
+\end{table}
+
+\begin{table}[!htbp]
+\centering\small
+\caption{Gemma-2-2B：全部四组 CM 起点对照（单 seed、四轮预算）。差值为相对起点的 GSM8K 百分点增益；四组 GSM8K 与 IFEval 均提高。}
+\label{tab:gemma-full}
+\input{motivation_method/tables/gemma_full}
+\end{table}
 
 \paragraph{起点与组件性质。}
 初始化适配作为附加性质检验：ViT-B/32 的 Average 与 RegMean 诊断准确率差距由 $22.36$ 缩到 $0.15$ 个百分点（图~\ref{fig:motivation}a），但未拉平对照仍保留明显差距（附录~\ref{app:protocol}）。把 \method{} 叠在其它合并输出上的工作台结果见附录~\ref{app:cross-setting}，与图~\ref{fig:motivation}a 的诊断实验不是同一协议。归一化的同机直接消融为 $87.0451\%$ 对 $86.6652\%$，其几何解释及优势条件见附录~\ref{app:normalization}。这些结果分别检验起点适配与组件作用，并与图~\ref{fig:motivation}b/c 的迭代和度量诊断互补。

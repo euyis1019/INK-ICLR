@@ -2,7 +2,7 @@
 
 主入口为仓库根目录的 [motivation_method.tex](../motivation_method.tex)，预览为 [motivation_method.pdf](../motivation_method.pdf)。沿用本仓库 ICLR 2027 模板、匿名页眉、字号和页边距。这是一份可接入完整论文的聚焦稿件，未替换旧版全文。
 
-2026-09-16 已回填 CM 实测数据。表 1 只展示三个 ViT、三种任务规模均有结果的九格对照；主配置标为 **CM + Iso-C**，增加相对 Individual FT 的 Delta 行。ViT-B/32 八任务的四种子结果与起点消融另表呈现，种子数单列。T5-base 逐任务表、附录 T5-large、LLM 和起点对照同步更新。详见 [回填记录](RESULTS_UPDATE.md) 和 [CM 起点清单](INITIALIZATIONS.md)。灰底只用于突出 CM 行，不再表示随机占位。
+2026-09-16 已回填 CM 实测数据。表 1 只展示三个 ViT、三种任务规模均有结果的九格对照；主配置标为 **CM + Iso-C**，增加相对 Individual FT 的 Delta 行。ViT-B/32 八任务的四种子结果与起点消融另表呈现，种子数单列。正文另有 T5-base 逐任务表和独立的 **LLM 合并**段落，完整展示 Llama 六组、Gemma 四组起点对照；附录补充 T5-large、校准种子重复和其他起点。详见 [回填记录](RESULTS_UPDATE.md) 和 [CM 起点清单](INITIALIZATIONS.md)。灰底只用于突出 CM 行，不再表示随机占位。
 
 ## 内容与编辑位置
 

@@ -10,7 +10,7 @@
 | 单设定重复与起点表 | `vision.formal / paired_starts` | 四种子为独立重复；配对起点研究使用 completion.json 的完整测试分，不将两者合并计数 |
 | 正文 T5 逐任务表、附录 base / large | `verified_results.json → t5.rows` | 八任务一次性合并后 validation；原版与两种目标插值分别列行；样本标准差 |
 | T5 零样本及专家参考 | `t5.partial_base / partial_expert` | 零样本仅四任务，专家仅 CoLA 对角；不计算缺测的八任务均值 |
-| LLM 精简与完整表 | `verified_results.json → llm` | 原始精度计算增益后统一舍入；保留全部十对和负向格 |
+| 正文 LLM 两张完整表 | `verified_results.json → llm` | Llama 六对、Gemma 四对全部呈现；原始精度计算起点增益后统一舍入，保留负向格；参考点与校准种子重复另在附录说明 |
 | 起点附表 | `vision.starts / t5.starts` | CLIP 同列留出选轮与末轮；T5 原始目标与插值分列，均使用配对 seed 0 |
 | 起点索引及 CSV | `vision.start_sensitivity / starts / t5.starts / llm` | 额外尺度与轮数记录单列；各行保存原始来源，FT 差距以完整精度计算 |
 | 来源清单 | `verified_results.json → sources` | 实验工作区相对路径、字节数与 SHA-256；不包含模型权重 |
@@ -64,7 +64,7 @@
 | `evidence.json → refresh.*.moment_hook_summary.*.vs_previous.H_used_cosine` | 图 1c，各层/任务按求解规则处理后的度量余弦的中位数，绘图取 1 减该值 |
 | `evidence.json → refresh.*.cross_block` | 附录图 2，固定本块权重的状态干预 |
 | `data/verified_results.json → vision / t5` | 主文视觉与逐任务表、附录主表；T5 原版与扩展分行，base 与 large 不拼成一个版本 |
-| `data/verified_results.json → llm` | LLM 精简与完整表，含收益与下降，非所有方法排名 |
+| `data/verified_results.json → llm` | 正文 LLM 两张完整表，含收益与下降，非所有方法排名 |
 | `data/verified_results.json → vision.cells.*.cm_prototype` | 九格收益范围，工作台实现与正式 CLIP 结果分开 |
 | `evidence.json → normalization` | 已有独立归一化消融 |
 

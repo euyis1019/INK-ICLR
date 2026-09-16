@@ -9,7 +9,7 @@
 - **方法命名：**`CM + X` 表示先 X 合并再运行 CM；CLIP 与 T5 默认均为 Iso-C，初始化尺度固定为 1.3。“原型 / 正式”改为实现来源说明，种子数单列，不当作方法名称。未覆盖全规模的 ESM、SVC (ESM) 移到附录，已有八格数值全部保留。
 - **T5-base 逐任务表：**替换所有随机数字，报告八专家一次性合并后的 GLUE validation 结果；原来的“持续合并”表述不适用。缺测以横线表示。
 - **T5 版本与重复：**原版 base 五种子；目标插值 0.3 四种子，0.6 三种子；large 原版与 0.3 扩展均单种子并分别列行。FeatCal 五种子的样本标准差为 0.22，原来的 0.19 是总体标准差。所有种子误差统一为样本标准差。
-- **LLM：**十组起点对照从 GSM8K、IFEval 和已完成的 multilingual 原始评测重算。增益先用未舍入数相减，再显示两位小数，修正 Llama Soup、TA、TIES 及 Gemma Soup、TSV-M 的旧增益。
+- **LLM：**正文独立段落和两张表完整展示 Llama 六组、Gemma 四组起点对照，附录保留参考点与校准种子重复。结果从 GSM8K、IFEval 和已完成的 multilingual 原始评测重算；起点增益先用未舍入数相减，再显示两位小数，保留负向结果。缺少完整评测的 coding、safety 和 Gemma multilingual 不补数，也不计算五域宏平均。
 - **起点附表：**CLIP 工作台六起点同时列留出选轮分数、末轮分数和 FT 差距；按选轮分数，CM + WeightAvg 为 85.12、CM + RegMean 为 85.32、CM + TSV-M 为 86.38。T5 分列原始目标与插值 0.3，补入原始目标的 FeatCal、RegMean 起点。默认 base 插值 0.3 使用配对 seed 0 的 85.59，不以四种子均值 85.64 替换。
 - **起点索引：**[INITIALIZATIONS.md](INITIALIZATIONS.md) 汇总 CLIP、T5、LLM 起点与额外尺度、轮数记录；[CSV](data/cm_initializations.csv) 保存完整精度分数及逐项来源。尺度和轮数敏感性单列，不伪装成新的方法。
 - **反方向后处理更正：**先原始目标 CM 再 FeatCal 的 T5-base 为 84.64；84.78 对应先目标插值 0.3 CM 再 FeatCal。二者均不属于“从 FeatCal 初始化 CM”的实验。

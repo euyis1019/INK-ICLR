@@ -4,6 +4,8 @@
 
 当前编辑入口为 [motivation_method.tex](motivation_method.tex)，输出为 [motivation_method.pdf](motivation_method.pdf)。表 1 保留三个 ViT、三种任务规模的完整九格对照，主配置明确命名为 **CM + Iso-C**，并增加相对 Individual FT 的 Delta 行。只覆盖单一设定的四种子结果与起点消融单独成表，覆盖未齐的基线移至附录。T5、LLM 及其他起点详见 [CM 起点清单](motivation_method/INITIALIZATIONS.md)；缺测不填占位数。
 
+正文的 **LLM 合并**部分用两张完整表展示 Llama-3.2-3B 的六组和 Gemma-2-2B 的四组起点对照，包含 GSM8K、IFEval 与已完成的 Llama 三域结果；附录补充参考点和校准种子重复。
+
 - [回填说明、修正和剩余缺口](motivation_method/RESULTS_UPDATE.md)
 - [可独立重建表格的数据快照](motivation_method/data/verified_results.json)
 - [数据检查结果与缺测清单](motivation_method/data/result_validation.json)

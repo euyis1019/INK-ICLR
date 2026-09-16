@@ -74,29 +74,8 @@ $M_t^{\ell,(r)}=G_t^{\ell,(r)}\otimes A_t^{\ell,(r)}$，其中 A/G 已完成式~
 \input{motivation_method/tables/clip_scaling}
 \input{motivation_method/tables/t5_main}
 
-\begin{table}[htbp]
-\centering\small
-\caption{LLM 的起点与后处理结果（单 seed）。同一行比较同一模型及指标；这是起点前后对照，不是所有方法的排名表。}
-\label{tab:llm-summary}
-\resizebox{\textwidth}{!}{\input{motivation_method/tables/llm_summary}}
-\end{table}
-
-表~\ref{tab:llm-summary} 摘录含收益与下降的行。表~\ref{tab:llama-full} 与表~\ref{tab:gemma-full} 给出 MergeBench 全部已跑格子。Llama 锚点为基座 GSM8K $27.98$、math 专家 $53.22$；三域宏平均是 GSM8K、IFEval 与 multilingual 的等权平均。Iso-C 起点换三个校准 seed 的 GSM8K 为 $55.65/53.98/56.25$，均值 $55.29\pm 1.18$。Gemma 锚点为基座 GSM8K $25.32$ / IFEval $13.68$，math 专家 $54.59$，instruction 专家 IFEval $36.97$。Gemma 上 data-free 的 Localize-and-Stitch 为 $51.33$，高于表中所有后处理结果；同一方法在 Llama 上为 $16.53$。
-
-\begin{table}[htbp]
-\centering\small
-\caption{Llama-3.2-3B：以官方配置的合并结果为起点，叠加四轮 \method{}（单 seed）。}
-\label{tab:llama-full}
-\setlength{\tabcolsep}{3.4pt}
-\resizebox{\textwidth}{!}{\input{motivation_method/tables/llama_full}}
-\end{table}
-
-\begin{table}[htbp]
-\centering\small
-\caption{Gemma-2-2B：以官方配置的合并结果为起点，叠加四轮 \method{}（单 seed）。四格 GSM8K 与 IFEval 均为正。}
-\label{tab:gemma-full}
-\input{motivation_method/tables/gemma_full}
-\end{table}
+\paragraph{LLM 参考点与校准重复。}
+正文表~\ref{tab:llama-full} 与表~\ref{tab:gemma-full} 已给出全部十组已完成的 CM 起点对照。Llama 锚点为基座 GSM8K $27.98$、math 专家 $53.22$；三域宏平均是 GSM8K、IFEval 与 multilingual 的等权平均。Iso-C 起点换三个校准 seed 的 GSM8K 为 $55.65/53.98/56.25$，均值 $55.29\pm 1.18$。Gemma 锚点为基座 GSM8K $25.32$ / IFEval $13.68$，math 专家 $54.59$，instruction 专家 IFEval $36.97$。Gemma 上 data-free 的 Localize-and-Stitch 为 $51.33$，高于所列 CM 结果；同一方法在 Llama 上为 $16.53$。CM 的 coding、safety 及 Gemma multilingual 尚缺完整评测，当前结果覆盖已完成的指标，不计算五域宏平均。
 
 表~\ref{tab:clip-starts} 与表~\ref{tab:t5-starts} 汇总从其它方法输出开始运行 CM 的结果。CLIP 为工作台实现、seed 0、四轮预算，同时报告按 $\mathcal L_{\mathcal H}$ 选轮后的 test 分数和末轮分数；Delta 使用选轮分数与同环境 Individual FT 比较。默认 Iso-C 的选轮分数为 $86.60$，末轮为 $86.65$，均不与固定基准实现的四种子均值 $87.06$ 混用。CM + WeightAvg 为 $85.12$、CM + RegMean 为 $85.32$、CM + TSV-M 为 $86.38$，另保留 Task Arithmetic 与 Zero-shot 起点。
 

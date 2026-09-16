@@ -1,29 +1,30 @@
 {
   "status": "passed",
-  "pages": 16,
-  "pdf_sha256": "757265d2f59c57cbfda26c5a34165ac79c74b800be2bc95e1bd825c46582b3ad",
+  "pages": 15,
+  "pdf_sha256": "2b3e3a3a8b87646a951e35e7a37c1320c5774de217842251d2a01b87eed2a499",
   "source_files_verified": 186,
   "undefined_references": false,
   "overfull_boxes": false,
   "missing_characters": false,
   "model_experiments_run": 0,
-  "reviewed_table_pages": [],
-  "integrated_remote_base": "703080c803dc543c251f458fa52c74cd8b7af3ea",
+  "reviewed_table_pages": [
+    6
+  ],
+  "integrated_remote_base": "a1bae4edc14a79b492d7528b32d3cee0f29c872a",
   "table_pages": {
     "ink-vision-summary": 4,
     "clip-initializations": 5,
     "ink-t5-results": 5,
+    "llama-full": 6,
+    "gemma-full": 6,
     "starts": 8,
     "refresh": 8,
     "protocol": 9,
     "clip-main": 10,
     "clip-scaling": 10,
     "t5-main": 11,
-    "llm-summary": 11,
-    "llama-full": 11,
-    "gemma-full": 11,
-    "clip-starts": 12,
-    "t5-starts": 12
+    "clip-starts": 11,
+    "t5-starts": 11
   },
   "data_checks": [
     "186 input hashes verified",
@@ -34,7 +35,7 @@
   "systematic_vision_table": "Only methods with all nine measured macro scores; partial baselines retained in appendix",
   "initialization_catalog_records": 53,
   "reviewed_text_pages": [
-    1
+    6
   ],
   "introduction": {
     "section": 1,
@@ -52,5 +53,23 @@
     "source_sha256": "5a4ee4a1221053d41d40fb3bb6b786f0b1d482c71b0483cb49114218035cdec2"
   },
   "undefined_citations": false,
-  "table_content_unchanged_from": "703080c803dc543c251f458fa52c74cd8b7af3ea"
+  "table_content_unchanged_from": "a1bae4edc14a79b492d7528b32d3cee0f29c872a",
+  "llm_results_in_main_text": {
+    "page": 6,
+    "tables": [
+      4,
+      5
+    ],
+    "models": {
+      "Llama-3.2-3B": 6,
+      "Gemma-2-2B": 4
+    },
+    "metrics": [
+      "GSM8K",
+      "IFEval",
+      "Llama three-domain mean"
+    ],
+    "negative_results_retained": true,
+    "source_data_and_generated_tables_unchanged": true
+  }
 }
