@@ -1,7 +1,7 @@
 {
   "status": "passed",
-  "pages": 15,
-  "pdf_sha256": "7cca9dde09a7d5358b14ac6b932cca4d263845e9ec9b04ca95eb52874083caab",
+  "pages": 16,
+  "pdf_sha256": "928f739acde6adfe58b38ca6ebfb5abfa5e0ed35ee374e55bbc7a824dc1f272d",
   "source_files_verified": 186,
   "undefined_references": false,
   "overfull_boxes": false,
@@ -9,27 +9,24 @@
   "model_experiments_run": 0,
   "reviewed_table_pages": [
     4,
-    5,
-    9,
-    10,
-    11
+    5
   ],
-  "integrated_remote_base": "99dcdd097b096abf1fdd0d935098c6aab1636a09",
+  "integrated_remote_base": "a64cf40b5bb7150934da54cee767b246c4a62623",
   "table_pages": {
     "ink-vision-summary": 4,
-    "clip-initializations": 4,
+    "clip-initializations": 5,
     "ink-t5-results": 5,
-    "starts": 7,
-    "refresh": 7,
-    "protocol": 8,
-    "clip-main": 9,
-    "clip-scaling": 9,
-    "t5-main": 10,
-    "llm-summary": 10,
-    "llama-full": 10,
-    "gemma-full": 10,
-    "clip-starts": 11,
-    "t5-starts": 11
+    "starts": 8,
+    "refresh": 8,
+    "protocol": 9,
+    "clip-main": 10,
+    "clip-scaling": 10,
+    "t5-main": 11,
+    "llm-summary": 11,
+    "llama-full": 11,
+    "gemma-full": 11,
+    "clip-starts": 12,
+    "t5-starts": 12
   },
   "data_checks": [
     "186 input hashes verified",
@@ -38,5 +35,18 @@
     "Pre-existing CLIP, T5 and LLM measurements preserved"
   ],
   "systematic_vision_table": "Only methods with all nine measured macro scores; partial baselines retained in appendix",
-  "initialization_catalog_records": 53
+  "initialization_catalog_records": 53,
+  "reviewed_text_pages": [
+    1
+  ],
+  "introduction": {
+    "section": 1,
+    "page": 1,
+    "language": "Chinese",
+    "paragraphs": 5,
+    "contributions": 3,
+    "method_name": "Coexist-Merge (CM)",
+    "source_sha256": "e52a9ca21af931ac0763af578c88357e579f3abe9f792a6ee24b3c05781c3d5f"
+  },
+  "undefined_citations": false
 }

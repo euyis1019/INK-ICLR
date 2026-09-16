@@ -10,7 +10,7 @@
 
 重建表格使用 `python3 motivation_method/update_results.py`，编译使用 `bash motivation_method/build.sh`。下面涉及随机占位或旧方法的说明属于历史全文入口，不适用于已回填的 CM 聚焦稿。
 
-## 新增：中文 motivation → method 精简稿
+## 中文引言、动机与方法精简稿
 
 本分支的独立稿件从当前师生分歧定义 A/G，解释继续迭代及接受后的重测。主图使用本方法的归一化 KL-G 实验，展示起点适配、刷新/冻结对照和相邻轮度量变化；普通 Fisher 的实验对照已移出稿件。方法继续沿用提供的 Coexist-Merge 公式和 AXG 正规方程，附录保留归一化的理论依据。
 

@@ -21,14 +21,15 @@
 
 | 本稿位置 | 实验或定义如何支持论点 | 对应来源 |
 |---|---|---|
-| §1 当前模型上的测量参照 | 简短设计直觉：以专家预测为目标，用当前学生的统计反映其调整需求 | [提供的方法说明](sources/coexist_method_results_20260912.md) §1；具体估计式见正文 §2；不作学生/专家测量位置的实验论证 |
+| §1 引言 | 压缩研究背景、固定代理的局限、CM 流程与贡献；增加初始求解步数的结论限定到 Average 配对实验 | [引言](sections/introduction.tex)；[MaTS](https://arxiv.org/abs/2312.04339)、[RegMean++](https://openreview.net/pdf?id=H5lDsSCS9i)、[IterIS](https://openaccess.thecvf.com/content/CVPR2025/html/Chen_IterIS_Iterative_Inference-Solving_Alignment_for_LoRA_Merging_CVPR_2025_paper.html)；R2 的配对对照 |
+| §2 当前模型上的测量参照 | 简短设计直觉：以专家预测为目标，用当前学生的统计反映其调整需求 | [提供的方法说明](sources/coexist_method_results_20260912.md) §1；具体估计式见正文 §3；不作学生/专家测量位置的实验论证 |
 | 图 1a：起点适配 | 相同后续流程从三种常用起点出发；Average/RegMean 诊断差距 22.36→0.15 pp；附录保留未拉平对照 | [Issue #6](https://github.com/euyis1019/INK/issues/6#issuecomment-5648265351)；R1/R3 |
 | 图 1b：继续迭代与重测 | 刷新/冻结共享第一轮状态，都继续 CG 与选步；另列单轮 CG400 | [Issue #7](https://github.com/euyis1019/INK/issues/7#issuecomment-5648265839)；R2/R4 |
 | 图 1c：相邻轮度量变化 | 固定校准图像，比较按求解规则处理后的矩阵的方向；曲线只描述统计变化与趋稳 | R2 的 `moment_hook_summary`；[定义与数值](data/source_checks.json) |
-| §1 同状态干预、附录 A 图 2 | 同一待更新状态交换统计，并保留跨 block、等幅负结果 | R2 的三份数据文件；用于判断重测的效果 |
-| §2 公式与算法 | 沿用 a、hat-a、u、G 和 AXG 公式；输入 h 与输出 y 分开，补齐 bar-s | [提供的方法说明](sources/coexist_method_results_20260912.md) §1；下方实现链接 |
-| §3 主实验与适用范围 | 回填 CLIP/T5 主表、LLM 起点对照，保留实现差异、T5 扩展和负结果 | [核验结果快照](data/verified_results.json)；[机器可读摘要](data/main_results.json) |
-| §2、附录 A/B 归一化 | 同机归一化消融、Fisher 相对预算与条件性风险界 | [Issue #5](https://github.com/euyis1019/INK/issues/5#issuecomment-5648435999)；R5 |
+| §2 同状态干预、附录 A 图 2 | 同一待更新状态交换统计，并保留跨 block、等幅负结果 | R2 的三份数据文件；用于判断重测的效果 |
+| §3 公式与算法 | 沿用 a、hat-a、u、G 和 AXG 公式；输入 h 与输出 y 分开，补齐 bar-s | [提供的方法说明](sources/coexist_method_results_20260912.md) §1；下方实现链接 |
+| §4 主实验与适用范围 | 回填 CLIP/T5 主表、LLM 起点对照，保留实现差异、T5 扩展和负结果 | [核验结果快照](data/verified_results.json)；[机器可读摘要](data/main_results.json) |
+| §3、附录 A/B 归一化 | 同机归一化消融、Fisher 相对预算与条件性风险界 | [Issue #5](https://github.com/euyis1019/INK/issues/5#issuecomment-5648435999)；R5 |
 
 ## 图 1c 的精确定义
 

@@ -1,4 +1,4 @@
-# 中文 motivation → method 稿件
+# 中文引言、动机与方法稿件
 
 主入口为仓库根目录的 [motivation_method.tex](../motivation_method.tex)，预览为 [motivation_method.pdf](../motivation_method.pdf)。沿用本仓库 ICLR 2027 模板、匿名页眉、字号和页边距。这是一份可接入完整论文的聚焦稿件，未替换旧版全文。
 
@@ -8,6 +8,7 @@
 
 | 内容 | 文件 | 写作作用 |
 |---|---|---|
+| 引言（第一节） | [sections/introduction.tex](sections/introduction.tex) | 压缩研究背景、固定代理的局限、CM 流程及贡献；结论与已有证据对应 |
 | Motivation | [sections/motivation.tex](sections/motivation.tex) | 从当前师生分歧定义度量，再解释继续迭代与接受后的重测 |
 | Method | [sections/method.tex](sections/method.tex) | 沿用本次提供的逐类修正、归一化方向、A/G 与 AXG 正规方程，补齐估计和伪代码 |
 | 效果与适用范围 | [sections/experiments.tex](sections/experiments.tex) | 用精简主表和跨设定结果验证效果；初始化作为附加性质 |
