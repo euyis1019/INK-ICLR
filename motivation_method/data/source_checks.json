@@ -1,0 +1,42 @@
+{
+  "supplied_text_sha256": "871e4f3efd529f7b32204e2ccf8fab12e77b0f08d76eea44dbcd2085b497a500",
+  "main_results_evidence_level": "Provided table summary, not an independent model rerun or complete log audit.",
+  "files": {
+    "data/main_results.json": "6672a2e0ae4b3bffff3cd5440344e607b0bd0c3311acafc1d82ce1c0d2f6268f",
+    "evidence.json": "62b0f15044012bf0a5659658aa254d682dbe7cfc600f5a5efd549570f0799af2"
+  },
+  "notation_sanity_checks": {
+    "random_cases": 20,
+    "score_identity_max_abs_error": 2.220446049250313e-16,
+    "row_weight_kronecker_identity_max_abs_error": 2.1316282072803006e-14,
+    "minimum_fisher_bound_eigenvalue": 0,
+    "regression_directional_derivative_matches": true
+  },
+  "note": "Numerical algebra checks are not new empirical model experiments or a replacement for the appendix proof.",
+  "metric_change": {
+    "source": "evidence.json → refresh.*.moment_hook_summary.*.vs_previous.H_used_cosine",
+    "definition": "Median over valid layer/task records of one minus the Frobenius cosine of the processed KL-G Kronecker metric between consecutive model states.",
+    "display": "logarithmic y-axis; colors match initialization panel",
+    "values": {
+      "Average": [
+        0.4467734149812248,
+        0.1998736006524635,
+        0.11923617451200319,
+        0.0072854166873141946
+      ],
+      "RegMean": [
+        0.3838873508026175,
+        0.10628661321232236,
+        0.019292511836121795,
+        0.006513164802912974
+      ],
+      "Iso-C": [
+        0.35439498378867085,
+        0.02527026417276068,
+        0.0014428411453246692,
+        0.00017483128354289779
+      ]
+    },
+    "normalization_proof_role": "A theoretical comparison bound, not an ordinary-Fisher experiment."
+  }
+}

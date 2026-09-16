@@ -1,5 +1,18 @@
 # INK-Merge manuscript (ICLR 2027 template)
 
+## 新增：中文 motivation → method 精简稿
+
+本分支的独立稿件从当前师生分歧定义 A/G，解释继续迭代及接受后的重测。主图使用本方法的归一化 KL-G 实验，展示起点适配、刷新/冻结对照和相邻轮度量变化；普通 Fisher 的实验对照已移出稿件。方法继续沿用提供的 Coexist-Merge 公式和 AXG 正规方程，附录保留归一化的理论依据。
+
+- [编译后的 PDF](motivation_method.pdf)
+- [LaTeX 主入口](motivation_method.tex)；Overleaf 选择此文件及 **XeLaTeX**。
+- [章节、图表和复现说明](motivation_method/README.md)
+- [论点 → issue → 原报告/源码/数据](motivation_method/SOURCE_MAP.md)
+
+在仓库根目录运行 `bash motivation_method/build.sh`。图表 PDF 已随稿件提供，编译正文不需要 Python。
+动机图使用已归档的 ViT-B/32 实测结果；跨设定主表摘录本次提供的方法与结果说明，不加载旧稿的占位表格或预期趋势图。
+按照此次写作要求，独立稿的整篇 PDF 随源码提交；原稿及模板文件保持原样。下文为原稿的编译与内容说明。
+
 ## 编译入口
 
 仓库根目录的 `iclr2027_conference.tex` 是主文档，加载

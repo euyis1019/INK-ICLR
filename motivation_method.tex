@@ -1,0 +1,49 @@
+% !TeX program = xelatex
+% Focused manuscript entry; the original manuscript remains independently buildable.
+\documentclass{article}
+\usepackage{iclr2027_conference,times}
+\usepackage[UTF8,fontset=fandol,scheme=plain]{ctex}
+\DeclareFontShape{TU}{FandolSong-Regular(0)}{m}{sc}{<->ssub * FandolSong-Regular(0)/m/n}{}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,graphicx,xcolor,colortbl,multirow}
+\usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
+\newcommand{\placeholdervalue}[1]{\textcolor{black!55}{#1}}
+\usepackage{microtype,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,
+pdftitle={Coexist-Merge：以当前模型为参照的迭代模型合并}}
+\graphicspath{{motivation_method/figures/}}
+\newcommand{\method}{Coexist-Merge}
+\newcommand{\KL}{D_{\mathrm{KL}}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\sg}{\mathrm{stopgrad}}
+\theoremstyle{definition}
+\newtheorem{proposition}{命题}[section]
+\numberwithin{equation}{section}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\algorithmcfname}{算法}
+\renewcommand{\proofname}{证明}
+\setlength{\emergencystretch}{1em}
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\title{\normalfont\bfseries \method{}：以当前模型为参照\\的迭代模型合并}
+\author{Anonymous Authors}
+% Retain the repository's unmodified anonymous ICLR 2027 template.
+\begin{document}
+\maketitle
+\begin{abstract}
+合并模型仍可能保留与各任务专家的功能分歧，而修正这些分歧所依赖的内部统计会随模型更新而改变。\method{} 以当前共享模型为参照，收集输入统计与 KL 修正统计，以专家参数为锚点逐层求解，再选择更新幅度并重新测量。ViT-B/32 上的起点适配、多轮对照及度量变化共同刻画这一迭代过程；CLIP、T5 和 LLM 的已有结果进一步检验其适用范围。方法的估计式、求解流程与归一化的条件性理论依据分别在正文和附录中给出。
+\end{abstract}
+
+\input{motivation_method/sections/motivation}
+\input{motivation_method/sections/method}
+\input{motivation_method/sections/experiments}
+
+\clearpage
+\bibliography{motivation_method/references}
+\bibliographystyle{iclr2027_conference}
+
+\clearpage
+\appendix
+\input{motivation_method/sections/appendix}
+\end{document}

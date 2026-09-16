@@ -1,0 +1,17 @@
+\section{效果与适用范围}
+\label{sec:experiments}
+
+\paragraph{主实验。}
+表~\ref{tab:ink-vision-summary} 将三个视觉骨干及三种任务规模合并为一张主表。ViT-B/32 的 8 tasks 一列保留已有复现记录，其他单元格为待补位置，不据此作规模扩展结论。该列 \method{} 的平均绝对准确率为 $86.95\%$，相对独立专家的归一化准确率为 $96.54\%$；它比 ESM、CoM 和 RegMean 分别高 $2.76$、$3.57$ 和 $5.67$ 个百分点，与 Individual FT 的差距为 $2.99$ 个百分点。四个校准 seed 的正式均值 $87.06\%$、工作台九格及 T5 / LLM 实测表见附录~\ref{app:cross-setting}，不与表~\ref{tab:ink-vision-summary} 的单次记录混用。
+
+\input{motivation_method/tables/vision_summary}
+
+表~\ref{tab:ink-t5-results} 按参考表预留 Flan-T5-base 在八个任务上持续合并后的逐任务版式，并补齐视觉表中的方法列表。独立微调参考行置于顶部，Zero-shot 与各合并基线居中，\method{} 行以灰底突出。所有灰色数字及 $\pm$ 项均为排版占位，不代表已完成的运行。正式 T5-base 为 $85.64\pm 0.04$，含 $\mathcal L_{\mathcal H}$ 选中的目标插值（$\alpha=0.3$）；T5-large 选择 $\alpha=0$，成绩为 $88.99$，见表~\ref{tab:t5-main}。
+
+\input{motivation_method/tables/t5_results}
+
+\paragraph{跨任务规模与模型设定。}
+在独立的 CLIP 工作台实现中，三个骨干与 $8/14/20$ 任务构成的九格均较 Iso-C 起点提高 $1.38$--$16.66$ 个百分点（表~\ref{tab:clip-scaling}）。该实现的 ViT-B/32 八任务结果为 $86.60\%$，不与正式实现的 $87.06\%$ 混为同一次运行。T5 使用教师答案上的 teacher-forced 分布，LLM 使用教师 top-128 logits；两者保留“当前统计、逐层求解、按 $\mathcal L_{\mathcal H}$ 选步、接受后重测”的共同流程，具体教师近似和搜索粒度按设定适配。LLM 起点前后对照见表~\ref{tab:llm-summary}：Llama 的 RegMean 起点在 GSM8K 上下降，TSV-M 起点的 IFEval 也下降；完整记录中 Llama 的三域宏平均最高仍是 TSV-M 起点自身。Gemma 的 Localize-and-Stitch 为 $51.33$，高于所列后处理结果。因此，我们主张的是\emph{同一迭代框架在多种设定中可用}，而不是所有任务均提升、所有基线均被超越，或完全不需设定适配。
+
+\paragraph{起点与组件性质。}
+初始化适配作为附加性质检验：ViT-B/32 的 Average 与 RegMean 诊断准确率差距由 $22.36$ 缩到 $0.15$ 个百分点（图~\ref{fig:motivation}a），但未拉平对照仍保留明显差距（附录~\ref{app:protocol}）。把 \method{} 叠在其它合并输出上的工作台结果见附录~\ref{app:cross-setting}，与图~\ref{fig:motivation}a 的诊断实验不是同一协议。归一化的同机直接消融为 $87.0451\%$ 对 $86.6652\%$，其几何解释及优势条件见附录~\ref{app:normalization}。这些结果分别检验起点适配与组件作用，并与图~\ref{fig:motivation}b/c 的迭代和度量诊断互补。
