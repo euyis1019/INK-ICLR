@@ -1,17 +1,14 @@
 {
   "status": "passed",
   "pages": 16,
-  "pdf_sha256": "928f739acde6adfe58b38ca6ebfb5abfa5e0ed35ee374e55bbc7a824dc1f272d",
+  "pdf_sha256": "757265d2f59c57cbfda26c5a34165ac79c74b800be2bc95e1bd825c46582b3ad",
   "source_files_verified": 186,
   "undefined_references": false,
   "overfull_boxes": false,
   "missing_characters": false,
   "model_experiments_run": 0,
-  "reviewed_table_pages": [
-    4,
-    5
-  ],
-  "integrated_remote_base": "a64cf40b5bb7150934da54cee767b246c4a62623",
+  "reviewed_table_pages": [],
+  "integrated_remote_base": "703080c803dc543c251f458fa52c74cd8b7af3ea",
   "table_pages": {
     "ink-vision-summary": 4,
     "clip-initializations": 5,
@@ -46,7 +43,14 @@
     "paragraphs": 5,
     "contributions": 3,
     "method_name": "Coexist-Merge (CM)",
-    "source_sha256": "e52a9ca21af931ac0763af578c88357e579f3abe9f792a6ee24b3c05781c3d5f"
+    "all_contributions_on_page_one": "verified visually",
+    "contribution_topics": [
+      "solver stability and state adaptation",
+      "feedback iteration",
+      "algorithm compatibility and initialization adaptation"
+    ],
+    "source_sha256": "5a4ee4a1221053d41d40fb3bb6b786f0b1d482c71b0483cb49114218035cdec2"
   },
-  "undefined_citations": false
+  "undefined_citations": false,
+  "table_content_unchanged_from": "703080c803dc543c251f458fa52c74cd8b7af3ea"
 }
