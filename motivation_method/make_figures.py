@@ -179,7 +179,7 @@ def main() -> None:
     context(data)
     tables(data)
     main_tables()
-    print("Generated two figures and thirteen tables from archived and verified data.")
+    print("Generated two figures and fourteen tables from archived and verified data.")
 
 
 if __name__ == "__main__":

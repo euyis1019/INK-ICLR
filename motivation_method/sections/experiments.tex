@@ -2,11 +2,16 @@
 \label{sec:experiments}
 
 \paragraph{主实验。}
-表~\ref{tab:ink-vision-summary} 汇总三个视觉骨干及三种任务规模的实测结果，区分工作台原型与正式实现。正式 \method{} 在 ViT-B/32 八任务上，四个校准 seed 的平均准确率为 $87.059\pm0.021\%$，其中误差为样本标准差；比已复现的 ESM 高约 $2.87$ 个百分点。工作台原型九格均已完成，B/32 八任务为 $86.60\%$；正式实现尚未补齐其余八格，因此分别列行。逐任务归一化均使用对应环境的实测专家，正式环境专家宏平均为 $89.96\%$。主表缺测格不参与方法排名。
+主配置为 \textbf{CM + Iso-C}：先以固定尺度 $1.3$ 的 Iso-C 合并初始化，再运行 \method{}。全文“CM + X”均表示从 X 的输出开始运行 CM。表~\ref{tab:ink-vision-summary} 仅汇总三个视觉骨干、三种任务规模均有宏平均结果的方法，保持九格系统对照；CM 来自同一工作台实现，B/32 八任务为 $86.60\%$。Delta 行报告 CM 相对各列 Individual FT 的百分点差，负值表示低于 FT；逐任务归一化使用对应环境的实测专家。只覆盖部分设定的重复实验、起点消融和基线补充另表呈现。
 
 \input{motivation_method/tables/vision_summary}
 
-表~\ref{tab:ink-t5-results} 给出 Flan-T5-base 八个任务专家一次性合并后的逐任务实测结果，采用 FusionBench 风格的 GLUE validation 生成评测；它不是持续合并实验。原版 \method{} 的五种子宏平均为 $84.92\pm0.05$；目标插值扩展 $0.3$ 为四种子 $85.64\pm0.04$，扩展 $0.6$ 为三种子 $85.77\pm0.08$。移植 FeatCal 的五种子结果为 $84.84\pm0.22$，统一报告样本标准差。原版与扩展分别报告，不将不同设定上的最高分拼为同一方法版本。
+\paragraph{单设定重复与起点消融。}
+表~\ref{tab:clip-initializations} 单列固定基准实现的 ViT-B/32 八任务结果。主配置的四个校准 seed 平均准确率为 $87.059\pm0.021\%$，误差为样本标准差；Individual FT 为 $89.96\%$，Delta 为 $-2.90$ 个百分点。同一 seed 的独立起点研究中，CM + WeightAvg 为 $85.31\%$、CM + RegMean 为 $85.55\%$，并保留未拉平控制。四种子是重复次数，工作台与固定基准是实现来源，均不作为方法名称，也不将其数值混成一次实验。工作台六起点对照见附录表~\ref{tab:clip-starts}。
+
+\input{motivation_method/tables/clip_initializations}
+
+表~\ref{tab:ink-t5-results} 给出 Flan-T5-base 八个任务专家一次性合并后的逐任务实测结果，采用 FusionBench 风格的 GLUE validation 生成评测；它不是持续合并实验。默认起点同为 Iso-C。CM + Iso-C 使用原始拟合目标时，五种子宏平均为 $84.92\pm0.05$；目标插值扩展 $0.3$ 为四种子 $85.64\pm0.04$，扩展 $0.6$ 为三种子 $85.77\pm0.08$。移植 FeatCal 的五种子结果为 $84.84\pm0.22$，统一报告样本标准差。原始目标与扩展分别报告；FT 对角参考目前仅有 CoLA，其余 Delta 留空。
 
 \input{motivation_method/tables/t5_results}
 

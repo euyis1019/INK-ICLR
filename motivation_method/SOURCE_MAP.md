@@ -6,11 +6,13 @@
 
 | 位置 | 当前数据 | 口径 |
 |---|---|---|
-| 正文视觉表、附录 CLIP 表 | `verified_results.json → vision` | 工作台九格与正式四种子分行；归一化使用逐任务实测专家；三格仅有日志宏平均，不补归一化 |
+| 正文视觉表、附录 CLIP 表 | `verified_results.json → vision` | 表 1 仅含完整九格；固定基准四种子和单设定起点另表，覆盖未齐基线移至附录；三格只有日志宏平均，不补归一化 |
+| 单设定重复与起点表 | `vision.formal / paired_starts` | 四种子为独立重复；配对起点研究使用 completion.json 的完整测试分，不将两者合并计数 |
 | 正文 T5 逐任务表、附录 base / large | `verified_results.json → t5.rows` | 八任务一次性合并后 validation；原版与两种目标插值分别列行；样本标准差 |
 | T5 零样本及专家参考 | `t5.partial_base / partial_expert` | 零样本仅四任务，专家仅 CoLA 对角；不计算缺测的八任务均值 |
 | LLM 精简与完整表 | `verified_results.json → llm` | 原始精度计算增益后统一舍入；保留全部十对和负向格 |
-| 起点附表 | `vision.starts / t5.starts` | CLIP 原型末轮；T5 使用配对 seed 0，不能用多种子均值替换某一配对终点 |
+| 起点附表 | `vision.starts / t5.starts` | CLIP 同列留出选轮与末轮；T5 原始目标与插值分列，均使用配对 seed 0 |
+| 起点索引及 CSV | `vision.start_sensitivity / starts / t5.starts / llm` | 额外尺度与轮数记录单列；各行保存原始来源，FT 差距以完整精度计算 |
 | 来源清单 | `verified_results.json → sources` | 实验工作区相对路径、字节数与 SHA-256；不包含模型权重 |
 
 生成器为 [update_results.py](update_results.py)，变更说明和缺口见 [RESULTS_UPDATE.md](RESULTS_UPDATE.md)。下面的提供材料记录说明历史来源；当前主表不再直接抄录旧汇总。

@@ -1,10 +1,11 @@
 {
   "supplied_text_sha256": "871e4f3efd529f7b32204e2ccf8fab12e77b0f08d76eea44dbcd2085b497a500",
-  "main_results_evidence_level": "Read-only audit of measured logs; formal/prototype/extension versions are separate. No model reruns.",
+  "main_results_evidence_level": "Measured CM results, named by initialization. Implementation provenance, seeds and target variants are separate metadata. No model reruns.",
   "files": {
-    "data/main_results.json": "a33c804fedcdcac0e46801735724bd9f3f5bbd0f5acee7b4712fc626269be0ff",
+    "data/main_results.json": "9ad96ae07ad3ecc5087ffa2b2de66d8b1889228403119ac36e5e2b4be34bc612",
     "evidence.json": "62b0f15044012bf0a5659658aa254d682dbe7cfc600f5a5efd549570f0799af2",
-    "data/verified_results.json": "2286cf279efbc2506f38c6aabd125c6aef6964c057e0182d3b664e4b938068ec"
+    "data/verified_results.json": "7d73ed569d4335a68c817bc87e83484c4377147f02af8bf9b23807d21bc1cdd1",
+    "data/cm_initializations.csv": "5e06d1c16e123eedb7b19eaa3de04a6b3d27f176f60b1142bde3f290b505f544"
   },
   "notation_sanity_checks": {
     "random_cases": 20,
@@ -40,5 +41,5 @@
     },
     "normalization_proof_role": "A theoretical comparison bound, not an ordinary-Fisher experiment."
   },
-  "measured_result_sources": 159
+  "measured_result_sources": 186
 }

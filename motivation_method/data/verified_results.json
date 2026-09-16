@@ -3627,39 +3627,408 @@
         "key": "iso_c",
         "before": 81.3983511515321,
         "after": 86.64999925359396,
+        "selected_accuracy": 86.60452711350209,
+        "selected_round": 2,
+        "seed": 0,
         "source": "wb/results_ablation/abl_init_coexist_iso_c.json"
       },
       {
         "key": "tsv_m",
         "before": 79.64455190509983,
         "after": 86.4016064168725,
+        "selected_accuracy": 86.38312443101569,
+        "selected_round": 2,
+        "seed": 0,
         "source": "wb/results_ablation/abl_init_coexist_tsv_m.json"
       },
       {
         "key": "regmean",
         "before": 80.53342693658584,
         "after": 85.31847582115186,
+        "selected_accuracy": 85.31847582115186,
+        "selected_round": 4,
+        "seed": 0,
         "source": "wb/results_ablation/abl_init_coexist_regmean.json"
       },
       {
         "key": "zeroshot",
         "before": 46.6984535992824,
         "after": 85.25409661111848,
+        "selected_accuracy": 85.25409661111848,
+        "selected_round": 4,
+        "seed": 0,
         "source": "wb/results_ablation/abl_init_coexist_zeroshot.json"
       },
       {
         "key": "average",
         "before": 62.099871610177196,
         "after": 85.1180905908503,
+        "selected_accuracy": 85.1180905908503,
+        "selected_round": 4,
+        "seed": 0,
         "source": "wb/results_ablation/abl_init_coexist_average.json"
       },
       {
         "key": "ta",
         "before": 65.54117051194929,
         "after": 85.08584202314917,
+        "selected_accuracy": 85.08584202314917,
+        "selected_round": 4,
+        "seed": 0,
         "source": "wb/results_ablation/abl_init_coexist_ta.json"
       }
-    ]
+    ],
+    "paired_starts": [
+      {
+        "key": "isoc",
+        "accuracy": 87.05576222326292,
+        "per_task": {
+          "Cars": 74.19475189653028,
+          "DTD": 71.91489361702128,
+          "EuroSAT": 97.74074074074075,
+          "GTSRB": 96.1520190023753,
+          "MNIST": 99.2,
+          "RESISC45": 89.96825396825396,
+          "SVHN": 95.75906576521204,
+          "SUN397": 71.51637279596977
+        },
+        "seed": 0,
+        "selected_round": 4,
+        "source": "docs/experiment_inventory/2026-09-16/remote_snapshot/reports/latex/cm_multistart_motivation/data/original/completion.json",
+        "source_commit": "0aef813b57bff0f296a700e9f3df0dfe58c96c34"
+      },
+      {
+        "key": "average",
+        "accuracy": 85.31243754982592,
+        "per_task": {
+          "Cars": 70.06591219997513,
+          "DTD": 69.46808510638297,
+          "EuroSAT": 96.88888888888889,
+          "GTSRB": 93.89548693586698,
+          "MNIST": 99.17,
+          "RESISC45": 88.39682539682539,
+          "SVHN": 96.07022126613398,
+          "SUN397": 68.544080604534
+        },
+        "seed": 0,
+        "selected_round": 4,
+        "source": "docs/experiment_inventory/2026-09-16/remote_snapshot/reports/latex/cm_multistart_motivation/data/original/completion.json",
+        "source_commit": "0aef813b57bff0f296a700e9f3df0dfe58c96c34"
+      },
+      {
+        "key": "regmean",
+        "accuracy": 85.54889121353875,
+        "per_task": {
+          "Cars": 69.53115284168636,
+          "DTD": 69.94680851063829,
+          "EuroSAT": 96.96296296296296,
+          "GTSRB": 95.12272367379256,
+          "MNIST": 99.21,
+          "RESISC45": 88.84126984126983,
+          "SVHN": 96.34296250768286,
+          "SUN397": 68.43324937027708
+        },
+        "seed": 0,
+        "selected_round": 4,
+        "source": "docs/experiment_inventory/2026-09-16/remote_snapshot/reports/latex/cm_multistart_motivation/data/original/completion.json",
+        "source_commit": "0aef813b57bff0f296a700e9f3df0dfe58c96c34"
+      },
+      {
+        "key": "unflattened_matched",
+        "accuracy": 78.80345730369888,
+        "per_task": {
+          "Cars": 62.97724163661236,
+          "DTD": 62.180851063829785,
+          "EuroSAT": 90.03703703703704,
+          "GTSRB": 91.67062549485352,
+          "MNIST": 99.19,
+          "RESISC45": 75.5079365079365,
+          "SVHN": 95.3979717271051,
+          "SUN397": 53.46599496221663
+        },
+        "seed": 0,
+        "selected_round": 4,
+        "source": "docs/experiment_inventory/2026-09-16/remote_snapshot/reports/latex/cm_multistart_motivation/data/original/completion.json",
+        "source_commit": "0aef813b57bff0f296a700e9f3df0dfe58c96c34"
+      }
+    ],
+    "start_sensitivity": [
+      {
+        "tag": "abl_budget_coexist_average_r12",
+        "key": "average",
+        "init_scale": null,
+        "round_budget": 12,
+        "completed_rounds": 12,
+        "seed": 0,
+        "before": 62.099871610177196,
+        "selected_accuracy": 85.14740086051314,
+        "selected_round": 5,
+        "last_accuracy": 85.17624312403152,
+        "source": "wb/results_ablation/abl_budget_coexist_average_r12.json"
+      },
+      {
+        "tag": "abl_budget_coexist_iso_c_r12",
+        "key": "iso_c",
+        "init_scale": null,
+        "round_budget": 12,
+        "completed_rounds": 12,
+        "seed": 0,
+        "before": 81.3983511515321,
+        "selected_accuracy": 86.60452711350209,
+        "selected_round": 2,
+        "last_accuracy": 86.33095071151631,
+        "source": "wb/results_ablation/abl_budget_coexist_iso_c_r12.json"
+      },
+      {
+        "tag": "abl_budget_coexist_regmean_r12",
+        "key": "regmean",
+        "init_scale": null,
+        "round_budget": 12,
+        "completed_rounds": 12,
+        "seed": 0,
+        "before": 80.53342693658584,
+        "selected_accuracy": 85.31847582115186,
+        "selected_round": 4,
+        "last_accuracy": 85.24040815445551,
+        "source": "wb/results_ablation/abl_budget_coexist_regmean_r12.json"
+      },
+      {
+        "tag": "abl_budget_coexist_ta_r12",
+        "key": "ta",
+        "init_scale": null,
+        "round_budget": 12,
+        "completed_rounds": 12,
+        "seed": 0,
+        "before": 65.54117051194929,
+        "selected_accuracy": 85.19047671640735,
+        "selected_round": 12,
+        "last_accuracy": 85.19047671640735,
+        "source": "wb/results_ablation/abl_budget_coexist_ta_r12.json"
+      },
+      {
+        "tag": "abl_budget_coexist_zeroshot_r12",
+        "key": "zeroshot",
+        "init_scale": null,
+        "round_budget": 12,
+        "completed_rounds": 12,
+        "seed": 0,
+        "before": 46.6984535992824,
+        "selected_accuracy": 85.38454844686505,
+        "selected_round": 12,
+        "last_accuracy": 85.38454844686505,
+        "source": "wb/results_ablation/abl_budget_coexist_zeroshot_r12.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha1.0",
+        "key": "iso_c",
+        "init_scale": 1.0,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 79.55944068596025,
+        "selected_accuracy": 85.81795130563923,
+        "selected_round": 3,
+        "last_accuracy": 85.82437676260564,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha1.0.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha1.6",
+        "key": "iso_c",
+        "init_scale": 1.6,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 80.74780377886977,
+        "selected_accuracy": 86.99140950281452,
+        "selected_round": 2,
+        "last_accuracy": 87.0280621092753,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha1.6.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha1.8",
+        "key": "iso_c",
+        "init_scale": 1.8,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 79.34530114998196,
+        "selected_accuracy": 87.18365279698114,
+        "selected_round": 2,
+        "last_accuracy": 87.17689971968474,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha1.8.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha2.0",
+        "key": "iso_c",
+        "init_scale": 2.0,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 77.20946669047851,
+        "selected_accuracy": 87.25296500170124,
+        "selected_round": 2,
+        "last_accuracy": 87.2888122441206,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha2.0.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha2.4",
+        "key": "iso_c",
+        "init_scale": 2.4,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 71.26349714658323,
+        "selected_accuracy": 87.30430622634721,
+        "selected_round": 2,
+        "last_accuracy": 87.3569098267256,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha2.4.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha2.7",
+        "key": "iso_c",
+        "init_scale": 2.7,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 65.70146819306585,
+        "selected_accuracy": 87.43051856266297,
+        "selected_round": 3,
+        "last_accuracy": 87.44004788454048,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha2.7.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha3.0",
+        "key": "iso_c",
+        "init_scale": 3.0,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 60.63505021558611,
+        "selected_accuracy": 87.45555317243898,
+        "selected_round": 4,
+        "last_accuracy": 87.45555317243898,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha3.0.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha3.0_r8",
+        "key": "iso_c",
+        "init_scale": 3.0,
+        "round_budget": 8,
+        "completed_rounds": 8,
+        "seed": 0,
+        "before": 60.63505021558611,
+        "selected_accuracy": 87.45555317243898,
+        "selected_round": 4,
+        "last_accuracy": 87.34738675414869,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha3.0_r8.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha3.3",
+        "key": "iso_c",
+        "init_scale": 3.3,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 56.28849905732764,
+        "selected_accuracy": 87.41237498823043,
+        "selected_round": 4,
+        "last_accuracy": 87.41237498823043,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha3.3.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha4.0",
+        "key": "iso_c",
+        "init_scale": 4.0,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 48.25051242034288,
+        "selected_accuracy": 86.7210930899252,
+        "selected_round": 4,
+        "last_accuracy": 86.7210930899252,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha4.0.json"
+      },
+      {
+        "tag": "abl_hp_coexist_isoalpha6.0",
+        "key": "iso_c",
+        "init_scale": 6.0,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 28.035954081370352,
+        "selected_accuracy": 86.64637379823019,
+        "selected_round": 4,
+        "last_accuracy": 86.64637379823019,
+        "source": "wb/results_ablation/abl_hp_coexist_isoalpha6.0.json"
+      },
+      {
+        "tag": "abl_scale_average_a12.0",
+        "key": "average",
+        "init_scale": 12.0,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 7.43647672711899,
+        "selected_accuracy": 67.78511841228061,
+        "selected_round": 4,
+        "last_accuracy": 67.78511841228061,
+        "source": "wb/results_ablation/abl_scale_average_a12.0.json"
+      },
+      {
+        "tag": "abl_scale_average_a3.0",
+        "key": "average",
+        "init_scale": 3.0,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 61.22573865240616,
+        "selected_accuracy": 85.08823175644348,
+        "selected_round": 4,
+        "last_accuracy": 85.08823175644348,
+        "source": "wb/results_ablation/abl_scale_average_a3.0.json"
+      },
+      {
+        "tag": "abl_scale_average_a6.0",
+        "key": "average",
+        "init_scale": 6.0,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 32.15513183997017,
+        "selected_accuracy": 84.9433213265415,
+        "selected_round": 4,
+        "last_accuracy": 84.9433213265415,
+        "source": "wb/results_ablation/abl_scale_average_a6.0.json"
+      },
+      {
+        "tag": "abl_scale_ta_a0.75",
+        "key": "ta",
+        "init_scale": 0.75,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 32.15513183997017,
+        "selected_accuracy": 84.9433213265415,
+        "selected_round": 4,
+        "last_accuracy": 84.9433213265415,
+        "source": "wb/results_ablation/abl_scale_ta_a0.75.json"
+      },
+      {
+        "tag": "abl_scale_ta_a1.5",
+        "key": "ta",
+        "init_scale": 1.5,
+        "round_budget": 4,
+        "completed_rounds": 4,
+        "seed": 0,
+        "before": 7.43647672711899,
+        "selected_accuracy": 67.78511841228061,
+        "selected_round": 4,
+        "last_accuracy": 67.78511841228061,
+        "source": "wb/results_ablation/abl_scale_ta_a1.5.json"
+      }
+    ],
+    "default_initialization": "Iso-C",
+    "default_initialization_scale": 1.3
   },
   "t5": {
     "rows": [
@@ -3995,7 +4364,7 @@
       },
       {
         "key": "cm",
-        "label": "\\method{}（原版）",
+        "label": "CM + Iso-C",
         "base": {
           "mean": 84.91556347304675,
           "sample_sd": 0.046009466120763114,
@@ -4049,7 +4418,7 @@
       },
       {
         "key": "cm_target03",
-        "label": "\\method{}（目标插值 0.3）",
+        "label": "CM + Iso-C（目标插值 0.3）",
         "base": {
           "mean": 85.63539720827069,
           "sample_sd": 0.04098200971763889,
@@ -4101,7 +4470,7 @@
       },
       {
         "key": "cm_target06",
-        "label": "\\method{}（目标插值 0.6）",
+        "label": "CM + Iso-C（目标插值 0.6）",
         "base": {
           "mean": 85.76592962577361,
           "sample_sd": 0.08094680080915545,
@@ -4148,371 +4517,545 @@
     },
     "starts": [
       {
-        "label": "Iso-C 1.3",
-        "groups": [
-          {
-            "mean": 79.64478618764153,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              79.64478618764153
-            ],
-            "per_task": {
-              "cola": 69.51102588686481,
-              "mnli": 67.27457972491085,
-              "mrpc": 78.43137254901961,
-              "qnli": 90.17023613399232,
-              "qqp": 84.38288399703191,
-              "rte": 81.2274368231047,
-              "sst2": 92.20183486238533,
-              "stsb": 73.95891952382276
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_iso_c1.3.json"
-            ]
+        "label": "Iso-C",
+        "base_before": {
+          "mean": 79.64478618764153,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            79.64478618764153
+          ],
+          "per_task": {
+            "cola": 69.51102588686481,
+            "mnli": 67.27457972491085,
+            "mrpc": 78.43137254901961,
+            "qnli": 90.17023613399232,
+            "qqp": 84.38288399703191,
+            "rte": 81.2274368231047,
+            "sst2": 92.20183486238533,
+            "stsb": 73.95891952382276
           },
-          {
-            "mean": 85.58767619261754,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              85.58767619261754
-            ],
-            "per_task": {
-              "cola": 74.40076701821668,
-              "mnli": 83.3112582781457,
-              "mrpc": 85.7843137254902,
-              "qnli": 90.77429983525535,
-              "qqp": 84.90724709374227,
-              "rte": 84.47653429602889,
-              "sst2": 93.23394495412845,
-              "stsb": 87.81304433993273
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_coexist_tgt0.3.json"
-            ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_iso_c1.3.json"
+          ]
+        },
+        "base_original": {
+          "mean": 84.8455535396478,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            84.8455535396478
+          ],
+          "per_task": {
+            "cola": 71.42857142857143,
+            "mnli": 83.35201222618441,
+            "mrpc": 84.55882352941177,
+            "qnli": 91.21361889071939,
+            "qqp": 84.76131585456345,
+            "rte": 82.67148014440433,
+            "sst2": 93.23394495412845,
+            "stsb": 87.5446612891992
           },
-          {
-            "mean": 82.42192104402464,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              82.42192104402464
-            ],
-            "per_task": {
-              "cola": 73.92138063279003,
-              "mnli": 58.54304635761589,
-              "mrpc": 82.3529411764706,
-              "qnli": 91.19531393007505,
-              "qqp": 85.53054662379421,
-              "rte": 85.92057761732852,
-              "sst2": 94.38073394495413,
-              "stsb": 87.53082806916872
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5l_iso_c1.3.json"
-            ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_coexist_n256.json"
+          ]
+        },
+        "base_target03": {
+          "mean": 85.58767619261754,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            85.58767619261754
+          ],
+          "per_task": {
+            "cola": 74.40076701821668,
+            "mnli": 83.3112582781457,
+            "mrpc": 85.7843137254902,
+            "qnli": 90.77429983525535,
+            "qqp": 84.90724709374227,
+            "rte": 84.47653429602889,
+            "sst2": 93.23394495412845,
+            "stsb": 87.81304433993273
           },
-          {
-            "mean": 88.9861073119702,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              88.9861073119702
-            ],
-            "per_task": {
-              "cola": 79.0987535953979,
-              "mnli": 88.35455934793683,
-              "mrpc": 87.99019607843137,
-              "qnli": 93.99597290865825,
-              "qqp": 86.96265149641356,
-              "rte": 89.53068592057761,
-              "sst2": 95.41284403669725,
-              "stsb": 90.54319511164883
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5l_coexist.json"
-            ]
-          }
-        ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_coexist_tgt0.3.json"
+          ]
+        },
+        "large_before": {
+          "mean": 82.42192104402464,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            82.42192104402464
+          ],
+          "per_task": {
+            "cola": 73.92138063279003,
+            "mnli": 58.54304635761589,
+            "mrpc": 82.3529411764706,
+            "qnli": 91.19531393007505,
+            "qqp": 85.53054662379421,
+            "rte": 85.92057761732852,
+            "sst2": 94.38073394495413,
+            "stsb": 87.53082806916872
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5l_iso_c1.3.json"
+          ]
+        },
+        "large_original": {
+          "mean": 88.9861073119702,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            88.9861073119702
+          ],
+          "per_task": {
+            "cola": 79.0987535953979,
+            "mnli": 88.35455934793683,
+            "mrpc": 87.99019607843137,
+            "qnli": 93.99597290865825,
+            "qqp": 86.96265149641356,
+            "rte": 89.53068592057761,
+            "sst2": 95.41284403669725,
+            "stsb": 90.54319511164883
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5l_coexist.json"
+          ]
+        }
       },
       {
-        "label": "TA + FeatCal",
-        "groups": [
-          {
-            "mean": 84.55565558922835,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              84.55565558922835
-            ],
-            "per_task": {
-              "cola": 71.90795781399808,
-              "mnli": 82.37391747325522,
-              "mrpc": 82.3529411764706,
-              "qnli": 90.88412959912137,
-              "qqp": 84.81078407123424,
-              "rte": 83.75451263537906,
-              "sst2": 93.11926605504587,
-              "stsb": 87.24173588932236
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_featcal.json"
-            ]
+        "label": "FeatCal (TA)",
+        "base_before": {
+          "mean": 84.55565558922835,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            84.55565558922835
+          ],
+          "per_task": {
+            "cola": 71.90795781399808,
+            "mnli": 82.37391747325522,
+            "mrpc": 82.3529411764706,
+            "qnli": 90.88412959912137,
+            "qqp": 84.81078407123424,
+            "rte": 83.75451263537906,
+            "sst2": 93.11926605504587,
+            "stsb": 87.24173588932236
           },
-          {
-            "mean": 85.44329953590557,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              85.44329953590557
-            ],
-            "per_task": {
-              "cola": 73.5378715244487,
-              "mnli": 83.08711156393275,
-              "mrpc": 85.7843137254902,
-              "qnli": 90.79260479589969,
-              "qqp": 84.75389562206283,
-              "rte": 85.1985559566787,
-              "sst2": 92.88990825688073,
-              "stsb": 87.50213484185096
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_stack_tgt0.3_from_featcal.json"
-            ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_featcal.json"
+          ]
+        },
+        "base_original": {
+          "mean": 84.81824591384509,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            84.81824591384509
+          ],
+          "per_task": {
+            "cola": 71.23681687440077,
+            "mnli": 83.34182373917473,
+            "mrpc": 84.06862745098039,
+            "qnli": 90.93904448105437,
+            "qqp": 84.78604996289884,
+            "rte": 83.75451263537906,
+            "sst2": 93.11926605504587,
+            "stsb": 87.29982611182677
           },
-          {
-            "mean": 89.06066436199751,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              89.06066436199751
-            ],
-            "per_task": {
-              "cola": 78.71524448705657,
-              "mnli": 88.04890473764645,
-              "mrpc": 87.99019607843137,
-              "qnli": 94.16071755445726,
-              "qqp": 86.89834281474153,
-              "rte": 90.25270758122744,
-              "sst2": 95.52752293577981,
-              "stsb": 90.89167870663964
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5l_featcal.json"
-            ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_coexist_from_featcal.json"
+          ]
+        },
+        "base_target03": {
+          "mean": 85.44329953590557,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            85.44329953590557
+          ],
+          "per_task": {
+            "cola": 73.5378715244487,
+            "mnli": 83.08711156393275,
+            "mrpc": 85.7843137254902,
+            "qnli": 90.79260479589969,
+            "qqp": 84.75389562206283,
+            "rte": 85.1985559566787,
+            "sst2": 92.88990825688073,
+            "stsb": 87.50213484185096
           },
-          {
-            "mean": 89.1043147999759,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              89.1043147999759
-            ],
-            "per_task": {
-              "cola": 79.38638542665389,
-              "mnli": 88.41569026999491,
-              "mrpc": 87.99019607843137,
-              "qnli": 94.06919275123559,
-              "qqp": 86.89339599307445,
-              "rte": 89.89169675090253,
-              "sst2": 95.41284403669725,
-              "stsb": 90.7751170928172
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5l_stack_coexist_from_featcal.json"
-            ]
-          }
-        ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_stack_tgt0.3_from_featcal.json"
+          ]
+        },
+        "large_before": {
+          "mean": 89.06066436199751,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            89.06066436199751
+          ],
+          "per_task": {
+            "cola": 78.71524448705657,
+            "mnli": 88.04890473764645,
+            "mrpc": 87.99019607843137,
+            "qnli": 94.16071755445726,
+            "qqp": 86.89834281474153,
+            "rte": 90.25270758122744,
+            "sst2": 95.52752293577981,
+            "stsb": 90.89167870663964
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5l_featcal.json"
+          ]
+        },
+        "large_original": {
+          "mean": 89.1043147999759,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            89.1043147999759
+          ],
+          "per_task": {
+            "cola": 79.38638542665389,
+            "mnli": 88.41569026999491,
+            "mrpc": 87.99019607843137,
+            "qnli": 94.06919275123559,
+            "qqp": 86.89339599307445,
+            "rte": 89.89169675090253,
+            "sst2": 95.41284403669725,
+            "stsb": 90.7751170928172
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5l_stack_coexist_from_featcal.json"
+          ]
+        }
       },
       {
-        "label": "RegMean 0.9",
-        "groups": [
-          {
-            "mean": 83.80109444608075,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              83.80109444608075
-            ],
-            "per_task": {
-              "cola": 69.79865771812081,
-              "mnli": 83.32144676515537,
-              "mrpc": 79.65686274509804,
-              "qnli": 90.9024345597657,
-              "qqp": 84.51150136037596,
-              "rte": 83.39350180505416,
-              "sst2": 93.11926605504587,
-              "stsb": 85.70508456003013
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_regmean0.9.json"
-            ]
+        "label": "RegMean",
+        "base_before": {
+          "mean": 83.80109444608075,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            83.80109444608075
+          ],
+          "per_task": {
+            "cola": 69.79865771812081,
+            "mnli": 83.32144676515537,
+            "mrpc": 79.65686274509804,
+            "qnli": 90.9024345597657,
+            "qqp": 84.51150136037596,
+            "rte": 83.39350180505416,
+            "sst2": 93.11926605504587,
+            "stsb": 85.70508456003013
           },
-          {
-            "mean": 85.56763225996356,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              85.56763225996356
-            ],
-            "per_task": {
-              "cola": 74.01725790987535,
-              "mnli": 83.18899643402955,
-              "mrpc": 86.02941176470588,
-              "qnli": 90.81090975654402,
-              "qqp": 84.82809794706901,
-              "rte": 84.83754512635379,
-              "sst2": 92.88990825688073,
-              "stsb": 87.93893088425007
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_stack_tgt0.3_from_regmean0.9.json"
-            ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_regmean0.9.json"
+          ]
+        },
+        "base_original": {
+          "mean": 84.78151121762886,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            84.78151121762886
+          ],
+          "per_task": {
+            "cola": 71.42857142857143,
+            "mnli": 83.2603158430973,
+            "mrpc": 84.31372549019608,
+            "qnli": 91.21361889071939,
+            "qqp": 84.74152856789513,
+            "rte": 82.67148014440433,
+            "sst2": 93.23394495412845,
+            "stsb": 87.3889044220188
           },
-          null,
-          null
-        ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_coexist_from_regmean0.9.json"
+          ]
+        },
+        "base_target03": {
+          "mean": 85.56763225996356,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            85.56763225996356
+          ],
+          "per_task": {
+            "cola": 74.01725790987535,
+            "mnli": 83.18899643402955,
+            "mrpc": 86.02941176470588,
+            "qnli": 90.81090975654402,
+            "qqp": 84.82809794706901,
+            "rte": 84.83754512635379,
+            "sst2": 92.88990825688073,
+            "stsb": 87.93893088425007
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5_stack_tgt0.3_from_regmean0.9.json"
+          ]
+        },
+        "large_before": {
+          "mean": 88.23626786325056,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            88.23626786325056
+          ],
+          "per_task": {
+            "cola": 75.83892617449665,
+            "mnli": 88.68059093224656,
+            "mrpc": 86.51960784313725,
+            "qnli": 93.8678381841479,
+            "qqp": 86.80435320306702,
+            "rte": 88.8086642599278,
+            "sst2": 94.95412844036697,
+            "stsb": 90.41603386861439
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5l_regmean0.9.json"
+          ]
+        },
+        "large_original": null
       },
       {
         "label": "TSV-M",
-        "groups": [
-          {
-            "mean": 82.75929090583355,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              82.75929090583355
-            ],
-            "per_task": {
-              "cola": 70.75743048897411,
-              "mnli": 79.73509933774834,
-              "mrpc": 78.67647058823529,
-              "qnli": 90.68277503203367,
-              "qqp": 84.27158050952264,
-              "rte": 83.39350180505416,
-              "sst2": 93.11926605504587,
-              "stsb": 81.43820343005437
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_tsv_m.json"
-            ]
+        "base_before": {
+          "mean": 82.75929090583355,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            82.75929090583355
+          ],
+          "per_task": {
+            "cola": 70.75743048897411,
+            "mnli": 79.73509933774834,
+            "mrpc": 78.67647058823529,
+            "qnli": 90.68277503203367,
+            "qqp": 84.27158050952264,
+            "rte": 83.39350180505416,
+            "sst2": 93.11926605504587,
+            "stsb": 81.43820343005437
           },
-          {
-            "mean": 85.48019490550348,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              85.48019490550348
-            ],
-            "per_task": {
-              "cola": 74.30488974113135,
-              "mnli": 83.03616912888437,
-              "mrpc": 85.29411764705883,
-              "qnli": 90.64616511074502,
-              "qqp": 84.91466732624289,
-              "rte": 84.47653429602889,
-              "sst2": 93.11926605504587,
-              "stsb": 88.04974993889067
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_stack_tgt0.3_from_tsv_m.json"
-            ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_tsv_m.json"
+          ]
+        },
+        "base_original": null,
+        "base_target03": {
+          "mean": 85.48019490550348,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            85.48019490550348
+          ],
+          "per_task": {
+            "cola": 74.30488974113135,
+            "mnli": 83.03616912888437,
+            "mrpc": 85.29411764705883,
+            "qnli": 90.64616511074502,
+            "qqp": 84.91466732624289,
+            "rte": 84.47653429602889,
+            "sst2": 93.11926605504587,
+            "stsb": 88.04974993889067
           },
-          {
-            "mean": 88.09297673812956,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              88.09297673812956
-            ],
-            "per_task": {
-              "cola": 77.94822627037392,
-              "mnli": 88.37493632195618,
-              "mrpc": 86.27450980392157,
-              "qnli": 93.8678381841479,
-              "qqp": 86.04996289883749,
-              "rte": 87.72563176895306,
-              "sst2": 95.29816513761467,
-              "stsb": 89.20454351923158
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5l_tsv_m.json"
-            ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_stack_tgt0.3_from_tsv_m.json"
+          ]
+        },
+        "large_before": {
+          "mean": 88.09297673812956,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            88.09297673812956
+          ],
+          "per_task": {
+            "cola": 77.94822627037392,
+            "mnli": 88.37493632195618,
+            "mrpc": 86.27450980392157,
+            "qnli": 93.8678381841479,
+            "qqp": 86.04996289883749,
+            "rte": 87.72563176895306,
+            "sst2": 95.29816513761467,
+            "stsb": 89.20454351923158
           },
-          {
-            "mean": 89.07108761048676,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              89.07108761048676
-            ],
-            "per_task": {
-              "cola": 79.0987535953979,
-              "mnli": 88.37493632195618,
-              "mrpc": 88.23529411764706,
-              "qnli": 94.03258282994692,
-              "qqp": 86.95275785307939,
-              "rte": 89.89169675090253,
-              "sst2": 95.41284403669725,
-              "stsb": 90.56983537826679
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5l_stack_coexist_from_tsv_m.json"
-            ]
-          }
-        ]
+          "sources": [
+            "experiments/nlp_runs/results/t5l_tsv_m.json"
+          ]
+        },
+        "large_original": {
+          "mean": 89.07108761048676,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            89.07108761048676
+          ],
+          "per_task": {
+            "cola": 79.0987535953979,
+            "mnli": 88.37493632195618,
+            "mrpc": 88.23529411764706,
+            "qnli": 94.03258282994692,
+            "qqp": 86.95275785307939,
+            "rte": 89.89169675090253,
+            "sst2": 95.41284403669725,
+            "stsb": 90.56983537826679
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5l_stack_coexist_from_tsv_m.json"
+          ]
+        }
       },
       {
-        "label": "Task Arith. 0.3",
-        "groups": [
-          {
-            "mean": 78.89205843058306,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              78.89205843058306
-            ],
-            "per_task": {
-              "cola": 70.46979865771812,
-              "mnli": 57.768721344880284,
-              "mrpc": 78.43137254901961,
-              "qnli": 90.20684605528098,
-              "qqp": 83.62107346030176,
-              "rte": 80.50541516245487,
-              "sst2": 92.31651376146789,
-              "stsb": 77.81672645354095
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_ta0.3.json"
-            ]
+        "label": "Task Arithmetic",
+        "base_before": {
+          "mean": 78.89205843058306,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            78.89205843058306
+          ],
+          "per_task": {
+            "cola": 70.46979865771812,
+            "mnli": 57.768721344880284,
+            "mrpc": 78.43137254901961,
+            "qnli": 90.20684605528098,
+            "qqp": 83.62107346030176,
+            "rte": 80.50541516245487,
+            "sst2": 92.31651376146789,
+            "stsb": 77.81672645354095
           },
-          {
-            "mean": 85.49863522604653,
-            "sample_sd": null,
-            "n": 1,
-            "values": [
-              85.49863522604653
-            ],
-            "per_task": {
-              "cola": 74.30488974113135,
-              "mnli": 82.8222109016811,
-              "mrpc": 85.53921568627452,
-              "qnli": 90.82921471718836,
-              "qqp": 84.92703438041059,
-              "rte": 84.47653429602889,
-              "sst2": 93.11926605504587,
-              "stsb": 87.9707160306116
-            },
-            "sources": [
-              "experiments/nlp_runs/results/t5_stack_tgt0.3_from_ta0.3.json"
-            ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_ta0.3.json"
+          ]
+        },
+        "base_original": null,
+        "base_target03": {
+          "mean": 85.49863522604653,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            85.49863522604653
+          ],
+          "per_task": {
+            "cola": 74.30488974113135,
+            "mnli": 82.8222109016811,
+            "mrpc": 85.53921568627452,
+            "qnli": 90.82921471718836,
+            "qqp": 84.92703438041059,
+            "rte": 84.47653429602889,
+            "sst2": 93.11926605504587,
+            "stsb": 87.9707160306116
           },
-          null,
-          null
-        ]
+          "sources": [
+            "experiments/nlp_runs/results/t5_stack_tgt0.3_from_ta0.3.json"
+          ]
+        },
+        "large_before": {
+          "mean": 87.30260143269213,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            87.30260143269213
+          ],
+          "per_task": {
+            "cola": 76.89357622243529,
+            "mnli": 85.44065206316861,
+            "mrpc": 85.29411764705883,
+            "qnli": 93.9227530660809,
+            "qqp": 85.84466979965373,
+            "rte": 88.08664259927798,
+            "sst2": 95.18348623853211,
+            "stsb": 87.75491382532951
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5l_ta0.3.json"
+          ]
+        },
+        "large_original": null
       }
-    ]
+    ],
+    "featcal_after_cm": [
+      {
+        "setting": "base",
+        "cm_variant": "original",
+        "result": {
+          "mean": 84.63962845426103,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            84.63962845426103
+          ],
+          "per_task": {
+            "cola": 71.52444870565677,
+            "mnli": 83.13805399898115,
+            "mrpc": 82.3529411764706,
+            "qnli": 90.82921471718836,
+            "qqp": 84.57581004204799,
+            "rte": 84.11552346570397,
+            "sst2": 93.0045871559633,
+            "stsb": 87.5764483720761
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5_featcal_on_coexist.json"
+          ]
+        }
+      },
+      {
+        "setting": "base",
+        "cm_variant": "target0.3",
+        "result": {
+          "mean": 84.7754846905658,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            84.7754846905658
+          ],
+          "per_task": {
+            "cola": 71.14093959731544,
+            "mnli": 82.64900662251655,
+            "mrpc": 82.59803921568627,
+            "qnli": 90.591250228812,
+            "qqp": 84.46450655453872,
+            "rte": 87.00361010830325,
+            "sst2": 93.0045871559633,
+            "stsb": 86.75193804139089
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5_stack_featcal_on_tgt0.3.json"
+          ]
+        }
+      },
+      {
+        "setting": "large",
+        "cm_variant": "original",
+        "result": {
+          "mean": 89.32075355631964,
+          "sample_sd": null,
+          "n": 1,
+          "values": [
+            89.32075355631964
+          ],
+          "per_task": {
+            "cola": 79.0987535953979,
+            "mnli": 88.21192052980132,
+            "mrpc": 88.72549019607843,
+            "qnli": 93.99597290865825,
+            "qqp": 86.97749196141478,
+            "rte": 91.69675090252707,
+            "sst2": 95.18348623853211,
+            "stsb": 90.67616211814732
+          },
+          "sources": [
+            "experiments/nlp_runs/results/t5l_stack_featcal_on_coexist.json"
+          ]
+        }
+      }
+    ],
+    "default_initialization": "Iso-C",
+    "default_initialization_scale": 1.3
   },
   "llm": [
     {
@@ -5013,6 +5556,11 @@
       "bytes": 8147
     },
     {
+      "path": "docs/experiment_inventory/2026-09-16/remote_snapshot/reports/latex/cm_multistart_motivation/data/original/completion.json",
+      "sha256": "ceb85521b6c3b8e3f6cd70ed80e63b1b4f42e12155003684f1f0d5b5b325b51f",
+      "bytes": 7767
+    },
+    {
       "path": "experiments/github_runs/results/coexist_inkrl_seed0.json",
       "sha256": "37b7bcec95cae28524839027c80c36ef023a9f1846851bc888f2bd08450577fd",
       "bytes": 11243
@@ -5046,6 +5594,16 @@
       "path": "experiments/nlp_runs/results/t5_average.json",
       "sha256": "efe1034d24a281762dbab749197fa64177cfb06308a0c997d412a3fb119d3806",
       "bytes": 1658
+    },
+    {
+      "path": "experiments/nlp_runs/results/t5_coexist_from_featcal.json",
+      "sha256": "378b914b9f0c5aa1cf257407ea30b79f2d167fbcbc98e38d060ee8044697bb15",
+      "bytes": 1687
+    },
+    {
+      "path": "experiments/nlp_runs/results/t5_coexist_from_regmean0.9.json",
+      "sha256": "6537ed6ca08a680a0b142ded8206efb3edbc98624e06ffedfc57f730c6fbc850",
+      "bytes": 1688
     },
     {
       "path": "experiments/nlp_runs/results/t5_coexist_n256.json",
@@ -5113,6 +5671,11 @@
       "bytes": 1674
     },
     {
+      "path": "experiments/nlp_runs/results/t5_featcal_on_coexist.json",
+      "sha256": "e1411ca6d2940fd69988a22ba7ac596a58bc15d7c2da244e92c7549b5fd35682",
+      "bytes": 1682
+    },
+    {
       "path": "experiments/nlp_runs/results/t5_featcal_seed1.json",
       "sha256": "9d9386131c1cac3d1549b6e98c946e158fc4142c13a337bb115736b696a280f3",
       "bytes": 1680
@@ -5141,6 +5704,11 @@
       "path": "experiments/nlp_runs/results/t5_regmean0.9.json",
       "sha256": "b02e453c566307e9913cf8e65c76eae52de942f01db2a7dcd250dee28996d841",
       "bytes": 1676
+    },
+    {
+      "path": "experiments/nlp_runs/results/t5_stack_featcal_on_tgt0.3.json",
+      "sha256": "19a5c726b9c3bbbc806e2056bc83ecb0935d304f9686f1b0da9c24c5ac17075f",
+      "bytes": 1686
     },
     {
       "path": "experiments/nlp_runs/results/t5_stack_tgt0.3_from_featcal.json",
@@ -5218,6 +5786,11 @@
       "bytes": 1693
     },
     {
+      "path": "experiments/nlp_runs/results/t5l_stack_featcal_on_coexist.json",
+      "sha256": "9e71fbdcfcb5bc3ecf673ea08c9cf5d1d8b3945692dcab8a885cce02b5b2f565",
+      "bytes": 1693
+    },
+    {
       "path": "experiments/nlp_runs/results/t5l_ta0.3.json",
       "sha256": "7166d5e1298928f13cb38db67780fca1a1543fd7bb470e5f1d22c2f834134cb9",
       "bytes": 1668
@@ -5231,6 +5804,86 @@
       "path": "experiments/nlp_runs/results/t5l_tsv_m.json",
       "sha256": "cd39f649aabb043eb9f3de11dabb1c752bab51a91591cd5e59a3dc8db55589b1",
       "bytes": 1674
+    },
+    {
+      "path": "wb/results_ablation/abl_budget_coexist_average_r12.json",
+      "sha256": "431454abbdf2f22546c24a5ded08f870aba8689898585bfebf1a878096368a49",
+      "bytes": 68468
+    },
+    {
+      "path": "wb/results_ablation/abl_budget_coexist_iso_c_r12.json",
+      "sha256": "35d09668b2e943322f591d73408e1b8d75d4d6883cc71474fa95baba2400df1b",
+      "bytes": 68462
+    },
+    {
+      "path": "wb/results_ablation/abl_budget_coexist_regmean_r12.json",
+      "sha256": "a9312edc04b0ad90345d5a57faf72bfc4d2cb48dcdb85184a86212340d506365",
+      "bytes": 68437
+    },
+    {
+      "path": "wb/results_ablation/abl_budget_coexist_ta_r12.json",
+      "sha256": "e9b5cd2fdb021061274ba90f2edf9ed840a80b5457b86806a4db54913006fd43",
+      "bytes": 68454
+    },
+    {
+      "path": "wb/results_ablation/abl_budget_coexist_zeroshot_r12.json",
+      "sha256": "a841524142807a8bdcbe467255330cbe6fdf7c16a6fb9b6de892484bd61a8ff1",
+      "bytes": 68497
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha1.0.json",
+      "sha256": "76d29aa087282ac58d3da3e7d5237e0b5addd487922ab46ca003b0de4f9990af",
+      "bytes": 23869
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha1.6.json",
+      "sha256": "ca0bb790649e188b1218baee80abc663c877fa239ee9a7a64c11fbffb3114063",
+      "bytes": 23828
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha1.8.json",
+      "sha256": "f7e2fd2d2ca49590f55ea5d854619a33ec9ddf1fa8f7e128e6c7f40a19b8b6f0",
+      "bytes": 23818
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha2.0.json",
+      "sha256": "6efbc2af212c16e89c0cb4f595be6e8d5f6216aa88fdab39ac725ef7d291888a",
+      "bytes": 23826
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha2.4.json",
+      "sha256": "d731ea594638f743557f92bfee99a371e6bb03e7c1cde2a6b2035263660035f7",
+      "bytes": 23812
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha2.7.json",
+      "sha256": "3d62071c13bb62fceba39e8839536ab569cda392f6794ee2e0857c911c738099",
+      "bytes": 23820
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha3.0.json",
+      "sha256": "3c968cff4b8f11c528f2c313bfe2c649b18fb3fb334388449bfb209cb1dc61d2",
+      "bytes": 23803
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha3.0_r8.json",
+      "sha256": "f742c9030ee373a4794294777e026ec4730975f0d63023048b775349ac77c276",
+      "bytes": 46090
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha3.3.json",
+      "sha256": "4823225e931d833d735115ff343bfa5eed7abbc696d4dcf8242d99106b1f698a",
+      "bytes": 23831
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha4.0.json",
+      "sha256": "a581a0097af9e3f5d37d48a6fd03436ce36d0fc150fadb4c08cd1441a743785c",
+      "bytes": 23825
+    },
+    {
+      "path": "wb/results_ablation/abl_hp_coexist_isoalpha6.0.json",
+      "sha256": "e7aee4743004a0d1dc1b21ee287995bd4561ed8923ab991957a9b30ac3859125",
+      "bytes": 23857
     },
     {
       "path": "wb/results_ablation/abl_init_coexist_average.json",
@@ -5261,6 +5914,31 @@
       "path": "wb/results_ablation/abl_init_coexist_zeroshot.json",
       "sha256": "f8fe48694615f179fa2d7e2b349c2c9d77d7c88dd4519cd169190a9d2b626216",
       "bytes": 23874
+    },
+    {
+      "path": "wb/results_ablation/abl_scale_average_a12.0.json",
+      "sha256": "b3145b41f80b6e8d361ba51a13a309fb24ada26b94e3ebcfe87ef6638cc0ec44",
+      "bytes": 23833
+    },
+    {
+      "path": "wb/results_ablation/abl_scale_average_a3.0.json",
+      "sha256": "43c55cd6afbad8839bc48ac9c7997cb67202649270ec8c0bfa4f52e4dda2b1e8",
+      "bytes": 23861
+    },
+    {
+      "path": "wb/results_ablation/abl_scale_average_a6.0.json",
+      "sha256": "c5adc850ec605472a68fcd9283b072868c469d6a2bfb169ee38a363e19567629",
+      "bytes": 23860
+    },
+    {
+      "path": "wb/results_ablation/abl_scale_ta_a0.75.json",
+      "sha256": "1ec072f2157bbecea05fe265df16eb964e3d9b2362342e202d7b9d4e906ba3cc",
+      "bytes": 23844
+    },
+    {
+      "path": "wb/results_ablation/abl_scale_ta_a1.5.json",
+      "sha256": "a8d32ed9b5857094ac5bbb02f71593f4f94e996a688f9df683a513a712c53d9d",
+      "bytes": 23809
     },
     {
       "path": "wb/results_ablation/grid_coexist_ViT-B-16_14.json",
