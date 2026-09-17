@@ -12,6 +12,7 @@
 - [可独立重建表格的数据快照](motivation_method/data/verified_results.json)
 - [数据检查结果与缺测清单](motivation_method/data/result_validation.json)
 - [逐运行配置清单](motivation_method/data/protocol_runs.csv) 与 [待执行的对齐规范](motivation_method/data/alignment_plan.json)
+- [RegMean 与 CM 的方程和求解入门](motivation_method/LINEAR_SYSTEMS_GUIDE.md)：从逐层拟合讲到直接求解、共轭梯度与外层重测，附 CPU 示例。
 
 重建表格使用 `python3 motivation_method/update_results.py`，编译使用 `bash motivation_method/build.sh`。下面涉及随机占位或旧方法的说明属于历史全文入口，不适用于已回填的 CM 聚焦稿。
 
