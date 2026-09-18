@@ -1,25 +1,25 @@
-# Coexist-Merge manuscript (ICLR 2027 template)
+# IF-Merge manuscript (ICLR 2027 template)
 
-## CM 结果回填（2026-09-16）
+## IF-Merge 结果回填（2026-09-16）
 
-当前编辑入口为 [motivation_method.tex](motivation_method.tex)，输出为 [motivation_method.pdf](motivation_method.pdf)。表 1 保留三个 ViT、三种任务规模的完整九格对照，主配置明确命名为 **CM + Iso-C**，并增加相对 Individual FT 的 Delta 行。只覆盖单一设定的四种子结果与起点消融单独成表，覆盖未齐的基线移至附录。T5、LLM 及其他起点详见 [CM 起点清单](motivation_method/INITIALIZATIONS.md)；缺测不填占位数。
+当前编辑入口为 [motivation_method.tex](motivation_method.tex)，输出为 [motivation_method.pdf](motivation_method.pdf)。表 1 保留三个 ViT、三种任务规模的完整九格对照，主配置明确命名为 **IF-Merge + Iso-C**，并增加相对 Individual FT 的 Delta 行。只覆盖单一设定的四种子结果与起点消融单独成表，覆盖未齐的基线移至附录。T5、LLM 及其他起点详见 [IF-Merge 起点清单](motivation_method/INITIALIZATIONS.md)；缺测不填占位数。
 
 正文的 **LLM 合并**部分用两张完整表展示 Llama-3.2-3B 的六组和 Gemma-2-2B 的四组起点对照，包含 GSM8K、IFEval 与已完成的 Llama 三域结果；附录补充参考点和校准种子重复。
 
-**版本与配置先看 [协议对齐说明](motivation_method/PROTOCOL_ALIGNMENT.md)**：区分目标插值、FeatCal 移植、串联和多种子，列明 110 条已找到的运行及五种子待执行规范。T5 插值消融按共同 seed 0、1、2 单列，默认方法主表保留原版 CM；LLM 校准种子更正为 42。历史工作台/LLM 与正式 CLIP/T5 的 CG 初值不同，完整对齐需要修改实现并重跑，不能用旧成绩冒充已完成新规范。
+**版本与配置先看 [协议对齐说明](motivation_method/PROTOCOL_ALIGNMENT.md)**：区分目标插值、FeatCal 移植、串联和多种子，列明 110 条已找到的运行及五种子待执行规范。T5 插值消融按共同 seed 0、1、2 单列，默认方法主表保留原版 IF-Merge；LLM 校准种子更正为 42。历史工作台/LLM 与正式 CLIP/T5 的 CG 初值不同，完整对齐需要修改实现并重跑，不能用旧成绩冒充已完成新规范。
 
 - [回填说明、修正和剩余缺口](motivation_method/RESULTS_UPDATE.md)
 - [可独立重建表格的数据快照](motivation_method/data/verified_results.json)
 - [数据检查结果与缺测清单](motivation_method/data/result_validation.json)
 - [逐运行配置清单](motivation_method/data/protocol_runs.csv) 与 [待执行的对齐规范](motivation_method/data/alignment_plan.json)
-- [RegMean 与 CM 的方程和求解入门](motivation_method/LINEAR_SYSTEMS_GUIDE.md)：从逐层拟合讲到直接求解、共轭梯度与外层重测，附 CPU 示例。
-- [外积与梯度形状的数值例子](motivation_method/OUTER_PRODUCT_EXAMPLE.md)：展示向量外积、完整参数外积、对角近似，以及它们与 CM 的 G 的区别。
+- [RegMean 与 IF-Merge 的方程和求解入门](motivation_method/LINEAR_SYSTEMS_GUIDE.md)：从逐层拟合讲到直接求解、共轭梯度与外层重测，附 CPU 示例。
+- [外积与梯度形状的数值例子](motivation_method/OUTER_PRODUCT_EXAMPLE.md)：展示向量外积、完整参数外积、对角近似，以及它们与 IF-Merge 的 G 的区别。
 
-重建表格使用 `python3 motivation_method/update_results.py`，编译使用 `bash motivation_method/build.sh`。下面涉及随机占位或旧方法的说明属于历史全文入口，不适用于已回填的 CM 聚焦稿。
+重建表格使用 `python3 motivation_method/update_results.py`，编译使用 `bash motivation_method/build.sh`。下面涉及随机占位或旧方法的说明属于历史全文入口，不适用于已回填的 IF-Merge 聚焦稿。
 
 ## 中文引言、动机与方法精简稿
 
-本分支的独立稿件从当前师生分歧定义 A/G，解释继续迭代及接受后的重测。主图使用本方法的归一化 KL-G 实验，展示起点适配、刷新/冻结对照和相邻轮度量变化；普通 Fisher 的实验对照已移出稿件。方法继续沿用提供的 Coexist-Merge 公式和 AXG 正规方程，附录保留归一化的理论依据。
+本分支的独立稿件从当前师生分歧定义 A/G，解释继续迭代及接受后的重测。主图使用本方法的归一化 KL-G 实验，展示起点适配、刷新/冻结对照和相邻轮度量变化；普通 Fisher 的实验对照已移出稿件。方法继续沿用提供的 IF-Merge 公式和 AXG 正规方程，附录保留归一化的理论依据。
 
 - [编译后的 PDF](motivation_method.pdf)
 - [LaTeX 主入口](motivation_method.tex)；Overleaf 选择此文件及 **XeLaTeX**。

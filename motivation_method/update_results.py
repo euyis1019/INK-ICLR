@@ -1,4 +1,4 @@
-"""Import measured CM results and render paper tables, without running models.
+"""Import measured IF-Merge results and render paper tables, without running models.
 
 Import from the experiment workspace:
     python3 motivation_method/update_results.py --workspace ..
@@ -31,7 +31,7 @@ VISION_METHODS = [
     ('tsv_m', 'TSV-M'), ('regmean', 'RegMean'), ('wudi', 'WUDI'),
     ('lines', 'LiNeS (Iso-C)'), ('com', 'CoM'), ('esm', 'ESM'),
     ('svc', 'SVC (Iso-CTS)'), ('svc_on_esm', 'SVC (ESM)'),
-    ('cm_prototype', 'CM + Iso-C'),
+    ('cm_prototype', '\method{} + Iso-C'),
 ]
 
 
@@ -212,9 +212,9 @@ class Importer:
             ('tsv_m', 'TSV-M', ['t5_tsv_m'], ['t5l_tsv_m']),
             ('regmean', 'RegMean 0.9', ['t5_regmean0.9'], ['t5l_regmean0.9']),
             ('featcal', 'TA + FeatCal（移植）', ['t5_featcal'] + [f't5_featcal_seed{i}' for i in range(1, 5)], ['t5l_featcal']),
-            ('cm', 'CM + Iso-C', ['t5_coexist_n256'] + [f't5_coexist_seed{i}' for i in range(1, 5)], ['t5l_coexist']),
-            ('cm_target03', 'CM + Iso-C（目标插值 0.3）', ['t5_coexist_tgt0.3'] + [f't5_coexist_tgt0.3_seed{i}' for i in range(1, 4)], ['t5l_coexist_tgt0.3']),
-            ('cm_target06', 'CM + Iso-C（目标插值 0.6）', ['t5_coexist_tgt0.6'] + [f't5_coexist_tgt0.6_seed{i}' for i in range(1, 3)], None),
+            ('cm', '\method{} + Iso-C', ['t5_coexist_n256'] + [f't5_coexist_seed{i}' for i in range(1, 5)], ['t5l_coexist']),
+            ('cm_target03', '\method{} + Iso-C（目标插值 0.3）', ['t5_coexist_tgt0.3'] + [f't5_coexist_tgt0.3_seed{i}' for i in range(1, 4)], ['t5l_coexist_tgt0.3']),
+            ('cm_target06', '\method{} + Iso-C（目标插值 0.6）', ['t5_coexist_tgt0.6'] + [f't5_coexist_tgt0.6_seed{i}' for i in range(1, 3)], None),
         ]:
             rows.append({'key': key, 'label': label, 'base': group(base), 'large': group(large)})
         partial_source = 'experiments/nlp_runs/results/eval_base_4tasks.json'
@@ -356,38 +356,38 @@ def render_initialization_catalog(data):
     def score(group):
         return f'{group["mean"]:.2f}' if group else '—'
 
-    lines = ['# CM 起点实验清单', '',
-             '由 update_results.py 从核验快照生成。CM + X 表示先用 X 初始化，再运行 CM。'
-             '主配置是 **CM + Iso-C**，CLIP 与 T5 默认初始化尺度为 1.3。', '',
+    lines = ['# IF-Merge 起点实验清单', '',
+             '由 update_results.py 从核验快照生成。IF-Merge + X 表示先用 X 初始化，再运行 IF-Merge。'
+             '主配置是 **IF-Merge + Iso-C**，CLIP 与 T5 默认初始化尺度为 1.3。', '',
              '“原型 / 正式”是实现记录的来源；“4 seeds”是四次校准随机种子的重复，均不是新的方法名。'
              '不同实现、目标设定和轮数分别比较。Delta 使用百分点，负值表示低于 Individual FT。', '',
              '## CLIP：固定基准实现，ViT-B/32 八任务', '',
              '四种子主实验与单种子起点研究是独立运行记录。后者按留出集选中第 4 轮。', '']
     lines += md_table(['配置', 'seeds', 'test 宏平均', 'Delta vs. FT'],
                      [['Individual FT', '—', f'{ft:.2f}', '0.00']] +
-                     [['CM + ' + START_LABELS[r['key']], 1, f'{r["accuracy"]:.2f}', f'{r["accuracy"]-ft:+.2f}']
+                     [['IF-Merge + ' + START_LABELS[r['key']], 1, f'{r["accuracy"]:.2f}', f'{r["accuracy"]-ft:+.2f}']
                       for r in vision['paired_starts']] +
-                     [['CM + Iso-C（主实验）', formal['n'], f'{formal["mean"]:.3f}（样本标准差 {formal["sample_sd"]:.3f}）', f'{formal["mean"]-ft:+.2f}']])
+                     [['IF-Merge + Iso-C（主实验）', formal['n'], f'{formal["mean"]:.3f}（样本标准差 {formal["sample_sd"]:.3f}）', f'{formal["mean"]-ft:+.2f}']])
     lines += ['## CLIP：工作台同配置换起点，ViT-B/32 八任务', '',
               '均为 seed 0、四轮预算；正文规模表使用留出集选轮后的结果。末轮分数单列供追溯。', '']
     lines += md_table(['配置', '起点', '留出选轮', '末轮', 'Delta vs. FT'],
-                     [['CM + ' + START_LABELS[r['key']], f'{r["before"]:.2f}', f'{r["selected_accuracy"]:.2f}',
+                     [['IF-Merge + ' + START_LABELS[r['key']], f'{r["before"]:.2f}', f'{r["selected_accuracy"]:.2f}',
                        f'{r["after"]:.2f}', f'{r["selected_accuracy"]-wb_ft:+.2f}'] for r in vision['starts']])
     lines += ['## T5：同一 seed 0 的起点对照', '',
-              'FeatCal 起点先由 Task Arithmetic 合并再进行 FeatCal。原始目标与目标插值是不同 CM 配置。'
+              'FeatCal 起点先由 Task Arithmetic 合并再进行 FeatCal。原始目标与目标插值是不同 IF-Merge 配置。'
               '缺测留空；缺少完整的 Individual FT 对角参考，因此不推算八任务 FT 差距。', '']
     lines += md_table(['配置', 'base 起点', 'base 原始目标', 'base 插值 0.3', 'large 起点', 'large 原始目标'],
-                     [['CM + ' + r['label']] + [score(r[k]) for k in ['base_before', 'base_original', 'base_target03', 'large_before', 'large_original']]
+                     [['IF-Merge + ' + r['label']] + [score(r[k]) for k in ['base_before', 'base_original', 'base_target03', 'large_before', 'large_original']]
                       for r in data['t5']['starts']])
-    lines += ['另有相反顺序的后处理：先 CM，再 FeatCal；这些不计作 CM 初始化实验。', '']
-    lines += md_table(['模型', '前序 CM 配置', '再做 FeatCal 的八任务分数'],
+    lines += ['另有相反顺序的后处理：先 IF-Merge，再 FeatCal；这些不计作 IF-Merge 初始化实验。', '']
+    lines += md_table(['模型', '前序 IF-Merge 配置', '再做 FeatCal 的八任务分数'],
                      [[r['setting'], r['cm_variant'], score(r['result'])] for r in data['t5']['featcal_after_cm']])
     lines += ['## LLM：已完成的十组起点对照', '',
               '十组的校准种子均为 42（旧日志未显式记录时，由历史默认调用确认），不是 seed 0。'
               '下面是 GSM8K；IFEval 及 Llama 三域结果见论文正文和完整快照。起点增益与 FT 差距不是同一指标。'
               '版本、目标插值和五种子补齐规范见 [协议对齐清单](PROTOCOL_ALIGNMENT.md)。', '']
-    lines += md_table(['模型', '配置', '起点', 'CM 后', '起点增益'],
-                     [[r['model'], 'CM + ' + LLM_START_LABELS[r['start']], f'{r["GSM8K_before"]:.2f}',
+    lines += md_table(['模型', '配置', '起点', 'IF-Merge 后', '起点增益'],
+                     [[r['model'], 'IF-Merge + ' + LLM_START_LABELS[r['start']], f'{r["GSM8K_before"]:.2f}',
                        f'{r["GSM8K_after"]:.2f}', f'{r["GSM8K_difference_pp"]:+.2f}'] for r in data['llm']])
     lines += ['另外找到 Llama 的 RegMean 0.9 合并命令及完成标记，未找到可配对的完整评测，故不填成绩。'
               '命令记录为 experiments/github_runs/logs/llm_coexist_from_regmean0.9.cmd.sh。', '',
@@ -409,7 +409,7 @@ def render(data):
     formal = vision['formal']
     ft = formal['expert']['absolute_accuracy_mean']
     lines = [r'\begin{table}[!htbp]', r'\centering',
-             r'\caption{CLIP 规模实验（单种子，\%）。主配置统一为 CM + Iso-C。单元格为任务宏平均准确率，下标为逐任务相对本环境专家的归一化均值。Delta 行为 CM 相对本列 Individual FT 的百分点差；负值表示低于 FT。--- 为缺测。}',
+             r'\caption{CLIP 规模实验（单种子，\%）。主配置统一为 \method{} + Iso-C。单元格为任务宏平均准确率，下标为逐任务相对本环境专家的归一化均值。Delta 行为 \method{} 相对本列 Individual FT 的百分点差；负值表示低于 FT。--- 为缺测。}',
              r'\label{tab:ink-vision-summary}', r'\setlength{\tabcolsep}{2pt}', r'\renewcommand{\arraystretch}{1.12}',
              r'\resizebox{\textwidth}{!}{\begin{tabular}{@{}lccc|ccc|ccc@{}}', r'\toprule',
              row([r'\multirow{2}{*}{Method}', r'\multicolumn{3}{c}{ViT-B/32}', r'\multicolumn{3}{c}{ViT-B/16}', r'\multicolumn{3}{c}{ViT-L/14}']),
@@ -422,7 +422,7 @@ def render(data):
             continue
         if key == 'cm_prototype':
             lines.append(r'\rowcolor{black!8}')
-            label = 'CM + Iso-C'
+            label = '\method{} + Iso-C'
         scores = []
         for column, cell in zip(vision['columns'], vision['cells']):
             r = cell.get(key)
@@ -435,18 +435,18 @@ def render(data):
             lines.append(r'\midrule')
     lines += [row(['Delta vs. FT'] + [f'{cell["cm_prototype"]["accuracy"]-cell["ft"]["accuracy"]:+.2f}' for cell in vision['cells']]),
               r'\bottomrule', r'\end{tabular}}', r'\par\smallskip',
-              r'{\footnotesize CM + X 表示先用 X 初始化，再运行 CM。CM 的 Iso-C 初始化尺度固定为 1.3，按无标签留出 KL 选轮；外部基线各自按 validation 选参。本表仅纳入九格均有宏平均结果的规模实验，来源为工作台实现。固定基准实现的四种子与换起点实验单列于表~\ref{tab:clip-initializations}；覆盖未齐的 ESM、SVC (ESM) 移至附录表~\ref{tab:clip-scaling}。L/14 二十任务的三项谱方法只有日志宏平均，故其归一化下标留空。}', r'\end{table}']
+              r'{\footnotesize \method{} + X 表示先用 X 初始化，再运行 \method{}。\method{} 的 Iso-C 初始化尺度固定为 1.3，按无标签留出 KL 选轮；外部基线各自按 validation 选参。本表仅纳入九格均有宏平均结果的规模实验，来源为工作台实现。固定基准实现的四种子与换起点实验单列于表~\ref{tab:clip-initializations}；覆盖未齐的 ESM、SVC (ESM) 移至附录表~\ref{tab:clip-scaling}。L/14 二十任务的三项谱方法只有日志宏平均，故其归一化下标留空。}', r'\end{table}']
     write_table('vision_summary', lines)
 
     lines = [r'\begin{table}[!htbp]', r'\centering\small',
-             r'\caption{CLIP ViT-B/32 八任务：CM 的不同起点与主配置。种子数单列，不属于方法名称。Delta 为相对 Individual FT 的百分点差。}',
+             r'\caption{CLIP ViT-B/32 八任务：\method{} 的不同起点与主配置。种子数单列，不属于方法名称。Delta 为相对 Individual FT 的百分点差。}',
              r'\label{tab:clip-initializations}', r'\begin{tabular}{@{}lrrr@{}}', r'\toprule',
              row(['配置', 'seeds', 'test 宏平均', 'Delta vs. FT']), r'\midrule',
              row(['Individual FT', '---', f'{ft:.2f}', '0.00']),
              r'\multicolumn{4}{l}{\textit{同一 seed 0 的换起点对照}} \\']
     for r in vision['paired_starts']:
-        lines.append(row(['CM + ' + START_LABELS[r['key']], '1', f'{r["accuracy"]:.2f}', f'{r["accuracy"]-ft:+.2f}']))
-    lines += [r'\midrule', r'\rowcolor{black!8}', row(['CM + Iso-C（主实验）', str(formal['n']), tex_score(formal, 3), f'{formal["mean"]-ft:+.2f}']),
+        lines.append(row(['\method{} + ' + START_LABELS[r['key']], '1', f'{r["accuracy"]:.2f}', f'{r["accuracy"]-ft:+.2f}']))
+    lines += [r'\midrule', r'\rowcolor{black!8}', row(['\method{} + Iso-C（主实验）', str(formal['n']), tex_score(formal, 3), f'{formal["mean"]-ft:+.2f}']),
               r'\bottomrule', r'\end{tabular}', r'\par\smallskip',
               r'{\footnotesize 起点对照来自独立的四起点研究，未拉平起点为控制实验。下方单列主配置四次校准重复的均值及样本标准差。Delta 由未舍入分数计算。工作台还覆盖 TSV-M、Task Arithmetic 与 Zero-shot 起点，完整记录见表~\ref{tab:clip-starts}。}', r'\end{table}']
     write_table('clip_initializations', lines)
@@ -470,13 +470,13 @@ def render(data):
             expert = data['t5']['partial_expert']['per_task']
             lines.append(row(['Delta vs. FT'] + [f'{g["per_task"][t]-expert[t]:+.2f}' if t in expert else '---' for t in GLUE] + ['---']))
     lines += [r'\bottomrule', r'\end{tabular}}', r'\par\smallskip',
-              r'{\footnotesize CM 使用原始目标，目标插值另见表~\ref{tab:t5-target-paired}。FeatCal 与 CM 均为 seed 0--4，误差为八任务均值的样本标准差；其它基线为单次记录。两方法统计样本相同，CM 另用每任务 256 条留出数据，且默认起点不同；本表比较默认流程，不声明相同总数据预算。Delta 相对实测 FT，负值表示低于 FT；独立专家仅有 CoLA 对角参考，其余留空。}', r'\end{table}']
+              r'{\footnotesize \method{} 使用原始目标，目标插值另见表~\ref{tab:t5-target-paired}。FeatCal 与 \method{} 均为 seed 0--4，误差为八任务均值的样本标准差；其它基线为单次记录。两方法统计样本相同，\method{} 另用每任务 256 条留出数据，且默认起点不同；本表比较默认流程，不声明相同总数据预算。Delta 相对实测 FT，负值表示低于 FT；独立专家仅有 CoLA 对角参考，其余留空。}', r'\end{table}']
     write_table('t5_results', lines)
 
     lines = [r'\begin{table}[htbp]', r'\centering\small',
-             r'\caption{T5-base 目标插值消融：三行统一使用已完成的配对 seed 0、1、2。其它 CM 配置相同；误差为样本标准差。}',
+             r'\caption{T5-base 目标插值消融：三行统一使用已完成的配对 seed 0、1、2。其它 \method{} 配置相同；误差为样本标准差。}',
              r'\label{tab:t5-target-paired}', r'\begin{tabular}{@{}lcc@{}}', r'\toprule',
-             row(['CM 目标版本', 'seeds', '八任务宏平均']), r'\midrule']
+             row(['\method{} 目标版本', 'seeds', '八任务宏平均']), r'\midrule']
     for key, label in [('cm', '原始目标'), ('cm_target03', '目标插值 0.3'), ('cm_target06', '目标插值 0.6')]:
         group = base_rows[key]['base']
         assert all(Path(s).stem.endswith(f'_seed{i}') for i, s in enumerate(group['sources'][1:3], 1))
@@ -486,18 +486,18 @@ def render(data):
     write_table('t5_target_paired', lines)
 
     lines = [r'\begin{table}[!htbp]', r'\centering\small',
-             r'\caption{CLIP ViT-B/32 八任务：主配置 CM + Iso-C 与外部参照（\%）。采用固定基准实现，CM 为四种子均值及样本标准差，外部方法为已归档单次结果。}',
+             r'\caption{CLIP ViT-B/32 八任务：主配置 \method{} + Iso-C 与外部参照（\%）。采用固定基准实现，\method{} 为四种子均值及样本标准差，外部方法为已归档单次结果。}',
              r'\label{tab:clip-main}', r'\begin{tabular}{@{}lcc@{}}', r'\toprule', row(['方法', 'seeds', 'test 宏平均']), r'\midrule',
              row(['Individual FT', '---', f'{ft:.2f}'])]
     for key, label in VISION_METHODS:
         if key not in ['ft', 'cm_prototype']:
             lines.append(row([label, '1', f'${vision["cells"][0][key]["accuracy"]:.2f}$']))
-    lines += [r'\rowcolor{black!8}', row(['CM + Iso-C', str(formal['n']), tex_score(formal, 3)]),
+    lines += [r'\rowcolor{black!8}', row(['\method{} + Iso-C', str(formal['n']), tex_score(formal, 3)]),
               row(['Delta vs. FT', '---', f'{formal["mean"]-ft:+.2f}']), r'\bottomrule', r'\end{tabular}', r'\end{table}']
     write_table('clip_main', lines)
-    lines = [r'\begin{table}[!htbp]', r'\centering\small', r'\caption{规模实验补充（单种子）：CM + Iso-C 的起点收益、FT 差距及覆盖未齐的外部基线。--- 为缺测。}',
+    lines = [r'\begin{table}[!htbp]', r'\centering\small', r'\caption{规模实验补充（单种子）：\method{} + Iso-C 的起点收益、FT 差距及覆盖未齐的外部基线。--- 为缺测。}',
              r'\label{tab:clip-scaling}', r'\resizebox{\textwidth}{!}{\begin{tabular}{@{}l' + 'r' * (4 + len(incomplete)) + r'@{}}', r'\toprule',
-             row(['设定', 'Iso-C 起点', 'CM + Iso-C', '起点增益', 'Delta vs. FT'] + [label for _, label in incomplete]), r'\midrule']
+             row(['设定', 'Iso-C 起点', '\method{} + Iso-C', '起点增益', 'Delta vs. FT'] + [label for _, label in incomplete]), r'\midrule']
     for c, cell in zip(vision['columns'], vision['cells']):
         r = cell['cm_prototype']
         lines.append(row([f'{c["architecture"]} / {c["tasks"]}', f'{r["initial_accuracy"]:.2f}', f'{r["accuracy"]:.2f}', f'{r["accuracy"]-r["initial_accuracy"]:+.2f}', f'{r["accuracy"]-cell["ft"]["accuracy"]:+.2f}'] +
@@ -515,8 +515,8 @@ def render(data):
         lines.append(row([r['label'], tex_score(r['base']), str(r['base']['n']), tex_score(r['large'])]))
     lines += [r'\bottomrule', r'\end{tabular}', r'\end{table}']
     write_table('t5_main', lines)
-    lines = [r'\begin{tabular}{@{}llcc@{}}', r'\toprule', row(['设定', '方法版本', '参照分数', 'CM']), r'\midrule',
-             row(['CLIP ViT-B/32', 'CM + Iso-C / ESM', f'{vision["cells"][0]["esm"]["accuracy"]:.2f}', tex_score(formal)])]
+    lines = [r'\begin{tabular}{@{}llcc@{}}', r'\toprule', row(['设定', '方法版本', '参照分数', '\method{}']), r'\midrule',
+             row(['CLIP ViT-B/32', '\method{} + Iso-C / ESM', f'{vision["cells"][0]["esm"]["accuracy"]:.2f}', tex_score(formal)])]
     for size in ['base', 'large']:
         for key in ['cm']:
             lines.append(row(['T5-' + size, base_rows[key]['label'] + ' / FeatCal', tex_score(base_rows['featcal'][size]), tex_score(base_rows[key][size])]))
@@ -528,35 +528,35 @@ def render(data):
                                  ('Gemma-2-2B', 'gemma_full', ['Soup', 'TA', 'TIES', 'TSV-M'])]:
         is_llama = family.startswith('Llama')
         lines = [r'\begin{tabular}{@{}lrrrr' + ('rrr' if is_llama else 'r') + r'@{}}', r'\toprule',
-                 row(['CM 配置', r'\multicolumn{3}{c}{GSM8K}', r'\multicolumn{2}{c}{IFEval}'] + ([r'\multicolumn{2}{c}{三域宏平均}'] if is_llama else [])),
+                 row(['\method{} 配置', r'\multicolumn{3}{c}{GSM8K}', r'\multicolumn{2}{c}{IFEval}'] + ([r'\multicolumn{2}{c}{三域宏平均}'] if is_llama else [])),
                  r'\cmidrule(lr){2-4}\cmidrule(lr){5-6}' + (r'\cmidrule(l){7-8}' if is_llama else ''),
-                 row(['', '起点', '+ CM', '差值', '起点', '+ CM'] + (['起点', '+ CM'] if is_llama else [])), r'\midrule']
+                 row(['', '起点', '+ \method{}', '差值', '起点', '+ \method{}'] + (['起点', '+ \method{}'] if is_llama else [])), r'\midrule']
         for start in order:
             r = next(r for r in data['llm'] if r['model'] == family and r['start'] == start)
             values = [f'{r[k]:.2f}' for k in ['GSM8K_before', 'GSM8K_after']] + [f'{r["GSM8K_difference_pp"]:+.2f}']
             values += [f'{r[k]:.2f}' for k in ['IFEval_before', 'IFEval_after'] + (['three_domain_before', 'three_domain_after'] if is_llama else [])]
-            lines.append(row(['CM + ' + labels[start]] + values))
+            lines.append(row(['\method{} + ' + labels[start]] + values))
         lines += [r'\bottomrule', r'\end{tabular}']
         write_table(name, lines)
     lines = [r'\begin{tabular}{@{}llrrrr@{}}', r'\toprule',
-             row(['模型', 'CM 配置', r'\multicolumn{2}{c}{GSM8K}', r'\multicolumn{2}{c}{IFEval}']), r'\cmidrule(lr){3-4}\cmidrule(l){5-6}',
-             row(['', '', '起点', '+ CM', '起点', '+ CM']), r'\midrule']
+             row(['模型', '\method{} 配置', r'\multicolumn{2}{c}{GSM8K}', r'\multicolumn{2}{c}{IFEval}']), r'\cmidrule(lr){3-4}\cmidrule(l){5-6}',
+             row(['', '', '起点', '+ \method{}', '起点', '+ \method{}']), r'\midrule']
     for family, start in [('Llama-3.2-3B', 'Iso-C'), ('Llama-3.2-3B', 'TSV-M'), ('Llama-3.2-3B', 'RegMean 0.5'), ('Gemma-2-2B', 'Soup')]:
         r = next(r for r in data['llm'] if r['model'] == family and r['start'] == start)
-        lines.append(row([family, 'CM + ' + labels[start]] + [f'{r[k]:.2f}' for k in ['GSM8K_before', 'GSM8K_after', 'IFEval_before', 'IFEval_after']]))
+        lines.append(row([family, '\method{} + ' + labels[start]] + [f'{r[k]:.2f}' for k in ['GSM8K_before', 'GSM8K_after', 'IFEval_before', 'IFEval_after']]))
     lines += [r'\bottomrule', r'\end{tabular}']
     write_table('llm_summary', lines)
     lines = [r'\begin{tabular}{@{}lrrrr@{}}', r'\toprule', row(['配置', '起点分', '留出选轮', '末轮', 'Delta vs. FT']), r'\midrule']
     for r in vision['starts']:
-        lines.append(row(['CM + ' + START_LABELS[r['key']], f'{r["before"]:.2f}', f'{r["selected_accuracy"]:.2f}', f'{r["after"]:.2f}',
+        lines.append(row(['\method{} + ' + START_LABELS[r['key']], f'{r["before"]:.2f}', f'{r["selected_accuracy"]:.2f}', f'{r["after"]:.2f}',
                           f'{r["selected_accuracy"]-vision["cells"][0]["ft"]["accuracy"]:+.2f}']))
     lines += [r'\bottomrule', r'\end{tabular}']
     write_table('clip_starts', lines)
     lines = [r'\begin{tabular}{@{}lccccc@{}}', r'\toprule',
              row(['配置', r'\multicolumn{3}{c}{T5-base}', r'\multicolumn{2}{c}{T5-large}']),
-             r'\cmidrule(lr){2-4}\cmidrule(l){5-6}', row(['', '起点', 'CM 原始目标', 'CM 插值 0.3', '起点', 'CM 原始目标']), r'\midrule']
+             r'\cmidrule(lr){2-4}\cmidrule(l){5-6}', row(['', '起点', '\method{} 原始目标', '\method{} 插值 0.3', '起点', '\method{} 原始目标']), r'\midrule']
     for r in data['t5']['starts']:
-        lines.append(row(['CM + ' + r['label']] + [tex_score(r[key]) for key in ['base_before', 'base_original', 'base_target03', 'large_before', 'large_original']]))
+        lines.append(row(['\method{} + ' + r['label']] + [tex_score(r[key]) for key in ['base_before', 'base_original', 'base_target03', 'large_before', 'large_original']]))
     lines += [r'\bottomrule', r'\end{tabular}']
     write_table('t5_starts', lines)
     # Keep the earlier machine-readable entry useful, but source every number
@@ -564,7 +564,7 @@ def render(data):
     compact = {
         'source_file': 'data/verified_results.json',
         'source_sha256': hashlib.sha256((HERE / 'data/verified_results.json').read_bytes()).hexdigest(),
-        'status': 'Measured CM results, named by initialization. Implementation provenance, seeds and target variants are separate metadata. No model reruns.',
+        'status': 'Measured IF-Merge results, named by initialization. Implementation provenance, seeds and target variants are separate metadata. No model reruns.',
         'default_cm_initialization': {'clip': 'Iso-C', 't5': 'Iso-C', 'scale': 1.3},
         'clip_main': [['方法', 'test 宏平均']] + [[label, round(vision['cells'][0][key]['accuracy'], 2)] for key, label in VISION_METHODS if key != 'cm_prototype'],
         'clip_formal': {k: formal[k] for k in ['mean', 'sample_sd', 'n', 'values', 'normalized']},
@@ -614,7 +614,7 @@ def main():
     args = parser.parse_args()
     if args.workspace:
         importer = Importer(args.workspace.resolve())
-        data = {'audit_date': '2026-09-16', 'scope': 'CM, explicitly labeled CM variants, and external reference methods',
+        data = {'audit_date': '2026-09-16', 'scope': 'IF-Merge, explicitly labeled IF-Merge variants, and external reference methods',
                 'vision': importer.clip(), 't5': importer.t5(), 'llm': importer.llm()}
         data['sources'] = sorted(importer.sources.values(), key=lambda r: r['path'])
         dump(HERE / 'data/verified_results.json', data)
