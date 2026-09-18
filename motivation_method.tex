@@ -8,9 +8,9 @@
 \usepackage[ruled,vlined,linesnumbered,norelsize]{algorithm2e}
 \usepackage{microtype,hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,
-pdftitle={Coexist-Merge：以当前模型为参照的迭代模型合并}}
+pdftitle={IF-Merge：以当前模型为参照的迭代模型合并}}
 \graphicspath{{motivation_method/figures/}}
-\newcommand{\method}{Coexist-Merge}
+\newcommand{\method}{IF-Merge}
 \newcommand{\KL}{D_{\mathrm{KL}}}
 \newcommand{\E}{\mathbb E}
 \newcommand{\tr}{\mathrm{tr}}
@@ -31,7 +31,7 @@ pdftitle={Coexist-Merge：以当前模型为参照的迭代模型合并}}
 \begin{document}
 \maketitle
 \begin{abstract}
-合并模型仍可能保留与各任务专家的功能分歧，而修正这些分歧所依赖的内部统计会随模型更新而改变。\method{} 以当前共享模型为参照，收集输入统计与 KL 修正统计，以专家参数为锚点逐层求解，再选择更新幅度并重新测量。ViT-B/32 上的起点适配、多轮对照及度量变化共同刻画这一迭代过程；CLIP、T5 和 LLM 的已有结果进一步检验其适用范围。方法的估计式、求解流程与归一化的条件性理论依据分别在正文和附录中给出。
+模型合并将多个任务专家的能力整合到单一网络中，但用于合并的统计量会随模型更新而过时。模型更新既改变内部表示，也改变合并模型与专家之间的残余预测差异，从而限制了在固定统计代理下的进一步优化。为此，我们提出 IF-Merge：一种随当前模型状态调整合并目标的迭代反馈框架。IF-Merge 使用少量无标注数据，估计当前模型的输入激活统计，并由专家与合并模型预测之间 KL 散度的归一化梯度构造输出修正度量；这些量定义了以固定专家权重为锚点的逐层拟合问题。IF-Merge 用独立留出集选择更新幅度，并在每次接受更新后重新估计统计量。跨计算机视觉、自然语言处理与大语言模型合并设定的实验表明，IF-Merge 在所评估基准上取得当前最优结果。它可作为即插即用组件改进已有合并模型，并降低对初始化的敏感度。这种更低的起点敏感性，为比较不同初始化得到的高性能合并解、并考察它们在权重空间中的几何结构提供了经验基础。
 \end{abstract}
 
 \input{motivation_method/sections/introduction}
